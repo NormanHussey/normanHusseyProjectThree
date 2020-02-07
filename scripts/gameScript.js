@@ -35,12 +35,12 @@ game.display ={
 };
 
 game.enemyShips = [
-    'url("./assets/greenShip.gif")',
-    'url("./assets/sleekBlueShip.gif")',
-    'url("./assets/bigGreenShip.gif")',
-    'url("./assets/bigRedShip.gif")',
-    'url("./assets/bigBlueShip.gif")',
-    'url("./assets/biggerRedShip.gif")'
+    'url("../assets/greenShip.gif")',
+    'url("../assets/sleekBlueShip.gif")',
+    'url("../assets/bigGreenShip.gif")',
+    'url("../assets/bigRedShip.gif")',
+    'url("../assets/bigBlueShip.gif")',
+    'url("../assets/biggerRedShip.gif")'
 ];
 
 game.weaponTypes = [
@@ -50,7 +50,7 @@ game.weaponTypes = [
         damage: 1,
         decayDistance: 200,
         decayRate: Infinity,
-        asset: 'url("./assets/green_bullet.gif")'
+        asset: 'url("../assets/green_bullet.gif")'
     },
     {
         type: 'spread',
@@ -58,7 +58,7 @@ game.weaponTypes = [
         damage: 1,
         decayDistance: 200,
         decayRate: Infinity,
-        asset: 'url("./assets/magenta_bullet.gif")'
+        asset: 'url("../assets/magenta_bullet.gif")'
     },
     {
         type: 'homingMissile',
@@ -66,26 +66,26 @@ game.weaponTypes = [
         damage: 2,
         decayDistance: Infinity,
         decayRate: 100,
-        asset: 'url("./assets/red_bullet.gif")'
+        asset: 'url("../assets/red_bullet.gif")'
     },
 ];
 
 game.pickupTypes = [
     {
         type: 'health',
-        asset: 'url("./assets/healthPickup.png")'
+        asset: 'url("../assets/healthPickup.png")'
     },
     {
         type: 'singleShot',
-        asset: 'url("./assets/singleShotPickup.png")'
+        asset: 'url("../assets/singleShotPickup.png")'
     },
     {
         type: 'spread',
-        asset: 'url("./assets/spreadPickup.png")'
+        asset: 'url("../assets/spreadPickup.png")'
     },
     {
         type: 'homingMissile',
-        asset: 'url("./assets/homingMissilePickup.png")'
+        asset: 'url("../assets/homingMissilePickup.png")'
     }
 ];
 
