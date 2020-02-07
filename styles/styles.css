@@ -236,8 +236,8 @@ html {
 }
 
 :root {
-  --x: 100px;
-  --y: 100px;
+  --x: 0;
+  --y: 0;
   --scaleY: 1;
   --bgX: 0;
   --bgY: 0;
@@ -525,7 +525,7 @@ main .wrapper {
 
 .playArea {
   width: 100%;
-  height: 100vh;
+  height: 100%;
   margin: 0 auto;
   background-image: url("../assets/pixelSpace.png");
   background-position: var(--bgX) var(--bgY);
@@ -536,8 +536,8 @@ main .wrapper {
 .ship {
   width: 32px;
   height: 32px;
-  -webkit-transform: translate(var(--x), var(--y)) scaleY(--scaleY);
-          transform: translate(var(--x), var(--y)) scaleY(--scaleY);
+  -webkit-transform: translate(var(--x), var(--y)) scaleY(var(--scaleY));
+          transform: translate(var(--x), var(--y)) scaleY(var(--scaleY));
   position: absolute;
   background: -webkit-gradient(linear, left top, left bottom, from(var(--colour)), to(var(--colour))), var(--imgUrl);
   background: linear-gradient(var(--colour), var(--colour)), var(--imgUrl);

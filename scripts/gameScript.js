@@ -1,96 +1,99 @@
 const game = {};
 
-game.board = {
-    $element: $('.playArea'),
-    top: 0,
-    left: 0,
-    width: $('.playArea').width(),
-    height: $('.playArea').height(),
-    move: function(x, y) {
-        const newX = parseInt(this.$element.css('--bgX')) + x;
-        const newY = parseInt(this.$element.css('--bgY')) + y;
-        this.$element.css('--bgX', newX + 'px');
-        this.$element.css('--bgY', newY + 'px');
-    }
+game.setupNewGame = function() {
+    game.board = {
+        $element: setup.$playAreaSection,
+        top: 0,
+        left: 0,
+        width: setup.$playAreaSection.width(),
+        height: setup.$playAreaSection.height(),
+        move: function(x, y) {
+            const newX = parseInt(this.$element.css('--bgX')) + x;
+            const newY = parseInt(this.$element.css('--bgY')) + y;
+            this.$element.css('--bgX', newX + 'px');
+            this.$element.css('--bgY', newY + 'px');
+        }
+    };
+
+    game.speed = 1;
+    game.wave = 0;
+    game.waveEnemies = [];
+    game.over = false;
+    game.keys = {};
+    
+    game.playerStats = {
+        start: {
+            x: game.board.width / 2,
+            y: game.board.height - 100
+        },
+        score: 0
+    };
+    
+    game.display ={
+        $health: $('#health'),
+        $score: $('#score'),
+        $wave: $('#wave')
+    };
+    
+    game.ships = [
+        'url("../assets/ships/redSilverShip.gif")',
+        'url("../assets/ships/bigBlueShip.gif")',
+        'url("../assets/ships/bigRedShip.gif")',
+        'url("../assets/ships/biggerRedShip.gif")',
+        'url("../assets/ships/bigGreenShip.gif")',
+        'url("../assets/ships/sleekBlueShip.gif")',
+        'url("../assets/ships/greenShip.gif")',
+    ];
+    
+    game.weaponTypes = [
+        {
+            type: 'singleShot',
+            reloadDelay: 0,
+            damage: 1,
+            decayDistance: 200,
+            decayRate: Infinity,
+            asset: 'url("../assets/green_bullet.gif")'
+        },
+        {
+            type: 'spread',
+            reloadDelay: 25,
+            damage: 1,
+            decayDistance: 200,
+            decayRate: Infinity,
+            asset: 'url("../assets/magenta_bullet.gif")'
+        },
+        {
+            type: 'homingMissile',
+            reloadDelay: 50,
+            damage: 2,
+            decayDistance: Infinity,
+            decayRate: 100,
+            asset: 'url("../assets/red_bullet.gif")'
+        },
+    ];
+    
+    game.pickupTypes = [
+        {
+            type: 'health',
+            asset: 'url("../assets/healthPickup.png")'
+        },
+        {
+            type: 'singleShot',
+            asset: 'url("../assets/singleShotPickup.png")'
+        },
+        {
+            type: 'spread',
+            asset: 'url("../assets/spreadPickup.png")'
+        },
+        {
+            type: 'homingMissile',
+            asset: 'url("../assets/homingMissilePickup.png")'
+        }
+    ];
+    
+    game.updatingActors = [];
 };
 
-game.speed = 1;
-game.wave = 0;
-game.waveEnemies = [];
-game.over = false;
-game.keys = {};
-
-game.playerStats = {
-    start: {
-        x: game.board.width / 2,
-        y: game.board.height - 100
-    },
-    score: 0
-};
-
-game.display ={
-    $health: $('#health'),
-    $score: $('#score'),
-    $wave: $('#wave')
-};
-
-game.ships = [
-    'url("../assets/ships/redSilverShip.gif")',
-    'url("../assets/ships/bigBlueShip.gif")',
-    'url("../assets/ships/bigRedShip.gif")',
-    'url("../assets/ships/biggerRedShip.gif")',
-    'url("../assets/ships/bigGreenShip.gif")',
-    'url("../assets/ships/sleekBlueShip.gif")',
-    'url("../assets/ships/greenShip.gif")',
-];
-
-game.weaponTypes = [
-    {
-        type: 'singleShot',
-        reloadDelay: 0,
-        damage: 1,
-        decayDistance: 200,
-        decayRate: Infinity,
-        asset: 'url("../assets/green_bullet.gif")'
-    },
-    {
-        type: 'spread',
-        reloadDelay: 25,
-        damage: 1,
-        decayDistance: 200,
-        decayRate: Infinity,
-        asset: 'url("../assets/magenta_bullet.gif")'
-    },
-    {
-        type: 'homingMissile',
-        reloadDelay: 50,
-        damage: 2,
-        decayDistance: Infinity,
-        decayRate: 100,
-        asset: 'url("../assets/red_bullet.gif")'
-    },
-];
-
-game.pickupTypes = [
-    {
-        type: 'health',
-        asset: 'url("../assets/healthPickup.png")'
-    },
-    {
-        type: 'singleShot',
-        asset: 'url("../assets/singleShotPickup.png")'
-    },
-    {
-        type: 'spread',
-        asset: 'url("../assets/spreadPickup.png")'
-    },
-    {
-        type: 'homingMissile',
-        asset: 'url("../assets/homingMissilePickup.png")'
-    }
-];
-
-game.updatingActors = [];
 
 class Actor {
     constructor(x, y, element, type, deploy = true) {
@@ -335,11 +338,6 @@ class Ship extends Actor {
         this.weaponType = game.weaponTypes[weaponType];
     }
 
-    // rotate(direction) {
-    //     this.angle += (Math.PI / 180) * 100 * direction;
-    //     this.$element.css('--angle', this.angle + 'deg');
-    // }
-
     showHit() {
         this.$element.css('--colour', 'rgba(255, 0, 0, 0.4)');
         this.$element.css('border-radius', '50%');
@@ -451,7 +449,7 @@ class Ship extends Actor {
 
 class Enemy extends Ship {
     constructor(x, y, type, health, shipNumber = 0, speed = 1, reloadSpeed = 150, intelligence = 1, weaponType = 0) {
-        super(x, y, element, type, false, health, shipNumber, reloadSpeed, weaponType);
+        super(x, y, type, false, health, shipNumber, reloadSpeed, weaponType);
         this.$element.css('--scaleY', '-1');
         this.direction = 1;
         this.speed = speed;
@@ -752,6 +750,7 @@ game.update = function () {
 };
 
 game.init = function() {
+    game.setupNewGame();
     const currentHighScore = localStorage.getItem('highScore');
     console.log(currentHighScore);
     game.player = new Ship (game.playerStats.start.x, game.playerStats.start.y, 'player', true, 10, game.playerShip, 0, 0);

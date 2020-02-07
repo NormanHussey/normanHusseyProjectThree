@@ -26,14 +26,15 @@ setup.eventListeners = function () {
         if (!game.playerName) {
             game.playerName = 'Anonymous';
         }
-        game.playerShip = $('input[name="shipChoice"]:checked').val();
-        console.log(game.playerShipChoice);
+        game.playerShip = parseInt($('input[name="shipChoice"]:checked').val());
+        console.log(game.playerShip);
         setup.startNewGame();
     });
 };
 
 setup.startNewGame = function () {
     setup.$selectionScreen.addClass('hidden');
+    setup.$setupGameSection.addClass('hidden');
     setup.$playAreaSection.removeClass('hidden');
     setup.$header.addClass('hidden');
     setup.$footer.addClass('hidden');
