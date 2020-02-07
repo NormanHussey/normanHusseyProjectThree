@@ -47,7 +47,6 @@ header {
     height: 25vh;
     text-align: center;
     padding: 1% 0;
-    // background-color: $colPrimaryDark;
     .wrapper {
         height: 100%;
         @include flexFullCentre();
@@ -56,8 +55,8 @@ header {
 }
 
 footer {
-    height: 15vh;
-    // background-color: $colPrimaryDark;
+    height: 10vh;
+    text-transform: uppercase;
     .wrapper {
         height: 100%;
         @include flexFullCentre();
@@ -66,6 +65,7 @@ footer {
 
     ul {
         width: 100%;
+        margin: 0;
         @include flexFullCentre();
         li {
             margin: 0 25px;
@@ -111,11 +111,6 @@ button {
         transform: scale(1.25);
     }
 }
-
-.hidden {
-    display: none;
-}
-
 
 
 @media (max-width: 800px) {

@@ -19,26 +19,53 @@
     </header>
     <main>
         <div class="wrapper">
+
             <section class="setupGame">
-                <div class="startScreen">
+
+                <section class="startScreen">
                     <button id="newGame">New Game</button>
                     <button id="howToPlay">How To Play</button>
-                </div>
-                <form action="#">
-                    
-                </form>
+                </section>
+
+                <section class="selectionScreen hidden">
+                    <form action="#" class="selectionForm">
+                        <label for="name">Enter your name:</label>
+                        <input type="text" name="name" id="name">
+                        <fieldset>
+                            <legend>Choose your ship:</legend>
+                            <label for="redSilver"><img src="./assets/icons/redSilverShipIcon.png" alt="Red and Silver Ship"></label>
+                            <input type="radio" name="shipChoice" id="redSilver" class="hidden" checked>
+                            <label for="bigBlue"><img src="./assets/icons/bigBlueShipIcon.png" alt="Big Blue Ship"></label>
+                            <input type="radio" name="shipChoice" id="bigBlue" class="hidden">
+                            <label for="bigRed"><img src="./assets/icons/bigRedShipIcon.png" alt="Big Red Ship"></label>
+                            <input type="radio" name="shipChoice" id="bigRed" class="hidden">
+                            <label for="biggerRed"><img src="./assets/icons/biggerRedShipIcon.png" alt="Bigger Red Ship"></label>
+                            <input type="radio" name="shipChoice" id="biggerRed" class="hidden">
+                            <label for="bigGreen"><img src="./assets/icons/bigGreenShipIcon.png" alt="Big Green Ship"></label>
+                            <input type="radio" name="shipChoice" id="bigGreen" class="hidden">
+                            <label for="sleekBlue"><img src="./assets/icons/sleekBlueShipIcon.png" alt="Sleek Blue Ship"></label>
+                            <input type="radio" name="shipChoice" id="sleekBlue" class="hidden">
+                        </fieldset>
+                        <button>Start Game</button>
+                    </form>
+                </section>
             </section>
+
             <section class="playArea hidden">
                 <p class="health noSelect">Health: <span id="health">0</span></p>
                 <p class="wave noSelect">Wave: <span id="wave">1</span></p>
                 <p class="score noSelect">Score: <span id="score">0</span></p>
+            </section>
+
+            <section class="gameOverScreen hidden">
+
             </section>
         </div>
     </main>
 
     <footer>
         <div class="wrapper">
-            <h4>Find Norm on the interweb!</h4>
+            <h4>Norm on the web:</h4>
             <ul>
                 <li><a href="https://www.normanhussey.com" target="_blank" rel="noopener noreferrer"><span class="sr-only">Norm's Portfolio Website</span><i class="fas fa-external-link-alt"></i></a></li>
                 <li><a href="https://twitter.com/norman_hussey" target="_blank" rel="noopener noreferrer"><span class="sr-only">Norm's Twitter</span><i class="fab fa-twitter"></i></a></li>
@@ -49,5 +76,6 @@
     
     <script src='https://code.jquery.com/jquery-3.4.0.min.js' integrity='sha256-BJeo0qm959uMBGb65z40ejJYGSgR7REI4+CW1fNKwOg=' crossorigin='anonymous'></script>
     <!-- <script src="./scripts/gameScript.js"></script> -->
+    <script src="./scripts/mainScript.js"></script>
 </body>
 </html>
