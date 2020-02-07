@@ -1,3 +1,5 @@
+// CSS Variables
+
 :root {
     --x: 100px;
     --y: 100px;
@@ -7,3 +9,18 @@
     --colour: rgba(255, 255, 255, 0);
     --imgUrl: url('../assets/playerShip.gif');
 }
+
+// SCSS Variables
+
+$fontTitles: 'Bangers', cursive;
+$fontPixel: 'Press Start 2P', cursive;
+$fontStandard: 'Oxygen', sans-serif;
+
+// Colour Palette
+
+$colAccentDark: rgba(130, 52, 0, 1);
+$colAccent: rgba(193, 30, 1, 1);
+$colPrimary: rgba(255, 212, 112, 1);
+$colSecondaryLight: rgba(42, 98, 143, 1);
+$colSecondaryDark: rgba(19, 41, 61, 1);
+
