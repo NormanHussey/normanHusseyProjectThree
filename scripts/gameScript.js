@@ -34,13 +34,14 @@ game.display ={
     $wave: $('#wave')
 };
 
-game.enemyShips = [
-    'url("../assets/greenShip.gif")',
-    'url("../assets/sleekBlueShip.gif")',
-    'url("../assets/bigGreenShip.gif")',
-    'url("../assets/bigRedShip.gif")',
-    'url("../assets/bigBlueShip.gif")',
-    'url("../assets/biggerRedShip.gif")'
+game.ships = [
+    'url("../assets/ships/redSilverShip.gif")',
+    'url("../assets/ships/bigBlueShip.gif")',
+    'url("../assets/ships/bigRedShip.gif")',
+    'url("../assets/ships/biggerRedShip.gif")',
+    'url("../assets/ships/bigGreenShip.gif")',
+    'url("../assets/ships/sleekBlueShip.gif")',
+    'url("../assets/ships/greenShip.gif")',
 ];
 
 game.weaponTypes = [
@@ -320,9 +321,11 @@ class Bullet extends Actor {
 }
 
 class Ship extends Actor {
-    constructor(x, y, element, type, deploy = true, health = 5, minReloadSpeed, weaponType = 0) {
+    constructor(x, y, type, deploy = true, health = 5, shipNumber = 0, minReloadSpeed, weaponType = 0) {
+        const element = '<div class="ship">';
         super(x, y, element, type, deploy);
         this.health = health;
+        this.$element.css('--imgUrl', game.ships[shipNumber]);
         this.movement = 0;
         this.direction = -1;
         this.speed = 1;
@@ -447,12 +450,12 @@ class Ship extends Actor {
 };
 
 class Enemy extends Ship {
-    constructor(x, y, element, type, health, speed = 1, reloadSpeed = 150, intelligence = 1, shipNumber = 0, weaponType = 0) {
-        super(x, y, element, type, false, health, reloadSpeed, weaponType);
+    constructor(x, y, type, health, shipNumber = 0, speed = 1, reloadSpeed = 150, intelligence = 1, weaponType = 0) {
+        super(x, y, element, type, false, health, shipNumber, reloadSpeed, weaponType);
+        this.$element.css('--scaleY', '-1');
         this.direction = 1;
         this.speed = speed;
         this.intelligence = intelligence;
-        this.$element.css('--imgUrl', game.enemyShips[shipNumber]);
         this.scoreValue = this.health * this.intelligence * 10;
     }
 
@@ -624,7 +627,7 @@ game.spawnEnemy = function (minHealth, maxHealth, maxSpeed, fastestReloadSpeed, 
     const speed = game.randomIntInRange(2, maxSpeed);
     const reloadSpeed = game.randomIntInRange(fastestReloadSpeed, slowestReloadSpeed);
     const intelligence = game.randomIntInRange(minIntelligence, maxIntelligence);
-    const shipNumber = game.randomIntInRange(0, game.enemyShips.length - 1);
+    const shipNumber = game.randomIntInRange(0, game.ships.length - 1);
     let weaponType;
     if (game.probability(intelligence / 10)) {
         weaponType = 2;
@@ -633,7 +636,7 @@ game.spawnEnemy = function (minHealth, maxHealth, maxSpeed, fastestReloadSpeed, 
     } else {
         weaponType = 0;
     }
-    return new Enemy (x, 10, '<div class="ship">', 'enemy', health, speed, reloadSpeed, intelligence, shipNumber, weaponType);
+    return new Enemy (x, 10, 'enemy', health, shipNumber, speed, reloadSpeed, intelligence, weaponType);
 };
 
 game.newWave = function () {
@@ -751,7 +754,7 @@ game.update = function () {
 game.init = function() {
     const currentHighScore = localStorage.getItem('highScore');
     console.log(currentHighScore);
-    game.player = new Ship (game.playerStats.start.x, game.playerStats.start.y, '<div class="ship">', 'player', true, 10, 0, 0);
+    game.player = new Ship (game.playerStats.start.x, game.playerStats.start.y, 'player', true, 10, game.playerShip, 0, 0);
     game.addEventListeners();
     window.requestAnimationFrame(game.update);
 };

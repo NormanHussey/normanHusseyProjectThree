@@ -1,6 +1,9 @@
 setup = {};
 
 setup.cacheSelectors = function () {
+    setup.$header = $('header');
+    setup.$main = $('main');
+    setup.$footer = $('footer');
     setup.$newGameBtn = $('#newGame');
     setup.$howToPlayBtn = $('#howToPlay');
     setup.$setupGameSection = $('.setupGame');
@@ -19,9 +22,24 @@ setup.eventListeners = function () {
 
     setup.$selectionForm.on('submit', function(e) {
         e.preventDefault();
-        game.playerShipChoice = $('input[name="shipChoice"]:checked').val();
+        game.playerName = $('#name').val();
+        if (!game.playerName) {
+            game.playerName = 'Anonymous';
+        }
+        game.playerShip = $('input[name="shipChoice"]:checked').val();
         console.log(game.playerShipChoice);
+        setup.startNewGame();
     });
+};
+
+setup.startNewGame = function () {
+    setup.$selectionScreen.addClass('hidden');
+    setup.$playAreaSection.removeClass('hidden');
+    setup.$header.addClass('hidden');
+    setup.$footer.addClass('hidden');
+    setup.$main.css('height', '100vh');
+    
+    game.init();
 };
 
 setup.init = function () {

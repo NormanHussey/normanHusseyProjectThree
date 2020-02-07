@@ -238,6 +238,7 @@ html {
 :root {
   --x: 100px;
   --y: 100px;
+  --scaleY: 1;
   --bgX: 0;
   --bgY: 0;
   --angle: 0;
@@ -535,8 +536,8 @@ main .wrapper {
 .ship {
   width: 32px;
   height: 32px;
-  -webkit-transform: translate(var(--x), var(--y));
-          transform: translate(var(--x), var(--y));
+  -webkit-transform: translate(var(--x), var(--y)) scaleY(--scaleY);
+          transform: translate(var(--x), var(--y)) scaleY(--scaleY);
   position: absolute;
   background: -webkit-gradient(linear, left top, left bottom, from(var(--colour)), to(var(--colour))), var(--imgUrl);
   background: linear-gradient(var(--colour), var(--colour)), var(--imgUrl);
