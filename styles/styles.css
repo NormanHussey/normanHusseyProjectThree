@@ -393,6 +393,10 @@ button:hover, button:focus {
           transform: scale(1.25);
 }
 
+.hidden {
+  display: none;
+}
+
 @media (max-width: 800px) {
   .wrapper {
     width: 100%;
