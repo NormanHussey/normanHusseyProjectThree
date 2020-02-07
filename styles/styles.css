@@ -384,7 +384,6 @@ button {
   text-transform: uppercase;
   color: white;
   padding: 20px 40px;
-  border-radius: 12px;
   -webkit-box-shadow: 2px 2px 2px black;
           box-shadow: 2px 2px 2px black;
   -webkit-transition: all 0.25s;
@@ -517,6 +516,10 @@ main .wrapper {
 
 .selectionForm button {
   font-size: 1vw;
+}
+
+.gameOverScreen {
+  height: 100%;
 }
 
 .hidden {

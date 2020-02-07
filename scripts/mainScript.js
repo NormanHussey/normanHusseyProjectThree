@@ -28,7 +28,6 @@ setup.eventListeners = function () {
             game.playerName = 'Anonymous';
         }
         game.playerShip = parseInt($('input[name="shipChoice"]:checked').val());
-        console.log(game.playerShip);
         setup.startNewGame();
     });
 };

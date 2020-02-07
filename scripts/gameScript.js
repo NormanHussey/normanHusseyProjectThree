@@ -18,7 +18,6 @@ game.setupNewGame = function() {
     game.speed = 1;
     game.wave = 0;
     game.waveEnemies = [];
-    game.over = false;
     game.keys = {};
     
     game.playerStats = {
@@ -381,7 +380,7 @@ class Ship extends Actor {
         if (this.health <= 0) {
             if (this.type === 'player') {
                 this.health = 0;
-                game.over = true;
+                game.endGame();
             } else {
                 if (this.hitBy === 'player') {
                     game.playerStats.score += this.scoreValue;
@@ -563,24 +562,17 @@ game.addEventListeners = function () {
     });
     
     $(window).on('keypress', function (e) {
-        // console.log(e.which);
-        if (!game.over) {
-            switch (e.which) {
-                case 32: // space bar
-                    if (game.player.reloadCounter >= game.player.reloadSpeed) {
-                        game.player.fire();
-                    }
-                    break;
+        if (e.which === 32) { // space bar
+            if (game.player.reloadCounter >= game.player.reloadSpeed) {
+                game.player.fire();
             }
         }
     });
     
     $(window).on('click', function (e) {
-        if (!game.over) {
-            if (game.player.reloadCounter >= game.player.reloadSpeed) {
-                game.player.fire();
-            }
-        };
+        if (game.player.reloadCounter >= game.player.reloadSpeed) {
+            game.player.fire();
+        }
     });
 };
 
@@ -729,22 +721,35 @@ game.updateActors = function () {
 };
 
 game.updateDisplay = function () {
+    game.board.move(0, game.speed);
     game.display.$health.text(game.player.health);
     game.display.$score.text(game.playerStats.score);
     game.display.$wave.text(game.wave);
+};
+
+game.clearBoard = function () {
+    clearInterval(game.deploymentInterval);
+    for (let enemy of game.waveEnemies) {
+        game.deleteActor(enemy);
+    }
+}
+
+game.updateHighScores = function() {
+    if (!localStorage.highScore || localStorage.highScore < game.playerStats.score) {
+        localStorage.setItem('highScore', game.playerStats.score);
+    }
+};
+
+game.endGame = function () {
+    game.clearBoard();
+    game.updateHighScores();
+    game.over = true;
 };
 
 game.update = function () {
     game.checkWave();
     game.checkInput();
     game.updateActors();
-    if (!game.over) {
-        game.board.move(0, game.speed);
-    } else {
-        if (!localStorage.highScore || localStorage.highScore < game.playerStats.score) {
-            localStorage.setItem('highScore', game.playerStats.score);
-        }
-    }
     game.updateDisplay();
     requestAnimationFrame(game.update);
 };
@@ -755,7 +760,7 @@ game.init = function() {
     console.log(currentHighScore);
     game.player = new Ship (game.playerStats.start.x, game.playerStats.start.y, 'player', true, 10, game.playerShip, 0, 0);
     game.addEventListeners();
-    window.requestAnimationFrame(game.update);
+    game.animationFrame = window.requestAnimationFrame(game.update);
 };
 
 // $(function() {
