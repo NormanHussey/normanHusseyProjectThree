@@ -33,19 +33,19 @@
     border-radius: 50%;
 }
 
-.health {
-    display: inline-block;
+.gameDisplayArea {
     position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding: 0 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
-.score {
-    position: absolute;
-    right: 10%;
-}
-
-.wave {
-    position: absolute;
-    left: 42%;
+.gameDisplayArea p {
+    font-size: 1.6rem;
 }
 
 .noSelect {

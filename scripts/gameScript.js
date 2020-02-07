@@ -688,7 +688,7 @@ game.createExplosion= function (x, y) {
     const $explosion = $('<div class="ship">');
     $explosion.css('--x', x + 'px');
     $explosion.css('--y', y + 'px');
-    $explosion.css('--imgUrl', 'url("./assets/explosion.gif")');
+    $explosion.css('--imgUrl', 'url("../assets/explosion.gif")');
     game.board.$element.append($explosion);
     setTimeout(function() {
         $explosion.remove();

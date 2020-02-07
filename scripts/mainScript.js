@@ -3,6 +3,7 @@ setup = {};
 setup.cacheSelectors = function () {
     setup.$header = $('header');
     setup.$main = $('main');
+    setup.$mainWrapper = $('main .wrapper');
     setup.$footer = $('footer');
     setup.$newGameBtn = $('#newGame');
     setup.$howToPlayBtn = $('#howToPlay');
@@ -39,6 +40,7 @@ setup.startNewGame = function () {
     setup.$header.addClass('hidden');
     setup.$footer.addClass('hidden');
     setup.$main.css('height', '100vh');
+    setup.$mainWrapper.addClass('gameWrapper');
     
     game.init();
 };
