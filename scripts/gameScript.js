@@ -756,6 +756,6 @@ game.init = function() {
     window.requestAnimationFrame(game.update);
 };
 
-$(function() {
-    game.init();
-});
+// $(function() {
+//     game.init();
+// });

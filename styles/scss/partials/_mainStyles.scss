@@ -29,9 +29,11 @@ main {
     
     label {
         font-family: $fontTitles;
-        font-size: 3rem;
-        &:checked {
-            border: 2px solid red;
+        font-size: 4rem;
+
+        img {
+            padding: 5px;
+            transition: all 0.3s;
         }
     }
 
@@ -44,13 +46,32 @@ main {
     
     fieldset {
         border: none;
+        margin: 2% 0;
     }
     
     legend {
         width: 100%;
         text-align: center;
         font-family: $fontTitles;
-        font-size: 3rem;
+        font-size: 4rem;
+    }
+
+    .shipChoices {
+        @include flexFullCentre();
+        flex-wrap: wrap;
+    }
+
+    input[type="radio"] {
+        visibility: hidden;
+        &:checked + label img{
+            outline: 2px solid $colAccent;
+            outline-style: dashed;
+            transform: scale(1.15);
+        }
+    }
+
+    button {
+        font-size: 1vw;
     }
 
 }

@@ -376,11 +376,12 @@ h4 {
 }
 
 button {
-  font-family: "Press Start 2P", cursive;
   border-style: none;
   background-color: #c11e01;
-  color: white;
+  font-family: "Press Start 2P", cursive;
   font-size: 2vw;
+  text-transform: uppercase;
+  color: white;
   padding: 20px 40px;
   border-radius: 12px;
   -webkit-box-shadow: 2px 2px 2px black;
@@ -460,11 +461,13 @@ main .wrapper {
 
 .selectionForm label {
   font-family: "Bangers", cursive;
-  font-size: 3rem;
+  font-size: 4rem;
 }
 
-.selectionForm label:checked {
-  border: 2px solid red;
+.selectionForm label img {
+  padding: 5px;
+  -webkit-transition: all 0.3s;
+  transition: all 0.3s;
 }
 
 .selectionForm input[type="text"] {
@@ -476,13 +479,43 @@ main .wrapper {
 
 .selectionForm fieldset {
   border: none;
+  margin: 2% 0;
 }
 
 .selectionForm legend {
   width: 100%;
   text-align: center;
   font-family: "Bangers", cursive;
-  font-size: 3rem;
+  font-size: 4rem;
+}
+
+.selectionForm .shipChoices {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+}
+
+.selectionForm input[type="radio"] {
+  visibility: hidden;
+}
+
+.selectionForm input[type="radio"]:checked + label img {
+  outline: 2px solid #c11e01;
+  outline-style: dashed;
+  -webkit-transform: scale(1.15);
+          transform: scale(1.15);
+}
+
+.selectionForm button {
+  font-size: 1vw;
 }
 
 .hidden {

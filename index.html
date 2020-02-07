@@ -33,18 +33,20 @@
                         <input type="text" name="name" id="name">
                         <fieldset>
                             <legend>Choose your ship:</legend>
-                            <label for="redSilver"><img src="./assets/icons/redSilverShipIcon.png" alt="Red and Silver Ship"></label>
-                            <input type="radio" name="shipChoice" id="redSilver" class="hidden" checked>
-                            <label for="bigBlue"><img src="./assets/icons/bigBlueShipIcon.png" alt="Big Blue Ship"></label>
-                            <input type="radio" name="shipChoice" id="bigBlue" class="hidden">
-                            <label for="bigRed"><img src="./assets/icons/bigRedShipIcon.png" alt="Big Red Ship"></label>
-                            <input type="radio" name="shipChoice" id="bigRed" class="hidden">
-                            <label for="biggerRed"><img src="./assets/icons/biggerRedShipIcon.png" alt="Bigger Red Ship"></label>
-                            <input type="radio" name="shipChoice" id="biggerRed" class="hidden">
-                            <label for="bigGreen"><img src="./assets/icons/bigGreenShipIcon.png" alt="Big Green Ship"></label>
-                            <input type="radio" name="shipChoice" id="bigGreen" class="hidden">
-                            <label for="sleekBlue"><img src="./assets/icons/sleekBlueShipIcon.png" alt="Sleek Blue Ship"></label>
-                            <input type="radio" name="shipChoice" id="sleekBlue" class="hidden">
+                            <div class="shipChoices">
+                                <input type="radio" name="shipChoice" id="redSilver" value='0'checked>
+                                <label for="redSilver"><img src="./assets/icons/redSilverShipIcon.png" alt="Red and Silver Ship"></label>
+                                <input type="radio" name="shipChoice" id="bigBlue" value='1'>
+                                <label for="bigBlue"><img src="./assets/icons/bigBlueShipIcon.png" alt="Big Blue Ship"></label>
+                                <input type="radio" name="shipChoice" id="bigRed" value='2'>
+                                <label for="bigRed"><img src="./assets/icons/bigRedShipIcon.png" alt="Big Red Ship"></label>
+                                <input type="radio" name="shipChoice" id="biggerRed" value='3'>
+                                <label for="biggerRed"><img src="./assets/icons/biggerRedShipIcon.png" alt="Bigger Red Ship"></label>
+                                <input type="radio" name="shipChoice" id="bigGreen" value='4'>
+                                <label for="bigGreen"><img src="./assets/icons/bigGreenShipIcon.png" alt="Big Green Ship"></label>
+                                <input type="radio" name="shipChoice" id="sleekBlue" value='5'>
+                                <label for="sleekBlue"><img src="./assets/icons/sleekBlueShipIcon.png" alt="Sleek Blue Ship"></label>
+                            </div>
                         </fieldset>
                         <button>Start Game</button>
                     </form>
@@ -75,7 +77,7 @@
     </footer>
     
     <script src='https://code.jquery.com/jquery-3.4.0.min.js' integrity='sha256-BJeo0qm959uMBGb65z40ejJYGSgR7REI4+CW1fNKwOg=' crossorigin='anonymous'></script>
-    <!-- <script src="./scripts/gameScript.js"></script> -->
+    <script src="./scripts/gameScript.js"></script>
     <script src="./scripts/mainScript.js"></script>
 </body>
 </html>

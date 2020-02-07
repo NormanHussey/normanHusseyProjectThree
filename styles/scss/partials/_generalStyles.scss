@@ -96,11 +96,12 @@ h4 {
 }
 
 button {
-    font-family: $fontPixel;
     border-style: none;
     background-color: $colAccent;
-    color: white;
+    font-family: $fontPixel;
     font-size: 2vw;
+    text-transform: uppercase;
+    color: white;
     padding: 20px 40px;
     border-radius: 12px;
     box-shadow: 2px 2px 2px black;
