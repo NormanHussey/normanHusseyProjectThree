@@ -14,9 +14,11 @@ setup.cacheSelectors = function () {
     setup.$playAreaSection = $('.playArea');
     setup.$gameOverScreen = $('.gameOverScreen');
     setup.$playAgainBtn = $('#playAgain');
+    setup.$changePilotBtn = $('#changePilot');
 };
 
 setup.eventListeners = function () {
+
     setup.$newGameBtn.on('click', function () {
         setup.$startScreen.addClass('hidden');
         setup.$selectionScreen.removeClass('hidden');
@@ -32,9 +34,9 @@ setup.eventListeners = function () {
         setup.startNewGame();
     });
 
-    setup.$playAgainBtn.on('click', function () {
-        setup.startNewGame();
-    });
+    setup.$playAgainBtn.on('click', setup.startNewGame);
+
+    setup.$changePilotBtn.on('click', setup.changePilot);
 };
 
 setup.startNewGame = function () {
@@ -43,11 +45,21 @@ setup.startNewGame = function () {
     setup.$playAreaSection.removeClass('hidden');
     setup.$header.addClass('hidden');
     setup.$footer.addClass('hidden');
-    setup.$main.css('height', '100vh');
+    setup.$main.addClass('gameMain');
     setup.$mainWrapper.addClass('gameWrapper');
     setup.$gameOverScreen.addClass('hidden');
-    
     game.init();
+};
+
+setup.changePilot = function () {
+    setup.$gameOverScreen.addClass('hidden');
+    setup.$header.removeClass('hidden');
+    setup.$footer.removeClass('hidden');
+    setup.$main.removeClass('gameMain');
+    setup.$mainWrapper.removeClass('gameWrapper');
+    setup.$selectionScreen.removeClass('hidden');
+    setup.$setupGameSection.removeClass('hidden');
+
 };
 
 setup.endGameScreen = function () {

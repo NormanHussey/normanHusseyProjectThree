@@ -14,7 +14,8 @@ game.setupNewGame = function() {
             this.$element.css('--bgY', newY + 'px');
         }
     };
-    
+
+    game.$window = $(window);
     game.over = false;
     game.speed = 1;
     game.wave = 0;
@@ -538,44 +539,75 @@ class Enemy extends Ship {
 
 };
 
-game.addEventListeners = function () {
-    game.board.$element.on('mousemove', function (e) {
-        game.player.inputMove((e.pageX - this.offsetLeft) - game.player.position.x);
-    });
+// Event Handler Functions
 
-    game.board.$element.on('tap', function (e) {
-        console.log('tap');
-    });
+game.mouseMoveHandler = function (e) {
+    game.player.inputMove((e.pageX - this.offsetLeft) - game.player.position.x);
+};
 
-    game.board.$element.on('touchmove', function(e) {
-        const touch = e.originalEvent.touches[0] || e.originalEvent.changedTouches[0];
-        x = touch.pageX;
-        game.player.inputMove((x - this.offsetLeft) - game.player.position.x);
-        return false;
-    });
-    
-    $(window).on("keydown", function (e) {
-        game.keys[e.keyCode] = true;
-    });
-    
-    $(window).on("keyup", function (e) {
-        game.keys[e.keyCode] = false;
-    });
-    
-    $(window).on('keypress', function (e) {
-        if (e.which === 32) { // space bar
-            if (game.player.reloadCounter >= game.player.reloadSpeed) {
-                game.player.fire();
-            }
-        }
-    });
-    
-    $(window).on('click', function (e) {
+game.touchMoveHandler = function (e) {
+    const touch = e.originalEvent.touches[0] || e.originalEvent.changedTouches[0];
+    x = touch.pageX;
+    game.player.inputMove((x - this.offsetLeft) - game.player.position.x);
+    // return false;
+};
+
+game.keyDownHandler = function (e) {
+    game.keys[e.keyCode] = true;
+};
+
+game.keyUpHandler = function (e) {
+    game.keys[e.keyCode] = false;
+};
+
+game.keyPressHandler = function (e) {
+    if (e.which === 32) { // space bar
         if (game.player.reloadCounter >= game.player.reloadSpeed) {
             game.player.fire();
         }
-    });
+    }
 };
+
+game.clickHandler = function (e) {
+    if (game.player.reloadCounter >= game.player.reloadSpeed) {
+        game.player.fire();
+    }
+};
+
+game.addEventListeners = function () {
+    
+    // game.board.$element.on('tap', function (e) {
+        //     console.log('tap');
+        // });
+
+    game.board.$element.on('mousemove', game.mouseMoveHandler);
+        
+    game.board.$element.on('touchmove', game.touchMoveHandler);
+    
+    game.$window.on("keydown", game.keyDownHandler);
+    
+    game.$window.on("keyup", game.keyUpHandler);
+    
+    game.$window.on('keypress', game.keyPressHandler);
+    
+    game.$window.on('click', game.clickHandler);
+};
+
+game.removeEventListeners = function () {
+    game.board.$element.off('mousemove', game.mouseMoveHandler);
+        
+    game.board.$element.off('touchmove', game.touchMoveHandler);
+    
+    game.$window.off("keydown", game.keyDownHandler);
+    
+    game.$window.off("keyup", game.keyUpHandler);
+    
+    game.$window.off('keypress', game.keyPressHandler);
+    
+    game.$window.off('click', game.clickHandler);
+}
+
+
 
 game.checkInput = function () {
     if (game.keys[37]) { // left
@@ -730,8 +762,8 @@ game.updateDisplay = function () {
 
 game.clearBoard = function () {
     clearInterval(game.deploymentInterval);
-    for (let enemy of game.updatingActors) {
-        game.deleteActor(enemy);
+    for (let actor of game.updatingActors) {
+        game.deleteActor(actor);
     }
 }
 
@@ -744,6 +776,7 @@ game.updateHighScores = function() {
 game.endGame = function () {
     game.clearBoard();
     game.updateHighScores();
+    game.removeEventListeners();
     setTimeout(function() {
         game.over = true;
         setup.endGameScreen();
