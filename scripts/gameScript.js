@@ -14,12 +14,12 @@ game.setupNewGame = function() {
             this.$element.css('--bgY', newY + 'px');
         }
     };
-
     game.$window = $(window);
     game.over = false;
     game.speed = 1;
     game.wave = 0;
     game.waveEnemies = [];
+    game.updatingActors = [];
     game.keys = {};
     
     game.playerStats = {
@@ -91,8 +91,7 @@ game.setupNewGame = function() {
             asset: 'url("../assets/homingMissilePickup.png")'
         }
     ];
-    
-    game.updatingActors = [];
+
 };
 
 
@@ -765,6 +764,7 @@ game.clearBoard = function () {
     for (let actor of game.updatingActors) {
         game.deleteActor(actor);
     }
+    game.board.$element.children().not('.gameDisplayArea').remove();
 }
 
 game.storeLeaderboard = function () {
@@ -832,11 +832,11 @@ game.parseLeaderboard = function () {
 };
 
 game.endGame = function () {
-    game.clearBoard();
     game.updateLeaderboard();
     game.removeEventListeners();
     setTimeout(function() {
         game.over = true;
+        game.clearBoard();
         setup.endGameScreen();
     }, 2000);
 };
