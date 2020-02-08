@@ -28,7 +28,7 @@ setup.eventListeners = function () {
         e.preventDefault();
         game.playerName = $('#name').val();
         if (!game.playerName) {
-            game.playerName = 'Anonymous';
+            game.playerName = 'Unknown';
         }
         game.playerShip = parseInt($('input[name="shipChoice"]:checked').val());
         setup.startNewGame();

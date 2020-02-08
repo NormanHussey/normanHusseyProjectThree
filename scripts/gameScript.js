@@ -767,15 +767,73 @@ game.clearBoard = function () {
     }
 }
 
-game.updateHighScores = function() {
-    if (!localStorage.highScore || localStorage.highScore < game.playerStats.score) {
-        localStorage.setItem('highScore', game.playerStats.score);
+game.storeLeaderboard = function () {
+
+    if (!localStorage.leaderboard) {
+        localStorage.setItem('leaderboard', '{}');
     }
+
+    game.leaderboard = JSON.parse(localStorage.leaderboard);
+
+    // game.leaderboard = {
+    //     first: {
+    //         name: 'Norm',
+    //         score: 2000,
+    //         time: 5
+    //     },
+    //     second: {
+    //         name: 'Joe',
+    //         score: 1500,
+    //         time: 7
+    //     },
+    //     third: {
+    //         name: 'Cindy',
+    //         score: 1200,
+    //         time: 4
+    //     }
+
+};
+
+game.updateLeaderboard = function() {
+
+    game.parseLeaderboard();
+    const leaderboardString = JSON.stringify(game.leaderboard);
+    localStorage.setItem('leaderboard', leaderboardString);
+ 
+};
+
+game.parseLeaderboard = function () {
+    const highScores = [];
+    for (let item in game.leaderboard) {
+        highScores.push(item.score);
+    }
+
+    highScores.sort((a, b) => b - a);
+    console.log(highScores);
+
+    let placeIndex = -1;
+
+    for (let score of highScores) {
+        if (game.score > score) {
+            placeIndex = highScores.indexOf(score);
+        }
+    }
+
+    if (placeIndex === -1 && highScores.length < 10) {
+        // Placed at the bottom of the leaderboard because there were less than 10
+        placeIndex = highScores.length;
+    } else if (placeIndex >= 0) {
+        // Placed on the leaderboard and bumped someone off
+    } else {
+        // Didn't place on the leaderboard
+    }
+
+
 };
 
 game.endGame = function () {
     game.clearBoard();
-    game.updateHighScores();
+    game.updateLeaderboard();
     game.removeEventListeners();
     setTimeout(function() {
         game.over = true;
@@ -795,9 +853,10 @@ game.update = function () {
 
 game.init = function() {
     game.setupNewGame();
-    const currentHighScore = localStorage.getItem('highScore');
-    console.log(currentHighScore);
-    game.player = new Ship (game.playerStats.start.x, game.playerStats.start.y, 'player', true, 10, game.playerShip, 0, 0);
+    game.storeLeaderboard();
+    // const currentHighScore = localStorage.getItem('highScore');
+    // console.log(currentHighScore);
+    game.player = new Ship (game.playerStats.start.x, game.playerStats.start.y, 'player', true, 1, game.playerShip, 0, 0);
     game.addEventListeners();
     window.requestAnimationFrame(game.update);
 };

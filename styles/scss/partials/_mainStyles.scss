@@ -78,7 +78,49 @@ main {
 
 .gameOverScreen {
     height: 100%;
+    padding: 5% 0;
     background-color: $colSecondaryDark;
+    // display: flex;
+    // flex-direction: column;
+    // justify-content: space-between;
+    // align-items: center;
+
+    h3 {
+        text-align: center;
+        width: 100%;
+        height: 20vh;
+        font-size: 4vw;
+        font-family: $fontTitles;
+    }
+
+    .buttons {
+        width: 100%;
+        height: 20vh;
+        padding: 0 5%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        button {
+            font-size: 1vw;
+        }
+    }
+}
+
+.leaderboard {
+    @include flexFullCentre();
+    width: 100%;
+    height: 60vh;
+    font-size: 1.5vw;
+
+    ul {
+        width: 100%;
+        height: 100%;
+        padding: 0 5%;
+        li {
+            width: 100%;
+            margin: 5% 0;
+        }    
+    }
 }
 
 .hidden {
