@@ -520,6 +520,7 @@ main .wrapper {
 
 .gameOverScreen {
   height: 100%;
+  background-color: #13293d;
 }
 
 .hidden {

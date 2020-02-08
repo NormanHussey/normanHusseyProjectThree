@@ -14,7 +14,8 @@ game.setupNewGame = function() {
             this.$element.css('--bgY', newY + 'px');
         }
     };
-
+    
+    game.over = false;
     game.speed = 1;
     game.wave = 0;
     game.waveEnemies = [];
@@ -729,7 +730,7 @@ game.updateDisplay = function () {
 
 game.clearBoard = function () {
     clearInterval(game.deploymentInterval);
-    for (let enemy of game.waveEnemies) {
+    for (let enemy of game.updatingActors) {
         game.deleteActor(enemy);
     }
 }
@@ -743,15 +744,20 @@ game.updateHighScores = function() {
 game.endGame = function () {
     game.clearBoard();
     game.updateHighScores();
-    game.over = true;
+    setTimeout(function() {
+        game.over = true;
+        setup.endGameScreen();
+    }, 2000);
 };
 
 game.update = function () {
-    game.checkWave();
-    game.checkInput();
-    game.updateActors();
-    game.updateDisplay();
-    requestAnimationFrame(game.update);
+    if (!game.over) {
+        game.checkWave();
+        game.checkInput();
+        game.updateActors();
+        game.updateDisplay();
+        requestAnimationFrame(game.update);
+    }
 };
 
 game.init = function() {
@@ -760,7 +766,7 @@ game.init = function() {
     console.log(currentHighScore);
     game.player = new Ship (game.playerStats.start.x, game.playerStats.start.y, 'player', true, 10, game.playerShip, 0, 0);
     game.addEventListeners();
-    game.animationFrame = window.requestAnimationFrame(game.update);
+    window.requestAnimationFrame(game.update);
 };
 
 // $(function() {

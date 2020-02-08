@@ -13,6 +13,7 @@ setup.cacheSelectors = function () {
     setup.$selectionForm = $('.selectionForm');
     setup.$playAreaSection = $('.playArea');
     setup.$gameOverScreen = $('.gameOverScreen');
+    setup.$playAgainBtn = $('#playAgain');
 };
 
 setup.eventListeners = function () {
@@ -30,6 +31,10 @@ setup.eventListeners = function () {
         game.playerShip = parseInt($('input[name="shipChoice"]:checked').val());
         setup.startNewGame();
     });
+
+    setup.$playAgainBtn.on('click', function () {
+        setup.startNewGame();
+    });
 };
 
 setup.startNewGame = function () {
@@ -40,8 +45,14 @@ setup.startNewGame = function () {
     setup.$footer.addClass('hidden');
     setup.$main.css('height', '100vh');
     setup.$mainWrapper.addClass('gameWrapper');
+    setup.$gameOverScreen.addClass('hidden');
     
     game.init();
+};
+
+setup.endGameScreen = function () {
+    setup.$playAreaSection.addClass('hidden');
+    setup.$gameOverScreen.removeClass('hidden');
 };
 
 setup.init = function () {
