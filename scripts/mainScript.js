@@ -13,6 +13,8 @@ setup.cacheSelectors = function () {
     setup.$selectionForm = $('.selectionForm');
     setup.$playAreaSection = $('.playArea');
     setup.$gameOverScreen = $('.gameOverScreen');
+    setup.$leaderboard = $('.leaderboard ul');
+    setup.$yourScore = $('.yourScore div');
     setup.$playAgainBtn = $('#playAgain');
     setup.$changePilotBtn = $('#changePilot');
 };
@@ -62,9 +64,36 @@ setup.changePilot = function () {
 
 };
 
+setup.displayLeaderboard = function () {
+    setup.$leaderboard.html('');
+    let rank = 1;
+    for (let player of game.leaderboard) {
+        const scoreToAppend = `
+            <li>
+                <p>${rank}.</p>
+                <p>${player.name}</p>
+                <p>Time: ${player.time}</p>
+                <p>Score: ${player.score}</p>
+            </li>
+        `;
+        setup.$leaderboard.append(scoreToAppend);
+        rank++;
+    }
+
+    const yourScore = `
+        <p>${game.playerStats.name}</p>
+        <p>Time: ${game.playerStats.time}</p>
+        <p>Score: ${game.playerStats.score}</p>
+    `;
+
+    setup.$yourScore.html(yourScore);
+
+};
+
 setup.endGameScreen = function () {
     setup.$playAreaSection.addClass('hidden');
     setup.$gameOverScreen.removeClass('hidden');
+    setup.displayLeaderboard();
 };
 
 setup.init = function () {

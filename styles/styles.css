@@ -524,23 +524,46 @@ main .wrapper {
   height: 100%;
   padding: 5% 0;
   background-color: #13293d;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
 
 .gameOverScreen h3 {
   text-align: center;
   width: 100%;
-  height: 20vh;
   font-size: 4vw;
   font-family: "Bangers", cursive;
 }
 
+.gameOverScreen h4 {
+  text-align: center;
+  width: 100%;
+  font-size: 2vw;
+  font-family: "Bangers", cursive;
+  color: white;
+}
+
 .gameOverScreen .buttons {
   width: 100%;
-  height: 20vh;
   padding: 0 5%;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
   -webkit-box-pack: justify;
       -ms-flex-pack: justify;
           justify-content: space-between;
@@ -557,15 +580,18 @@ main .wrapper {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
   width: 100%;
-  height: 60vh;
-  font-size: 1.5vw;
+  font-size: 1.6rem;
 }
 
 .leaderboard ul {
@@ -574,9 +600,63 @@ main .wrapper {
   padding: 0 5%;
 }
 
-.leaderboard ul li {
+.leaderboard p {
+  margin: 2rem 0;
+}
+
+.leaderboard li {
   width: 100%;
-  margin: 5% 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.leaderboard li p:nth-child(1) {
+  width: 10%;
+}
+
+.leaderboard li p:nth-child(2) {
+  width: 35%;
+}
+
+.leaderboard li p:nth-child(3) {
+  width: 25%;
+}
+
+.leaderboard li p:nth-child(4) {
+  width: 30%;
+}
+
+.yourScore {
+  width: 100%;
+  padding: 0 5%;
+}
+
+.yourScore div {
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
 
 .hidden {

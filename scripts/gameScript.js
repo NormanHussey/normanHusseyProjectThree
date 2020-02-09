@@ -28,6 +28,7 @@ game.setupNewGame = function() {
         y: game.board.height - 100
     };
     
+    game.playerStats.time = 0;
     game.playerStats.score = 0;
     
     game.display ={
@@ -838,7 +839,7 @@ game.updateLeaderboard = function () {
 
     const newScoreEntry = {
         name: game.playerStats.name,
-        time: 0,
+        time: game.playerStats.time,
         score: game.playerStats.score
     };
 
