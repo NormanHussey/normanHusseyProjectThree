@@ -98,6 +98,10 @@ game.setupNewGame = function() {
         {
             type: 'homingMissile',
             asset: 'url("../assets/homingMissilePickup.png")'
+        },
+        {
+            type:'nuke',
+            asset: 'url("../assets/nukePickup.png")'
         }
     ];
 
@@ -194,7 +198,8 @@ class Actor {
 }
 
 class Pickup extends Actor {
-    constructor(x, y, element, pickupType, speed) {
+    constructor(x, y, pickupType, speed) {
+        const element = `<div class="pickup">`;
         super(x, y, element, 'pickup', true);
         this.pickupType = pickupType;
         this.speed = speed;
@@ -218,6 +223,15 @@ class Pickup extends Actor {
 
                 case 'homingMissile':
                     collider.actor.weaponType = game.weaponTypes[2];
+                    break;
+
+                case 'nuke':
+                    for (let enemy of game.waveEnemies) {
+                        if (enemy.deployed) {
+                            enemy.hitBy = 'player';
+                            enemy.health = 0;
+                        }
+                    }
                     break;
 
             }
@@ -489,8 +503,7 @@ class Enemy extends Ship {
         const chance = 0.25 + (this.scoreValue / 100);
         if (game.probability(chance)) {
             const pickupType = game.randomIntInRange(0, game.pickupTypes.length - 1);
-            const pickupDiv = `<div class="pickup">`;
-            const newPickup = new Pickup(this.position.x, this.position.y, pickupDiv, game.pickupTypes[pickupType], this.speed);
+            const newPickup = new Pickup(this.position.x, this.position.y, game.pickupTypes[pickupType], this.speed);
         }
     }
 
