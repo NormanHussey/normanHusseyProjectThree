@@ -655,9 +655,9 @@ game.spawnEnemy = function (minHealth, maxHealth, maxSpeed, fastestReloadSpeed, 
     const intelligence = game.randomIntInRange(minIntelligence, maxIntelligence);
     const shipNumber = game.randomIntInRange(0, game.ships.length - 1);
     let weaponType;
-    if (game.probability(intelligence / 10)) {
+    if (game.probability((game.wave / 100) + (intelligence / 100))) {
         weaponType = 2;
-    } else if (game.probability(intelligence / 5)) {
+    } else if (game.probability((game.wave / 25) + (intelligence / 25))) {
         weaponType = 1;
     } else {
         weaponType = 0;
@@ -668,13 +668,13 @@ game.spawnEnemy = function (minHealth, maxHealth, maxSpeed, fastestReloadSpeed, 
 game.newWave = function () {
     game.wave++;
     const numberOfEnemies = Math.round(5 * (1 + game.wave / 2));
-    const maxHealth = Math.ceil(1 + (game.wave / 10));
-    const minHealth = Math.floor(1 + (game.wave / 10));
-    const maxSpeed = 2 + (game.wave / 8);
-    const fastestReloadSpeed = 60 / game.wave;
-    const slowestReloadSpeed = 60;
+    const maxHealth = Math.ceil(1 + (game.wave / 4));
+    const minHealth = Math.floor(1 + (game.wave / 8));
+    const maxSpeed = 2 + (game.wave / 10);
+    const fastestReloadSpeed = 45 / game.wave;
+    const slowestReloadSpeed = 45;
     const maxIntelligence = game.wave;
-    let minIntelligence = game.wave - 2;
+    let minIntelligence = Math.round(game.wave / 2);
     if (minIntelligence < 1) {
         minIntelligence = 1;
     }
@@ -685,7 +685,7 @@ game.newWave = function () {
         game.waveEnemies.push(newEnemy);
     }
     game.currentWaveEnemy = 0;
-    let spawnInterval = 3000 - (game.wave * 100);
+    let spawnInterval = 2500 - (game.wave * 100);
     if (spawnInterval < 100) {
         spawnInterval = 100;
     }
