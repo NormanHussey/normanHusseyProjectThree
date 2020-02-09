@@ -8,6 +8,8 @@ game.setupNewGame = function() {
         left: 0,
         width: setup.$playAreaSection.width(),
         height: setup.$playAreaSection.height(),
+        wPercent: setup.$playAreaSection.width() / 100,
+        hPercent: setup.$playAreaSection.height() / 100,
         move: function(x, y) {
             const newX = parseInt(this.$element.css('--bgX')) + x;
             const newY = parseInt(this.$element.css('--bgY')) + y;
@@ -56,7 +58,7 @@ game.setupNewGame = function() {
     game.weaponTypes = [
         {
             type: 'singleShot',
-            reloadDelay: 0,
+            reloadDelay: 10,
             damage: 1,
             decayDistance: 200,
             decayRate: Infinity,
@@ -175,14 +177,6 @@ class Actor {
         return false;
     }
 
-    handleCollision(collider) {
-        // do something
-    }
-
-    move() {
-        // do something
-    }
-
     update() {
         let movementLimitation = false;
         const collidingObject = this.checkCollision();
@@ -211,7 +205,7 @@ class Pickup extends Actor {
         if (collider.actor.type !== 'bullet') {
             switch(this.pickupType.type) {
                 case 'health':
-                    collider.actor.health += 5;
+                    collider.actor.health += 3;
                     break;
 
                 case 'singleShot':
@@ -465,7 +459,7 @@ class Enemy extends Ship {
     }
 
     findTarget(movementLimitation) {
-        const distance = this.intelligence * 50;
+        const distance = this.intelligence * (game.board.hPercent * 4);
         if (game.player.position.y >= this.position.y - distance && game.player.position.y <= this.position.y + distance) {
             if (game.player.position.x < this.position.x && movementLimitation !== 'left') {
                 this.position.x -= game.speed * this.speed;
@@ -509,7 +503,7 @@ class Enemy extends Ship {
     }
 
     avoidCollision() {
-        const incomingCollision = this.checkCollision(this.intelligence - 2);
+        const incomingCollision = this.checkCollision(game.board.hPercent * this.intelligence);
         if (incomingCollision && incomingCollision.actor.type !== 'bullet') {
             switch (incomingCollision.collideFrom) {
                 case 'left':
@@ -859,7 +853,7 @@ game.init = function() {
     game.setupNewGame();
     game.loadLeaderboard();
     game.findSpriteSizes();
-    game.player = new Ship (game.playerStats.start.x, game.playerStats.start.y, 'player', true, 1, game.playerStats.ship, 0, 0);
+    game.player = new Ship (game.playerStats.start.x, game.playerStats.start.y, 'player', true, 3, game.playerStats.ship, 0, 0);
     game.addEventListeners();
     game.playerStats.time.interval = setInterval(() => game.playerStats.time.secondsElapsed++, 1000);
     window.requestAnimationFrame(game.update);

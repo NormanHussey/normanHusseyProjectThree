@@ -746,8 +746,8 @@ main .wrapper {
   image-rendering: -moz-crisp-edges;
   image-rendering: crisp-edges;
   position: absolute;
-  width: 2.5vmax;
-  height: 2.5vmax;
+  width: 3.5vmax;
+  height: 3.5vmax;
   -webkit-transform: translate(var(--x), var(--y));
           transform: translate(var(--x), var(--y));
   background: -webkit-gradient(linear, left top, left bottom, from(var(--colour)), to(var(--colour))), var(--imgUrl);
