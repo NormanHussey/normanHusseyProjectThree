@@ -28,8 +28,14 @@ game.setupNewGame = function() {
         y: game.board.height - 100
     };
     
-    game.playerStats.time = 0;
     game.playerStats.score = 0;
+
+    game.playerStats.time = {
+        secondsElapsed: 0,
+        mins: 0,
+        secs: 0,
+        timePlayed: '0:00'
+    };
     
     game.display ={
         $health: $('#health'),
@@ -774,72 +780,30 @@ game.loadLeaderboard = function () {
         localStorage.setItem('leaderboard', '{}');
     }
 
-    // game.leaderboard = [
-    //         {
-    //             name: 'Norm',
-    //             score: 2000,
-    //             time: 5
-    //         },
-    //         {
-    //             name: 'Joe',
-    //             score: 1500,
-    //             time: 7
-    //         },
-    //         {
-    //             name: 'Cindy',
-    //             score: 1200,
-    //             time: 4
-    //         }
-    //     ];
-
     game.leaderboard = JSON.parse(localStorage.leaderboard);
-    console.log(game.leaderboard);
-
 
 };
 
 game.saveLeaderboard = function() {
 
-    // game.parseLeaderboard();
-    // game.updateLeaderboard(game.sortScores());
     game.updateLeaderboard();
     const leaderboardString = JSON.stringify(game.leaderboard);
     localStorage.setItem('leaderboard', leaderboardString);
  
 };
 
-game.sortScores = function () {
-    // const highScores = [];
-    // for (let item in game.leaderboard) {
-    //     highScores.push(game.leaderboard[item].score);
-    // }
-
-    // highScores.sort((a, b) => b - a);
-    // console.log(highScores);
-
-    let placeIndex = game.leaderboard.length;
-
-    for (let score of highScores) {
-        if (game.score > score) {
-            placeIndex = highScores.indexOf(score);
-        }
-    }
-
-    highScores.splice(placeIndex, 0, game.playerStats.score);
-
-    if (highScores.length > 10) {
-        highScores.pop();
-    }
-
-    // return highScores;
-
-};
-
 game.updateLeaderboard = function () {
+
+    let secondsPlayed = game.playerStats.time.secs;
+    if (secondsPlayed < 10) {
+        secondsPlayed = '0' + secondsPlayed;
+    }
+
+    game.playerStats.time.timePlayed = `${game.playerStats.time.mins}:${secondsPlayed}`;
 
     const newScoreEntry = {
         name: game.playerStats.name,
-        time: game.playerStats.time,
+        time: game.playerStats.time.timePlayed,
         score: game.playerStats.score
     };
 
@@ -853,7 +817,14 @@ game.updateLeaderboard = function () {
 
 };
 
+game.calculateTimePlayed = function () {
+    clearInterval(game.playerStats.time.interval);
+    game.playerStats.time.mins = (game.playerStats.time.secondsElapsed - (game.playerStats.time.secondsElapsed % 60)) / 60;
+    game.playerStats.time.secs = game.playerStats.time.secondsElapsed % 60;
+};
+
 game.endGame = function () {
+    game.calculateTimePlayed();
     game.saveLeaderboard();
     game.removeEventListeners();
     setTimeout(function() {
@@ -876,13 +847,9 @@ game.update = function () {
 game.init = function() {
     game.setupNewGame();
     game.loadLeaderboard();
-    // const currentHighScore = localStorage.getItem('highScore');
-    // console.log(currentHighScore);
     game.player = new Ship (game.playerStats.start.x, game.playerStats.start.y, 'player', true, 1, game.playerStats.ship, 0, 0);
     game.addEventListeners();
+    game.playerStats.time.interval = setInterval(() => game.playerStats.time.secondsElapsed++, 1000);
     window.requestAnimationFrame(game.update);
 };
 
-// $(function() {
-//     game.init();
-// });

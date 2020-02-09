@@ -82,7 +82,7 @@ setup.displayLeaderboard = function () {
 
     const yourScore = `
         <p>${game.playerStats.name}</p>
-        <p>Time: ${game.playerStats.time}</p>
+        <p>Time: ${game.playerStats.time.timePlayed}</p>
         <p>Score: ${game.playerStats.score}</p>
     `;
 
