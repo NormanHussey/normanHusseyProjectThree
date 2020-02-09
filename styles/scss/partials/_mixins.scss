@@ -16,3 +16,15 @@
     image-rendering: -moz-crisp-edges;
     image-rendering: crisp-edges;
 }
+
+@mixin mq-desktop-large() {
+    @media (min-width: 1600px) {
+        @content;
+    }
+}
+
+@mixin mq-tablet() {
+    @media (max-width: 800px) {
+        @content;
+    }
+}

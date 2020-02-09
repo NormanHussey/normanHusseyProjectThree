@@ -291,6 +291,12 @@ a:hover, a:focus {
   margin: 0 auto;
 }
 
+@media (max-width: 800px) {
+  .wrapper {
+    width: 100%;
+  }
+}
+
 header {
   height: 25vh;
   text-align: center;
@@ -355,21 +361,35 @@ footer ul li {
 }
 
 footer ul i {
-  font-size: 3rem;
+  font-size: 3vmax;
+}
+
+@media (min-width: 1600px) {
+  footer ul i {
+    font-size: 4rem;
+  }
 }
 
 h1 {
-  font-size: 8vw;
+  font-size: 8vmax;
   font-family: "Bangers", cursive;
   color: #c11e01;
   line-height: 0.85;
+  text-align: center;
+}
+
+@media (min-width: 1600px) {
+  h1 {
+    font-size: 15rem;
+  }
 }
 
 h2 {
   font-family: "Press Start 2P", cursive;
-  font-size: 1.75vw;
+  font-size: 1.75vmax;
   color: #ffd470;
   line-height: 1.6;
+  text-align: center;
 }
 
 h4 {
@@ -391,7 +411,7 @@ button {
   border-style: none;
   background-color: #c11e01;
   font-family: "Press Start 2P", cursive;
-  font-size: 2vw;
+  font-size: 2vmax;
   text-transform: uppercase;
   color: white;
   padding: 20px 40px;
@@ -401,16 +421,16 @@ button {
   transition: all 0.25s;
 }
 
+@media (min-width: 1600px) {
+  button {
+    font-size: 4rem;
+  }
+}
+
 button:hover, button:focus {
   background-color: #2a628f;
   -webkit-transform: scale(1.25);
           transform: scale(1.25);
-}
-
-@media (max-width: 800px) {
-  .wrapper {
-    width: 100%;
-  }
 }
 
 main {

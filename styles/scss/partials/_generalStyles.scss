@@ -41,6 +41,10 @@ a {
     max-width: 1280px;
     width: 80%;
     margin: 0 auto;
+
+    @include mq-tablet() {
+        width: 100%;
+    }
 }
 
 header {
@@ -72,29 +76,38 @@ footer {
         }
 
         i {
-            font-size: 3rem;
+            font-size: 3vmax;
+            @include mq-desktop-large() {
+                font-size: 4rem;
+            }
         }
     }
 }
 
 h1 {
-    font-size: 8vw;
+    font-size: 8vmax;
     font-family: $fontTitles;
     color: $colAccent;
     line-height: 0.85;
+    text-align: center;
+
+    @include mq-desktop-large() {
+        font-size: 15rem;
+    }
 }
 
 h2 {
     font-family: $fontPixel;
-    font-size: 1.75vw;
+    font-size: 1.75vmax;
     color: $colPrimary;
     line-height: 1.6;
+    text-align: center;
 }
 
 h4 {
     color: $colPrimary;
     font-family: $fontPixel;
-    font-size: 1vmax;;
+    font-size: 1vmax;
 }
 
 img {
@@ -105,7 +118,10 @@ button {
     border-style: none;
     background-color: $colAccent;
     font-family: $fontPixel;
-    font-size: 2vw;
+    font-size: 2vmax;
+    @include mq-desktop-large() {
+        font-size: 4rem;
+    }
     text-transform: uppercase;
     color: white;
     padding: 20px 40px;
@@ -115,12 +131,5 @@ button {
     &:focus {
         background-color: $colSecondaryLight;
         transform: scale(1.25);
-    }
-}
-
-
-@media (max-width: 800px) {
-    .wrapper {
-        width: 100%;
     }
 }
