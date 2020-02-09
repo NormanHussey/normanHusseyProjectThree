@@ -66,21 +66,24 @@ setup.changePilot = function () {
 
 setup.displayLeaderboard = function () {
     setup.$leaderboard.html('');
-    let rank = 1;
     for (let player of game.leaderboard) {
+        let highlight = '';
+        if (player.rank === game.playerStats.rank) {
+            highlight = 'scoreHighlight';
+        }
         const scoreToAppend = `
-            <li>
-                <p>${rank}.</p>
+            <li class="${highlight}">
+                <p>${player.rank}.</p>
                 <p>${player.name}</p>
                 <p>Time: ${player.time}</p>
                 <p>Score: ${player.score}</p>
             </li>
         `;
         setup.$leaderboard.append(scoreToAppend);
-        rank++;
     }
 
     const yourScore = `
+        <p>${game.playerStats.rank}.</p>
         <p>${game.playerStats.name}</p>
         <p>Time: ${game.playerStats.time.timePlayed}</p>
         <p>Score: ${game.playerStats.score}</p>

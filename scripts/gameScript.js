@@ -811,6 +811,14 @@ game.updateLeaderboard = function () {
 
     game.leaderboard.sort((a, b) => b.score - a.score);
 
+    for (let i = 0; i < game.leaderboard.length; i++) {
+        const item = game.leaderboard[i];
+        item.rank = i + 1;
+        if (item.name === newScoreEntry.name && item.time === newScoreEntry.time && item.score === newScoreEntry.score) {
+            game.playerStats.rank = i + 1;
+        }
+    }
+
     if (game.leaderboard.length > 10) {
         game.leaderboard.pop();
     }

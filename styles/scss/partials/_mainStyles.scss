@@ -116,32 +116,28 @@ main {
         width: 100%;
         height: 100%;
         padding: 0 5%;  
+        li {
+            width: 100%;
+            @include flexBetween();
+        }  
     }
 
     p {
         margin: 2rem 0;
     }
-}
 
-.leaderboard {
-    li {
-        width: 100%;
-        // margin: 2rem 0;
-        @include flexBetween();
-
-        p:nth-child(1) {
-            width: 10%;
-        }
-        p:nth-child(2) {
-            width: 34%;
-        }
-        p:nth-child(3) {
-            width: 27%;
-        }
-        p:nth-child(4) {
-            width: 29%;
-        }
-    }  
+    p:nth-child(1) {
+        width: 10%;
+    }
+    p:nth-child(2) {
+        width: 34%;
+    }
+    p:nth-child(3) {
+        width: 27%;
+    }
+    p:nth-child(4) {
+        width: 29%;
+    }
 }
 
 .yourScore {
@@ -151,6 +147,11 @@ main {
         width: 100%;
         @include flexBetween();
     }
+}
+
+.scoreHighlight {
+    color: $colPrimary;
+    text-shadow: 1px 1px $colAccent;
 }
 
 .hidden {

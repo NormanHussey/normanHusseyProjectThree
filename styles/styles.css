@@ -600,11 +600,7 @@ main .wrapper {
   padding: 0 5%;
 }
 
-.leaderboard p {
-  margin: 2rem 0;
-}
-
-.leaderboard li {
+.leaderboard ul li {
   width: 100%;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -621,19 +617,23 @@ main .wrapper {
           align-items: center;
 }
 
-.leaderboard li p:nth-child(1) {
+.leaderboard p {
+  margin: 2rem 0;
+}
+
+.leaderboard p:nth-child(1) {
   width: 10%;
 }
 
-.leaderboard li p:nth-child(2) {
+.leaderboard p:nth-child(2) {
   width: 34%;
 }
 
-.leaderboard li p:nth-child(3) {
+.leaderboard p:nth-child(3) {
   width: 27%;
 }
 
-.leaderboard li p:nth-child(4) {
+.leaderboard p:nth-child(4) {
   width: 29%;
 }
 
@@ -657,6 +657,11 @@ main .wrapper {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+}
+
+.scoreHighlight {
+  color: #ffd470;
+  text-shadow: 1px 1px #c11e01;
 }
 
 .hidden {
