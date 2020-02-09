@@ -26,11 +26,11 @@ setup.eventListeners = function () {
 
     setup.$selectionForm.on('submit', function(e) {
         e.preventDefault();
-        game.playerName = $('#name').val();
-        if (!game.playerName) {
-            game.playerName = 'Unknown';
+        game.playerStats.name = $('#name').val();
+        if (!game.playerStats.name) {
+            game.playerStats.name = 'Unknown';
         }
-        game.playerShip = parseInt($('input[name="shipChoice"]:checked').val());
+        game.playerStats.ship = parseInt($('input[name="shipChoice"]:checked').val());
         setup.startNewGame();
     });
 

@@ -1,4 +1,5 @@
 const game = {};
+game.playerStats = {};
 
 game.setupNewGame = function() {
     game.board = {
@@ -22,13 +23,12 @@ game.setupNewGame = function() {
     game.updatingActors = [];
     game.keys = {};
     
-    game.playerStats = {
-        start: {
-            x: game.board.width / 2,
-            y: game.board.height - 100
-        },
-        score: 0
+    game.playerStats.start = {
+        x: game.board.width / 2,
+        y: game.board.height - 100
     };
+    
+    game.playerStats.score = 0;
     
     game.display ={
         $health: $('#health'),
@@ -767,51 +767,56 @@ game.clearBoard = function () {
     game.board.$element.children().not('.gameDisplayArea').remove();
 }
 
-game.storeLeaderboard = function () {
+game.loadLeaderboard = function () {
 
     if (!localStorage.leaderboard) {
         localStorage.setItem('leaderboard', '{}');
     }
 
-    game.leaderboard = JSON.parse(localStorage.leaderboard);
+    // game.leaderboard = [
+    //         {
+    //             name: 'Norm',
+    //             score: 2000,
+    //             time: 5
+    //         },
+    //         {
+    //             name: 'Joe',
+    //             score: 1500,
+    //             time: 7
+    //         },
+    //         {
+    //             name: 'Cindy',
+    //             score: 1200,
+    //             time: 4
+    //         }
+    //     ];
 
-    // game.leaderboard = {
-    //     first: {
-    //         name: 'Norm',
-    //         score: 2000,
-    //         time: 5
-    //     },
-    //     second: {
-    //         name: 'Joe',
-    //         score: 1500,
-    //         time: 7
-    //     },
-    //     third: {
-    //         name: 'Cindy',
-    //         score: 1200,
-    //         time: 4
-    //     }
+    game.leaderboard = JSON.parse(localStorage.leaderboard);
+    console.log(game.leaderboard);
+
 
 };
 
-game.updateLeaderboard = function() {
+game.saveLeaderboard = function() {
 
-    game.parseLeaderboard();
+    // game.parseLeaderboard();
+    // game.updateLeaderboard(game.sortScores());
+    game.updateLeaderboard();
     const leaderboardString = JSON.stringify(game.leaderboard);
     localStorage.setItem('leaderboard', leaderboardString);
  
 };
 
-game.parseLeaderboard = function () {
-    const highScores = [];
-    for (let item in game.leaderboard) {
-        highScores.push(item.score);
-    }
+game.sortScores = function () {
+    // const highScores = [];
+    // for (let item in game.leaderboard) {
+    //     highScores.push(game.leaderboard[item].score);
+    // }
 
-    highScores.sort((a, b) => b - a);
-    console.log(highScores);
+    // highScores.sort((a, b) => b - a);
+    // console.log(highScores);
 
-    let placeIndex = -1;
+    let placeIndex = game.leaderboard.length;
 
     for (let score of highScores) {
         if (game.score > score) {
@@ -819,20 +824,36 @@ game.parseLeaderboard = function () {
         }
     }
 
-    if (placeIndex === -1 && highScores.length < 10) {
-        // Placed at the bottom of the leaderboard because there were less than 10
-        placeIndex = highScores.length;
-    } else if (placeIndex >= 0) {
-        // Placed on the leaderboard and bumped someone off
-    } else {
-        // Didn't place on the leaderboard
+    highScores.splice(placeIndex, 0, game.playerStats.score);
+
+    if (highScores.length > 10) {
+        highScores.pop();
     }
 
+    // return highScores;
+
+};
+
+game.updateLeaderboard = function () {
+
+    const newScoreEntry = {
+        name: game.playerStats.name,
+        time: 0,
+        score: game.playerStats.score
+    };
+
+    game.leaderboard.push(newScoreEntry);
+
+    game.leaderboard.sort((a, b) => b.score - a.score);
+
+    if (game.leaderboard.length > 10) {
+        game.leaderboard.pop();
+    }
 
 };
 
 game.endGame = function () {
-    game.updateLeaderboard();
+    game.saveLeaderboard();
     game.removeEventListeners();
     setTimeout(function() {
         game.over = true;
@@ -853,10 +874,10 @@ game.update = function () {
 
 game.init = function() {
     game.setupNewGame();
-    game.storeLeaderboard();
+    game.loadLeaderboard();
     // const currentHighScore = localStorage.getItem('highScore');
     // console.log(currentHighScore);
-    game.player = new Ship (game.playerStats.start.x, game.playerStats.start.y, 'player', true, 1, game.playerShip, 0, 0);
+    game.player = new Ship (game.playerStats.start.x, game.playerStats.start.y, 'player', true, 1, game.playerStats.ship, 0, 0);
     game.addEventListeners();
     window.requestAnimationFrame(game.update);
 };

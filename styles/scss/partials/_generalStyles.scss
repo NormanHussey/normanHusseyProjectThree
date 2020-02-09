@@ -81,12 +81,14 @@ h1 {
     font-size: 8vw;
     font-family: $fontTitles;
     color: $colAccent;
+    line-height: 0.85;
 }
 
 h2 {
     font-family: $fontPixel;
     font-size: 1.75vw;
     color: $colPrimary;
+    line-height: 1.6;
 }
 
 h4 {
@@ -103,7 +105,6 @@ button {
     text-transform: uppercase;
     color: white;
     padding: 20px 40px;
-    // border-radius: 12px;
     box-shadow: 2px 2px 2px black;
     transition: all 0.25s;
     &:hover,
