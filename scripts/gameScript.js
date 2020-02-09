@@ -527,7 +527,7 @@ class Enemy extends Ship {
     }
 
     update() {
-        if (this.position.y > game.board.height - this.height) {
+        if (this.position.y > game.board.height) {
             game.deleteActor(this);
         };
 
@@ -662,17 +662,17 @@ game.spawnEnemy = function (minHealth, maxHealth, maxSpeed, fastestReloadSpeed, 
     } else {
         weaponType = 0;
     }
-    return new Enemy (x, 10, 'enemy', health, shipNumber, speed, reloadSpeed, intelligence, weaponType);
+    return new Enemy (x, -game.shipHeight, 'enemy', health, shipNumber, speed, reloadSpeed, intelligence, weaponType);
 };
 
 game.newWave = function () {
     game.wave++;
-    const numberOfEnemies = 10 + game.wave;
+    const numberOfEnemies = Math.round(5 * (1 + game.wave / 2));
     const maxHealth = Math.ceil(1 + (game.wave / 10));
     const minHealth = Math.floor(1 + (game.wave / 10));
     const maxSpeed = 2 + (game.wave / 8);
-    const fastestReloadSpeed = 100 / game.wave;
-    const slowestReloadSpeed = 100;
+    const fastestReloadSpeed = 60 / game.wave;
+    const slowestReloadSpeed = 60;
     const maxIntelligence = game.wave;
     let minIntelligence = game.wave - 2;
     if (minIntelligence < 1) {
@@ -720,7 +720,7 @@ game.createExplosion= function (x, y) {
     game.board.$element.append($explosion);
     setTimeout(function() {
         $explosion.remove();
-    }, 1000);
+    }, 1100);
 }
 
 game.removeFromArray = function (item, array) {
