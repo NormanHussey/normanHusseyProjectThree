@@ -27,7 +27,7 @@ game.setupNewGame = function() {
     
     game.playerStats.start = {
         x: game.board.width / 2,
-        y: game.board.height - 100
+        y: game.board.height - (game.board.hPercent * 15)
     };
     
     game.playerStats.score = 0;
@@ -60,7 +60,7 @@ game.setupNewGame = function() {
             type: 'singleShot',
             reloadDelay: 10,
             damage: 1,
-            decayDistance: 200,
+            decayDistance: game.board.hPercent * 20,
             decayRate: Infinity,
             asset: 'url("../assets/green_bullet.gif")'
         },
@@ -68,7 +68,7 @@ game.setupNewGame = function() {
             type: 'spread',
             reloadDelay: 25,
             damage: 1,
-            decayDistance: 200,
+            decayDistance: game.board.hPercent * 20,
             decayRate: Infinity,
             asset: 'url("../assets/magenta_bullet.gif")'
         },
@@ -77,7 +77,7 @@ game.setupNewGame = function() {
             reloadDelay: 50,
             damage: 2,
             decayDistance: Infinity,
-            decayRate: 100,
+            decayRate: 75,
             asset: 'url("../assets/red_bullet.gif")'
         },
     ];
