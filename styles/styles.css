@@ -492,20 +492,47 @@ main .wrapper {
 
 .selectionForm label {
   font-family: "Bangers", cursive;
-  font-size: 4rem;
+  font-size: 4vmax;
+}
+
+@media (min-width: 1600px) {
+  .selectionForm label {
+    font-size: 6rem;
+  }
 }
 
 .selectionForm label img {
   padding: 5px;
+  width: 10vmin;
+  height: auto;
   -webkit-transition: all 0.3s;
   transition: all 0.3s;
 }
 
+@media (max-width: 800px) {
+  .selectionForm label img {
+    width: 10vmax;
+  }
+}
+
 .selectionForm input[type="text"] {
+  width: 80%;
   border: none;
-  padding: 1rem;
-  font-size: 3rem;
+  padding: 1.5rem;
+  font-size: 2vmax;
   font-family: "Press Start 2P", cursive;
+}
+
+@media (max-width: 800px) {
+  .selectionForm input[type="text"] {
+    width: 90%;
+  }
+}
+
+@media (min-width: 1600px) {
+  .selectionForm input[type="text"] {
+    font-size: 3rem;
+  }
 }
 
 .selectionForm fieldset {
@@ -517,7 +544,13 @@ main .wrapper {
   width: 100%;
   text-align: center;
   font-family: "Bangers", cursive;
-  font-size: 4rem;
+  font-size: 4vmax;
+}
+
+@media (min-width: 1600px) {
+  .selectionForm legend {
+    font-size: 6rem;
+  }
 }
 
 .selectionForm .shipChoices {
@@ -532,6 +565,14 @@ main .wrapper {
           align-items: center;
   -ms-flex-wrap: wrap;
       flex-wrap: wrap;
+  margin: 0 auto;
+  width: 80%;
+}
+
+@media (max-width: 800px) {
+  .selectionForm .shipChoices {
+    width: 90%;
+  }
 }
 
 .selectionForm input[type="radio"] {
@@ -546,7 +587,7 @@ main .wrapper {
 }
 
 .selectionForm button {
-  font-size: 1vw;
+  font-size: 1.5vmax;
 }
 
 .gameOverScreen {

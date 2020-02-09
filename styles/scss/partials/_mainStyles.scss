@@ -29,18 +29,33 @@ main {
     
     label {
         font-family: $fontTitles;
-        font-size: 4rem;
+        font-size: 4vmax;
+        @include mq-desktop-large() {
+            font-size: 6rem;
+        }
 
         img {
             padding: 5px;
+            width: 10vmin;
+            @include mq-tablet() {
+                width: 10vmax;
+            }
+            height: auto;
             transition: all 0.3s;
         }
     }
 
     input[type="text"] {
+        width: 80%;
+        @include mq-tablet() {
+            width: 90%;
+        }
         border: none;
-        padding: 1rem;
-        font-size: 3rem;
+        padding: 1.5rem;
+        font-size: 2vmax;
+        @include mq-desktop-large() {
+            font-size: 3rem;
+        }
         font-family: $fontPixel;
     }
     
@@ -53,12 +68,20 @@ main {
         width: 100%;
         text-align: center;
         font-family: $fontTitles;
-        font-size: 4rem;
+        font-size: 4vmax;
+        @include mq-desktop-large() {
+            font-size: 6rem;
+        }
     }
 
     .shipChoices {
         @include flexFullCentre();
         flex-wrap: wrap;
+        margin: 0 auto;
+        width: 80%;
+        @include mq-tablet() {
+            width: 90%;
+        }
     }
 
     input[type="radio"] {
@@ -71,7 +94,10 @@ main {
     }
 
     button {
-        font-size: 1vw;
+        font-size: 1.5vmax;
+        @include mq-tablet() {
+            // font-size: 2vw
+        }
     }
 
 }
