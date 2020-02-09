@@ -11,8 +11,6 @@
 
 .ship {
     @include pixelArt();
-    // width: 32px;
-    // height: 32px;
     width: 5vmax;
     height: 5vmax;
     transform: translate(var(--x), var(--y)) scaleY(var(--scaleY));
@@ -57,7 +55,11 @@
 }
 
 .gameDisplayArea p {
-    font-size: 1.6rem;
+    text-align: center;
+    font-size: 1.6vmin;
+    @include mq-tablet() {
+        font-size: 1.6vmax;
+    }
 }
 
 .noSelect {

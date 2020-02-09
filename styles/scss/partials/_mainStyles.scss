@@ -104,32 +104,40 @@ main {
 
 .gameOverScreen {
     height: 100%;
-    padding: 5% 0;
+    padding: 2.5% 0;
     background-color: $colSecondaryDark;
     @include flexBetween(column);
 
     h3 {
         text-align: center;
         width: 100%;
-        font-size: 4vw;
+        font-size: 5vmin;
         font-family: $fontTitles;
+        text-shadow: 1px 1px black;
     }
 
     h4 {
         text-align: center;
         width: 100%;
-        font-size: 2vw;
+        font-size: 3vmin;
         font-family: $fontTitles;
         color: white;
+        text-shadow: 1px 1px black;
     }
 
     .buttons {
         width: 100%;
-        // height: 20vh;
         padding: 0 5%;
         @include flexBetween();
         button {
-            font-size: 1vw;
+            font-size: 1.5vmax;
+            @include mq-desktop-large() {
+                font-size: 2rem;
+            }
+
+            @include mq-mobile() {
+                width: 45%;
+            }
         }
     }
 }
@@ -137,7 +145,14 @@ main {
 .leaderboard {
     @include flexBetween(column);
     width: 100%;
-    font-size: 1.6rem;
+    font-size: 1.1vmax;
+    @include mq-desktop-large() {
+        font-size: 1.6rem;
+    }
+    @include mq-tablet() {
+        font-size: 1.5vmax;
+    }
+    text-shadow: 1px 1px black;
     ul {
         width: 100%;
         height: 100%;
@@ -149,7 +164,7 @@ main {
     }
 
     p {
-        margin: 2rem 0;
+        margin: 2vmin 0;
     }
 
     p:nth-child(1) {

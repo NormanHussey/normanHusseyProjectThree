@@ -412,6 +412,7 @@ button {
   background-color: #c11e01;
   font-family: "Press Start 2P", cursive;
   font-size: 2vmax;
+  text-align: center;
   text-transform: uppercase;
   color: white;
   padding: 20px 40px;
@@ -592,7 +593,7 @@ main .wrapper {
 
 .gameOverScreen {
   height: 100%;
-  padding: 5% 0;
+  padding: 2.5% 0;
   background-color: #13293d;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -612,16 +613,18 @@ main .wrapper {
 .gameOverScreen h3 {
   text-align: center;
   width: 100%;
-  font-size: 4vw;
+  font-size: 5vmin;
   font-family: "Bangers", cursive;
+  text-shadow: 1px 1px black;
 }
 
 .gameOverScreen h4 {
   text-align: center;
   width: 100%;
-  font-size: 2vw;
+  font-size: 3vmin;
   font-family: "Bangers", cursive;
   color: white;
+  text-shadow: 1px 1px black;
 }
 
 .gameOverScreen .buttons {
@@ -643,7 +646,19 @@ main .wrapper {
 }
 
 .gameOverScreen .buttons button {
-  font-size: 1vw;
+  font-size: 1.5vmax;
+}
+
+@media (min-width: 1600px) {
+  .gameOverScreen .buttons button {
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 460px) {
+  .gameOverScreen .buttons button {
+    width: 45%;
+  }
 }
 
 .leaderboard {
@@ -661,7 +676,20 @@ main .wrapper {
       -ms-flex-align: center;
           align-items: center;
   width: 100%;
-  font-size: 1.6rem;
+  font-size: 1.1vmax;
+  text-shadow: 1px 1px black;
+}
+
+@media (min-width: 1600px) {
+  .leaderboard {
+    font-size: 1.6rem;
+  }
+}
+
+@media (max-width: 800px) {
+  .leaderboard {
+    font-size: 1.5vmax;
+  }
 }
 
 .leaderboard ul {
@@ -688,7 +716,7 @@ main .wrapper {
 }
 
 .leaderboard p {
-  margin: 2rem 0;
+  margin: 2vmin 0;
 }
 
 .leaderboard p:nth-child(1) {
@@ -836,7 +864,14 @@ main .wrapper {
 }
 
 .gameDisplayArea p {
-  font-size: 1.6rem;
+  text-align: center;
+  font-size: 1.6vmin;
+}
+
+@media (max-width: 800px) {
+  .gameDisplayArea p {
+    font-size: 1.6vmax;
+  }
 }
 
 .noSelect {

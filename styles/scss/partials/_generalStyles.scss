@@ -119,6 +119,7 @@ button {
     background-color: $colAccent;
     font-family: $fontPixel;
     font-size: 2vmax;
+    text-align: center;
     @include mq-desktop-large() {
         font-size: 4rem;
     }
