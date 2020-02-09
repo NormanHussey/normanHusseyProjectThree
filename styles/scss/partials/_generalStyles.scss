@@ -97,6 +97,10 @@ h4 {
     font-size: 1vmax;;
 }
 
+img {
+    @include pixelArt();
+}
+
 button {
     border-style: none;
     background-color: $colAccent;

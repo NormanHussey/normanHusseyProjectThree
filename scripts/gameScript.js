@@ -247,7 +247,8 @@ class Pickup extends Actor {
 
 
 class Bullet extends Actor {
-    constructor(x, y, element, yDirection, xDirection, speed, damage = 1, firedBy, weaponType, target = undefined) {
+    constructor(x, y, yDirection, xDirection, speed, damage = 1, firedBy, weaponType, target = undefined) {
+        const element = '<div class="bullet">';
         super(x, y, element, 'bullet');
         this.yDirection = yDirection;
         this.xDirection = xDirection;
@@ -429,25 +430,24 @@ class Ship extends Actor {
         this.reloadCounter = 0;
         let bulletY;
         if (this.direction === 1) {
-            bulletY = this.bottom + 14;
+            bulletY = this.bottom + game.bulletHeight;
         } else {
-            bulletY = this.position.y - 14;
+            bulletY = this.position.y - game.bulletHeight;
         };
-        const bulletDiv = '<div class="bullet">';
         switch (this.weaponType.type) {
             case 'singleShot':
-                const newBullet = new Bullet(this.position.x + this.width / 2, bulletY, bulletDiv, this.direction, 0, this.speed, this.weaponType.damage, this.type, this.weaponType);
+                const newBullet = new Bullet(this.position.x + this.width / 2, bulletY, this.direction, 0, this.speed, this.weaponType.damage, this.type, this.weaponType);
                 break;
                 
             case 'spread':
-                const newBullet1 = new Bullet(this.position.x + this.width / 2 - 5, bulletY, bulletDiv, this.direction, -1, this.speed, this.weaponType.damage, this.type, this.weaponType);
-                const newBullet2 = new Bullet(this.position.x + this.width / 2, bulletY, bulletDiv, this.direction, 0, this.speed, this.weaponType.damage, this.type, this.weaponType);
-                const newBullet3 = new Bullet(this.position.x + this.width / 2 + 5, bulletY, bulletDiv, this.direction, 1, this.speed, this.weaponType.damage, this.type, this.weaponType);
+                const newBullet1 = new Bullet(this.position.x + this.width / 2 - game.bulletWidth, bulletY, this.direction, -1, this.speed, this.weaponType.damage, this.type, this.weaponType);
+                const newBullet2 = new Bullet(this.position.x + this.width / 2, bulletY, this.direction, 0, this.speed, this.weaponType.damage, this.type, this.weaponType);
+                const newBullet3 = new Bullet(this.position.x + this.width / 2 + game.bulletWidth, bulletY, this.direction, 1, this.speed, this.weaponType.damage, this.type, this.weaponType);
                 break;
 
             case "homingMissile":
                 const target = this.findHomingTarget();
-                const newBulletHoming = new Bullet(this.position.x + this.width / 2, bulletY, bulletDiv, this.direction, 0, this.speed, 1, this.type, this.weaponType, target);
+                const newBulletHoming = new Bullet(this.position.x + this.width / 2, bulletY, this.direction, 0, this.speed, 1, this.type, this.weaponType, target);
                 break;
         }
     }
@@ -613,8 +613,6 @@ game.removeEventListeners = function () {
     game.$window.off('click', game.clickHandler);
 }
 
-
-
 game.checkInput = function () {
     if (game.keys[37]) { // left
         if (game.player.left > 0) {
@@ -639,19 +637,24 @@ game.checkInput = function () {
     }
 };
 
-game.chooseRandomColour = function (transparency = 1) {
-    const red = Math.floor(Math.random() * 255);
-    const green = Math.floor(Math.random() * 255);
-    const blue = Math.floor(Math.random() * 255);
-    return `rgba(${red}, ${green}, ${blue}, ${transparency})`;
-};
-
 game.randomIntInRange = function (min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
+game.findSpriteSizes = function() {
+    const bullet = new Bullet(0, 0, 1, 0, 0, 0, 'none', 0, false);
+    game.bulletHeight = bullet.height;
+    game.bulletWidth = bullet.width;
+    game.deleteActor(bullet);
+
+    const ship = new Ship(0, 0, 'none', true, 1, 0, 1, 0);
+    game.shipHeight = ship.height;
+    game.shipWidth = ship.width;
+    game.deleteActor(ship);
+};
+
 game.spawnEnemy = function (minHealth, maxHealth, maxSpeed, fastestReloadSpeed, slowestReloadSpeed, minIntelligence, maxIntelligence) {
-    const x = game.randomIntInRange(0, game.board.width - 25);
+    const x = game.randomIntInRange(0, game.board.width - game.shipWidth);
     const health = game.randomIntInRange(minHealth, maxHealth);
     const speed = game.randomIntInRange(2, maxSpeed);
     const reloadSpeed = game.randomIntInRange(fastestReloadSpeed, slowestReloadSpeed);
@@ -855,6 +858,7 @@ game.update = function () {
 game.init = function() {
     game.setupNewGame();
     game.loadLeaderboard();
+    game.findSpriteSizes();
     game.player = new Ship (game.playerStats.start.x, game.playerStats.start.y, 'player', true, 1, game.playerStats.ship, 0, 0);
     game.addEventListeners();
     game.playerStats.time.interval = setInterval(() => game.playerStats.time.secondsElapsed++, 1000);

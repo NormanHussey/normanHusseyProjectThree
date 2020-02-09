@@ -378,6 +378,15 @@ h4 {
   font-size: 1vmax;
 }
 
+img {
+  -ms-interpolation-mode: nearest-neighbor;
+      image-rendering: -webkit-optimize-contrast;
+      image-rendering: -o-pixelated;
+      image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+}
+
 button {
   border-style: none;
   background-color: #c11e01;
@@ -635,6 +644,7 @@ main .wrapper {
 
 .leaderboard p:nth-child(4) {
   width: 29%;
+  text-align: right;
 }
 
 .yourScore {
@@ -678,6 +688,12 @@ main .wrapper {
 }
 
 .playArea {
+  -ms-interpolation-mode: nearest-neighbor;
+      image-rendering: -webkit-optimize-contrast;
+      image-rendering: -o-pixelated;
+      image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
   width: 100%;
   height: 100%;
   margin: 0 auto;
@@ -688,33 +704,57 @@ main .wrapper {
 }
 
 .ship {
-  width: 32px;
-  height: 32px;
+  -ms-interpolation-mode: nearest-neighbor;
+      image-rendering: -webkit-optimize-contrast;
+      image-rendering: -o-pixelated;
+      image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+  width: 5vmax;
+  height: 5vmax;
   -webkit-transform: translate(var(--x), var(--y)) scaleY(var(--scaleY));
           transform: translate(var(--x), var(--y)) scaleY(var(--scaleY));
   position: absolute;
   background: -webkit-gradient(linear, left top, left bottom, from(var(--colour)), to(var(--colour))), var(--imgUrl);
   background: linear-gradient(var(--colour), var(--colour)), var(--imgUrl);
+  background-repeat: no-repeat;
+  background-size: 100%;
 }
 
 .bullet {
-  width: 5px;
-  height: 14px;
+  -ms-interpolation-mode: nearest-neighbor;
+      image-rendering: -webkit-optimize-contrast;
+      image-rendering: -o-pixelated;
+      image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+  width: 0.5vmax;
+  height: 1.4vmax;
   background-image: var(--imgUrl);
   -webkit-transform: translate(var(--x), var(--y)) rotate(var(--angle));
           transform: translate(var(--x), var(--y)) rotate(var(--angle));
   position: absolute;
+  background-repeat: no-repeat;
+  background-size: 100%;
 }
 
 .pickup {
+  -ms-interpolation-mode: nearest-neighbor;
+      image-rendering: -webkit-optimize-contrast;
+      image-rendering: -o-pixelated;
+      image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
   position: absolute;
-  width: 32px;
-  height: 32px;
+  width: 2.5vmax;
+  height: 2.5vmax;
   -webkit-transform: translate(var(--x), var(--y));
           transform: translate(var(--x), var(--y));
   background: -webkit-gradient(linear, left top, left bottom, from(var(--colour)), to(var(--colour))), var(--imgUrl);
   background: linear-gradient(var(--colour), var(--colour)), var(--imgUrl);
   border-radius: 50%;
+  background-repeat: no-repeat;
+  background-size: 100%;
 }
 
 .gameDisplayArea {
