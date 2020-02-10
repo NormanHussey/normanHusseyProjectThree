@@ -7,6 +7,7 @@ setup.cacheSelectors = function () {
     setup.$footer = $('footer');
     setup.$newGameBtn = $('#newGame');
     setup.$howToPlayBtn = $('#howToPlay');
+    setup.$howToPlayScreen = $('.howToPlay');
     setup.$setupGameSection = $('.setupGame');
     setup.$startScreen = $('.startScreen');
     setup.$selectionScreen = $('.selectionScreen');
@@ -24,6 +25,11 @@ setup.eventListeners = function () {
     setup.$newGameBtn.on('click', function () {
         setup.$startScreen.addClass('hidden');
         setup.$selectionScreen.removeClass('hidden');
+    });
+
+    setup.$howToPlayBtn.on('click', function () {
+        setup.$startScreen.addClass('hidden');
+        setup.$howToPlayScreen.removeClass('hidden');
     });
 
     setup.$selectionForm.on('submit', function(e) {

@@ -475,6 +475,119 @@ main .wrapper {
           justify-content: space-evenly;
 }
 
+.howToPlay {
+  color: black;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+@media (max-width: 800px) {
+  .howToPlay {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    width: 90%;
+  }
+}
+
+.howToPlay .mission,
+.howToPlay .controls {
+  border: 4px solid #c11e01;
+  border-radius: 12px;
+  padding: 1vmin 1.5vmin;
+}
+
+.howToPlay .mission {
+  -ms-flex-preferred-size: 55%;
+      flex-basis: 55%;
+}
+
+.howToPlay .controls {
+  -ms-flex-preferred-size: 40%;
+      flex-basis: 40%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: space-evenly;
+      -ms-flex-pack: space-evenly;
+          justify-content: space-evenly;
+}
+
+.howToPlay .controls img {
+  width: 3vmax;
+  height: auto;
+}
+
+.howToPlay .mouse img,
+.howToPlay .touch img {
+  width: 4vmax;
+}
+
+.howToPlay .movement,
+.howToPlay .firing {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+.howToPlay .movement > *,
+.howToPlay .firing > * {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.howToPlay .firing .keyboard img {
+  width: 6vmax;
+  height: auto;
+}
+
+.howToPlay h3,
+.howToPlay h4 {
+  font-family: "Bangers", cursive;
+  text-align: center;
+}
+
+.howToPlay h3 {
+  font-size: 3.5vmax;
+}
+
+.howToPlay h4 {
+  font-size: 2.5vmax;
+  color: black;
+}
+
+.howToPlay h5 {
+  font-size: 1.25vmax;
+}
+
+.howToPlay p {
+  font-size: 1.25vmax;
+  line-height: 1.6;
+}
+
 .selectionForm {
   display: -webkit-box;
   display: -ms-flexbox;

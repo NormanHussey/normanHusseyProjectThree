@@ -22,6 +22,90 @@ main {
     justify-content: space-evenly;
 }
 
+.howToPlay {
+    color: black;
+    display: flex;
+    justify-content: space-between;
+    @include mq-tablet() {
+        flex-direction: column;
+        width: 90%;
+    }
+
+    .mission,
+    .controls {
+        border: 4px solid $colAccent;
+        border-radius: 12px;
+        padding: 1vmin 1.5vmin;
+    }
+
+    .mission {
+        flex-basis: 55%;
+    }
+
+    .controls {
+        flex-basis: 40%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+
+        img {
+            width: 3vmax;
+            height: auto;
+        }
+
+    }
+
+    .mouse,
+    .touch {
+        img {
+            width: 4vmax;
+        }
+    }
+
+    .movement,
+    .firing {
+        display: flex;
+        justify-content: space-between;
+
+        > * {
+            @include flexBetween(column);
+        }
+    }
+
+    .firing {
+        .keyboard {
+            img {
+                width: 6vmax;
+                height: auto;
+            }
+        }
+    }
+
+    h3,
+    h4 {
+        font-family: $fontTitles;
+        text-align: center;
+    }
+
+    h3 {
+        font-size: 3.5vmax;
+    }
+
+    h4 {
+        font-size: 2.5vmax;
+        color: black;
+    }
+
+    h5 {
+        font-size: 1.25vmax;
+    }
+
+    p {
+        font-size: 1.25vmax;
+        line-height: 1.6;
+    }
+}
+
 .selectionForm {
     @include flexFullCentre();
     flex-direction: column;
