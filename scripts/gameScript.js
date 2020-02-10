@@ -787,10 +787,11 @@ game.clearBoard = function () {
 game.loadLeaderboard = function () {
 
     if (!localStorage.leaderboard) {
+        game.leaderboard = [];
         localStorage.setItem('leaderboard', '{}');
+    } else {
+        game.leaderboard = JSON.parse(localStorage.leaderboard);
     }
-
-    game.leaderboard = JSON.parse(localStorage.leaderboard);
 
 };
 
