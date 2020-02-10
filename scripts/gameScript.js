@@ -25,6 +25,45 @@ game.setupNewGame = function() {
     game.waveEnemies = [];
     game.updatingActors = [];
     game.keys = {};
+
+ 
+    const explosionAudio = `
+        <audio id="explosionAudio">
+            <source src="./assets/audio/sfx/explosion2.ogg" type="audio/ogg">
+        </audio>
+        `;
+
+    game.board.$element.append(explosionAudio);
+
+    // game.sfx = {
+    //     explosion: document.querySelector('#explosionAudio')
+    // };
+
+    // game.loadAudio = function () {
+    //     function Channel(audio_url) {
+    //         this.audio_url = audio_url;
+    //         this.resource = new Audio(audio_uri);
+    //     }
+        
+    //     Channel.prototype.play = function() {
+    //         this.resource.play();
+    //     }
+    // }
+
+    // function Switcher(audio_uri, num) {
+    //     this.channels = [];
+    //     this.num = num;
+    //     this.index = 0;
+    
+    //     for (var i = 0; i < num; i++) {
+    //         this.channels.push(new Channel(audio_uri));
+    //     }
+    // }
+    
+    // Switcher.prototype.play = function() {
+    //     this.channels[this.index++].play();
+    //     this.index = this.index < this.num ? this.index : 0;
+    // }
     
     game.playerStats.start = {
         x: game.board.width / 2,
@@ -111,6 +150,39 @@ game.setupNewGame = function() {
     ];
 
 };
+
+class AudioChannel {
+    constructor(source) {
+        this.source = source;
+        this.resource = new Audio(source);
+    }
+
+    play() {
+        this.resource.play();
+    }
+}
+
+class AudioSwitcher {
+    constructor(source, numberOfChannels) {
+        this.channels = [];
+        this.source = source;
+        this.numberOfChannels = numberOfChannels;
+        this.index = 0;
+
+        for (var i = 0; i < this.numberOfChannels; i++) {
+            this.channels.push(new AudioChannel(this.source));
+        }
+    }
+
+    play() {
+        this.channels[this.index++].play();
+        this.index = this.index < this.num ? this.index : 0;
+    }
+}
+
+// game.sfx = {
+//     explosion: new AudioSwitcher('../assets/audio/sfx/explosion2.ogg', 10)
+// };
 
 
 class Actor {
@@ -743,6 +815,7 @@ game.checkWave = function () {
 };
 
 game.createExplosion= function (x, y) {
+    game.sfx.explosion.play();
     const $explosion = $('<div class="ship">');
     $explosion.css('--x', x + 'px');
     $explosion.css('--y', y + 'px');
