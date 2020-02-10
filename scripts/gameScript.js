@@ -58,7 +58,7 @@ game.setupNewGame = function() {
     game.weaponTypes = [
         {
             type: 'singleShot',
-            reloadDelay: 10,
+            reloadDelay: 15,
             damage: 1,
             decayDistance: game.board.hPercent * 20,
             decayRate: Infinity,
