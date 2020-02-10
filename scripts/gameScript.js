@@ -20,6 +20,7 @@ game.setupNewGame = function() {
     game.$window = $(window);
     game.over = false;
     game.speed = 1;
+    game.slowMotion = false;
     game.wave = 0;
     game.waveEnemies = [];
     game.updatingActors = [];
@@ -74,8 +75,8 @@ game.setupNewGame = function() {
         },
         {
             type: 'homingMissile',
-            reloadDelay: 50,
-            damage: 2,
+            reloadDelay: 40,
+            damage: 3,
             decayDistance: Infinity,
             decayRate: 75,
             asset: 'url("../assets/red_bullet.gif")'
@@ -85,23 +86,27 @@ game.setupNewGame = function() {
     game.pickupTypes = [
         {
             type: 'health',
-            asset: 'url("../assets/healthPickup.png")'
+            asset: 'url("../assets/pickups/healthPickup.png")'
         },
         {
             type: 'singleShot',
-            asset: 'url("../assets/singleShotPickup.png")'
+            asset: 'url("../assets/pickups/singleShotPickup.png")'
         },
         {
             type: 'spread',
-            asset: 'url("../assets/spreadPickup.png")'
+            asset: 'url("../assets/pickups/spreadPickup.png")'
         },
         {
             type: 'homingMissile',
-            asset: 'url("../assets/homingMissilePickup.png")'
+            asset: 'url("../assets/pickups/homingMissilePickup.png")'
         },
         {
             type:'nuke',
-            asset: 'url("../assets/nukePickup.png")'
+            asset: 'url("../assets/pickups/nukePickup.png")'
+        },
+        {
+            type:'slowMotion',
+            asset: 'url("../assets/pickups/sloMoPickup.png")'
         }
     ];
 
@@ -234,6 +239,16 @@ class Pickup extends Actor {
                     }
                     break;
 
+                case 'slowMotion':
+                    const currentGameSpeed = game.speed;
+                    game.speed = 0.25;
+                    game.slowMotion = true;
+                    setTimeout(function () {
+                        game.speed = currentGameSpeed;
+                        game.slowMotion = false;
+                    }, 3000)
+                    break;
+
             }
             game.deleteActor(this);
         }
@@ -244,7 +259,7 @@ class Pickup extends Actor {
     }
 
     update() {
-        if (this.bottom > game.board.height - this.height) {
+        if (this.top >= game.board.height) {
             game.deleteActor(this);
         } else {
             super.update();
@@ -273,7 +288,9 @@ class Bullet extends Actor {
     }
 
     update() {
-        this.decay++;
+        if (!game.slowMotion) {
+            this.decay++;
+        }
         if (this.decay >= this.decayRate) {
             game.deleteActor(this);
         }
@@ -289,7 +306,7 @@ class Bullet extends Actor {
     }
 
     move() {
-        if (!this.target || this.decay < 20) {
+        if (!this.target || this.decay < 10) {
             this.position.y += (game.speed * (this.speed * 2) * this.yDirection);
             this.position.x += (game.speed * (this.speed * 2) * this.xDirection);
         } else {
