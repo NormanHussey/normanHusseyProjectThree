@@ -82,6 +82,14 @@ footer {
             }
         }
     }
+
+    button {
+        font-size: 1.25vmax;
+        &:hover,
+        &:focus {
+            transform: none;
+        }
+    }
 }
 
 h1 {

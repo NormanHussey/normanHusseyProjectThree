@@ -5,6 +5,8 @@ setup.cacheSelectors = function () {
     setup.$main = $('main');
     setup.$mainWrapper = $('main .wrapper');
     setup.$footer = $('footer');
+    setup.$footerLinks = $('footer ul');
+    setup.$backToMenuBtn = $('#backToMenu');
     setup.$newGameBtn = $('#newGame');
     setup.$howToPlayBtn = $('#howToPlay');
     setup.$howToPlayScreen = $('.howToPlay');
@@ -20,6 +22,13 @@ setup.cacheSelectors = function () {
     setup.$changePilotBtn = $('#changePilot');
 };
 
+setup.toggleHotToPlay = function () {
+    setup.$startScreen.toggleClass('hidden');
+    setup.$footerLinks.toggleClass('hidden');
+    setup.$howToPlayScreen.toggleClass('hidden');
+    setup.$backToMenuBtn.toggleClass('hidden');
+};
+
 setup.eventListeners = function () {
 
     setup.$newGameBtn.on('click', function () {
@@ -27,10 +36,9 @@ setup.eventListeners = function () {
         setup.$selectionScreen.removeClass('hidden');
     });
 
-    setup.$howToPlayBtn.on('click', function () {
-        setup.$startScreen.addClass('hidden');
-        setup.$howToPlayScreen.removeClass('hidden');
-    });
+    setup.$howToPlayBtn.on('click', setup.toggleHotToPlay);
+
+    setup.$backToMenuBtn.on('click', setup.toggleHotToPlay);
 
     setup.$selectionForm.on('submit', function(e) {
         e.preventDefault();

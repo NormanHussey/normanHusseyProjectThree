@@ -1,7 +1,8 @@
-@mixin flexFullCentre() {
+@mixin flexFullCentre($direction: row) {
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: $direction;
 }
 
 @mixin flexBetween($direction: row, $align: center) {

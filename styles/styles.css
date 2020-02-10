@@ -314,10 +314,11 @@ header .wrapper {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  -webkit-box-orient: vertical;
+  -webkit-box-orient: horizontal;
   -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  flex-direction: column;
 }
 
 footer {
@@ -336,10 +337,11 @@ footer .wrapper {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  -webkit-box-orient: vertical;
+  -webkit-box-orient: horizontal;
   -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  flex-direction: column;
 }
 
 footer ul {
@@ -354,6 +356,10 @@ footer ul {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
 }
 
 footer ul li {
@@ -368,6 +374,15 @@ footer ul i {
   footer ul i {
     font-size: 4rem;
   }
+}
+
+footer button {
+  font-size: 1.25vmax;
+}
+
+footer button:hover, footer button:focus {
+  -webkit-transform: none;
+          transform: none;
 }
 
 h1 {
@@ -455,6 +470,10 @@ main .wrapper {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
 }
 
 .startScreen {
@@ -476,13 +495,24 @@ main .wrapper {
 }
 
 .howToPlay {
+  height: 100%;
+  padding: 2% 0;
   color: black;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
+  -webkit-box-pack: space-evenly;
+      -ms-flex-pack: space-evenly;
+          justify-content: space-evenly;
+}
+
+@media (min-width: 1600px) {
+  .howToPlay {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+  }
 }
 
 @media (max-width: 800px) {
@@ -517,19 +547,19 @@ main .wrapper {
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
-  -webkit-box-pack: space-evenly;
-      -ms-flex-pack: space-evenly;
-          justify-content: space-evenly;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
 }
 
 .howToPlay .controls img {
-  width: 3vmax;
+  width: 4vmax;
   height: auto;
 }
 
 .howToPlay .mouse img,
 .howToPlay .touch img {
-  width: 4vmax;
+  width: 5vmax;
 }
 
 .howToPlay .movement,
@@ -540,10 +570,32 @@ main .wrapper {
   -webkit-box-pack: justify;
       -ms-flex-pack: justify;
           justify-content: space-between;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
 }
 
-.howToPlay .movement > *,
-.howToPlay .firing > * {
+.howToPlay .movement .controlOptions,
+.howToPlay .firing .controlOptions {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.howToPlay .movement .controlOptions > *,
+.howToPlay .firing .controlOptions > * {
+  height: 100%;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -560,8 +612,9 @@ main .wrapper {
 }
 
 .howToPlay .firing .keyboard img {
-  width: 6vmax;
+  width: 7vmax;
   height: auto;
+  margin-bottom: 1.5vmax;
 }
 
 .howToPlay h3,
@@ -574,18 +627,42 @@ main .wrapper {
   font-size: 3.5vmax;
 }
 
+@media (min-width: 1600px) {
+  .howToPlay h3 {
+    font-size: 5rem;
+  }
+}
+
 .howToPlay h4 {
   font-size: 2.5vmax;
   color: black;
+}
+
+@media (min-width: 1600px) {
+  .howToPlay h4 {
+    font-size: 4rem;
+  }
 }
 
 .howToPlay h5 {
   font-size: 1.25vmax;
 }
 
+@media (min-width: 1600px) {
+  .howToPlay h5 {
+    font-size: 3rem;
+  }
+}
+
 .howToPlay p {
   font-size: 1.25vmax;
   line-height: 1.6;
+}
+
+@media (min-width: 1600px) {
+  .howToPlay p {
+    font-size: 2rem;
+  }
 }
 
 .selectionForm {
@@ -598,10 +675,11 @@ main .wrapper {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  -webkit-box-orient: vertical;
+  -webkit-box-orient: horizontal;
   -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  flex-direction: column;
   color: black;
 }
 
@@ -679,6 +757,10 @@ main .wrapper {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
   -ms-flex-wrap: wrap;
       flex-wrap: wrap;
   margin: 0 auto;

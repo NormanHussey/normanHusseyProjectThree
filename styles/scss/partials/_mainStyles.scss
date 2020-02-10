@@ -23,9 +23,15 @@ main {
 }
 
 .howToPlay {
+    height: 100%;
+    padding: 2% 0;
     color: black;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-evenly;
+    @include mq-desktop-large() {
+        flex-direction: column;
+    }
+
     @include mq-tablet() {
         flex-direction: column;
         width: 90%;
@@ -46,10 +52,11 @@ main {
         flex-basis: 40%;
         display: flex;
         flex-direction: column;
-        justify-content: space-evenly;
+        justify-content: space-between;
 
         img {
-            width: 3vmax;
+            width: 4vmax;
+            // max-width: 128px;
             height: auto;
         }
 
@@ -58,7 +65,8 @@ main {
     .mouse,
     .touch {
         img {
-            width: 4vmax;
+            width: 5vmax;
+            // max-width: 132px;
         }
     }
 
@@ -66,17 +74,25 @@ main {
     .firing {
         display: flex;
         justify-content: space-between;
+        flex-direction: column;
 
-        > * {
-            @include flexBetween(column);
+        .controlOptions {
+            @include flexBetween();
+
+            > * {
+                height: 100%;
+                @include flexBetween(column);
+            }
         }
     }
 
     .firing {
         .keyboard {
             img {
-                width: 6vmax;
+                width: 7vmax;
+                // max-width: 196px;
                 height: auto;
+                margin-bottom: 1.5vmax;
             }
         }
     }
@@ -89,20 +105,32 @@ main {
 
     h3 {
         font-size: 3.5vmax;
+        @include mq-desktop-large() {
+            font-size: 5rem;
+        }
     }
 
     h4 {
         font-size: 2.5vmax;
         color: black;
+        @include mq-desktop-large() {
+            font-size: 4rem;
+        }
     }
 
     h5 {
         font-size: 1.25vmax;
+        @include mq-desktop-large() {
+            font-size: 3rem;
+        }
     }
 
     p {
         font-size: 1.25vmax;
         line-height: 1.6;
+        @include mq-desktop-large() {
+            font-size: 2rem;
+        }
     }
 }
 
