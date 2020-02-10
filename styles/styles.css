@@ -408,6 +408,7 @@ img {
 }
 
 button {
+  cursor: pointer;
   border-style: none;
   background-color: #c11e01;
   font-family: "Press Start 2P", cursive;
@@ -520,6 +521,7 @@ main .wrapper {
   width: 80%;
   border: none;
   padding: 1.5rem;
+  margin-bottom: 2%;
   font-size: 2vmax;
   font-family: "Press Start 2P", cursive;
 }
@@ -538,7 +540,7 @@ main .wrapper {
 
 .selectionForm fieldset {
   border: none;
-  margin: 2% 0;
+  padding: 0;
 }
 
 .selectionForm legend {
@@ -790,6 +792,7 @@ main .wrapper {
   background-position: var(--bgX) var(--bgY);
   overflow: hidden;
   position: relative;
+  cursor: none;
 }
 
 .ship {
