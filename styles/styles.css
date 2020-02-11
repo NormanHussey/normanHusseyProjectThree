@@ -506,6 +506,15 @@ main .wrapper {
           justify-content: space-evenly;
 }
 
+@media (min-width: 1600px) {
+  .howToPlay {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+  }
+}
+
 @media (max-width: 800px) {
   .howToPlay {
     -webkit-box-orient: vertical;
@@ -545,12 +554,14 @@ main .wrapper {
 
 .howToPlay .controls img {
   width: 4vmax;
+  max-width: 128px;
   height: auto;
 }
 
 .howToPlay .mouse img,
 .howToPlay .touch img {
   width: 5vmax;
+  max-width: 132px;
 }
 
 .howToPlay .movement,
@@ -604,6 +615,7 @@ main .wrapper {
 
 .howToPlay .firing .keyboard img {
   width: 7vmax;
+  max-width: 196px;
   height: auto;
   margin-bottom: 1.5vmax;
 }

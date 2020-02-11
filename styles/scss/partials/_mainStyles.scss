@@ -29,6 +29,10 @@ main {
     display: flex;
     justify-content: space-evenly;
 
+    @include mq-desktop-large() {
+        flex-direction: column;
+    }
+
     @include mq-tablet() {
         flex-direction: column;
         width: 90%;
@@ -53,7 +57,7 @@ main {
 
         img {
             width: 4vmax;
-            // max-width: 128px;
+            max-width: 128px;
             height: auto;
         }
 
@@ -63,7 +67,7 @@ main {
     .touch {
         img {
             width: 5vmax;
-            // max-width: 132px;
+            max-width: 132px;
         }
     }
 
@@ -87,7 +91,7 @@ main {
         .keyboard {
             img {
                 width: 7vmax;
-                // max-width: 196px;
+                max-width: 196px;
                 height: auto;
                 margin-bottom: 1.5vmax;
             }
