@@ -117,8 +117,24 @@ game.setupNewGame = function() {
     };
 
     game.music = {
-        track01: new AudioSwitcher('../assets/audio/music/track01.mp3', 1)
-    }
+        track01: new Audio('../assets/audio/music/track01-DontBeA.mp3'),
+        track02: new Audio('../assets/audio/music/track02-LavaFlow.mp3'),
+        track03: new Audio('../assets/audio/music/track03-GameAtHeart.mp3'),
+        track04: new Audio('../assets/audio/music/track04-FerrousRage.mp3'),
+        track05: new Audio('../assets/audio/music/track05-FrigidTriumph.mp3'),
+        track06: new Audio('../assets/audio/music/track06-ReallyDangerous.mp3')
+    };
+
+    game.playList = [
+        game.music.track01,
+        game.music.track02,
+        game.music.track03,
+        game.music.track04,
+        game.music.track05,
+        game.music.track06
+    ];
+
+    game.currentTrack = 0;
 
 };
 
@@ -135,6 +151,11 @@ class AudioChannel {
             this.resource.playbackRate = 1.0;
         }
         this.resource.play();
+    }
+
+    stop() {
+        this.resource.pause();
+        this.resource.currentTime = 0;
     }
 }
 
@@ -914,11 +935,23 @@ game.endGame = function () {
     game.saveLeaderboard();
     game.removeEventListeners();
     setTimeout(function() {
+        game.playList[game.currentTrack].pause();
+        game.playList[game.currentTrack].currentTime = 0;
         game.over = true;
         game.clearBoard();
         setup.endGameScreen();
     }, 2000);
 };
+
+game.checkPlayList = function () {
+    if (game.playList[game.currentTrack].ended) {
+        game.currentTrack++;
+        if (game.currentTrack >= game.playList.length) {
+            game.currentTrack = 0;
+        }
+        game.playList[game.currentTrack].play();
+    }
+}
 
 game.update = function () {
     if (!game.over) {
@@ -926,6 +959,7 @@ game.update = function () {
         game.checkInput();
         game.updateActors();
         game.updateDisplay();
+        game.checkPlayList();
         requestAnimationFrame(game.update);
     }
 };
@@ -937,7 +971,7 @@ game.init = function() {
     game.player = new Ship (game.playerStats.start.x, game.playerStats.start.y, 'player', true, 3, game.playerStats.ship, 0, 0);
     game.addEventListeners();
     game.playerStats.time.interval = setInterval(() => game.playerStats.time.secondsElapsed++, 1000);
-    game.music.track01.play();
+    game.playList[game.currentTrack].play();
     window.requestAnimationFrame(game.update);
 };
 

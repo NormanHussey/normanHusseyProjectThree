@@ -446,8 +446,8 @@ button {
 
 button:hover, button:focus {
   background-color: #2a628f;
-  -webkit-transform: scale(1.25);
-          transform: scale(1.25);
+  -webkit-transform: scale(1.1);
+          transform: scale(1.1);
 }
 
 main {
