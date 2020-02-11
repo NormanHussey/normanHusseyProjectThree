@@ -25,15 +25,6 @@ game.setupNewGame = function() {
     game.waveEnemies = [];
     game.updatingActors = [];
     game.keys = {};
-
- 
-    // const explosionAudio = `
-    //     <audio id="explosionAudio">
-    //         <source src="./assets/audio/sfx/explosion2.ogg" type="audio/ogg">
-    //     </audio>
-    //     `;
-
-    // game.board.$element.append(explosionAudio);
     
     game.playerStats.start = {
         x: game.board.width / 2,
@@ -119,6 +110,16 @@ game.setupNewGame = function() {
         }
     ];
 
+    game.sfx = {
+        explosion: new AudioSwitcher('../assets/audio/sfx/explosion.ogg', 10),
+        pew: new AudioSwitcher('../assets/audio/sfx/pew.wav', 10),
+        pickup: new AudioSwitcher('../assets/audio/sfx/pickup.wav', 4)
+    };
+
+    game.music = {
+        track01: new AudioSwitcher('../assets/audio/music/track01.mp3', 1)
+    }
+
 };
 
 class AudioChannel {
@@ -128,6 +129,11 @@ class AudioChannel {
     }
 
     play() {
+        if (game.slowMotion) {
+            this.resource.playbackRate = 0.25;
+        } else {
+            this.resource.playbackRate = 1.0;
+        }
         this.resource.play();
     }
 }
@@ -145,16 +151,13 @@ class AudioSwitcher {
     }
 
     play() {
-        this.channels[this.index++].play();
+        this.channels[this.index].play();
+        this.index++;
         if (this.index >= this.channels.length) {
             this.index = 0;
         }
     }
 }
-
-game.sfx = {
-    explosion: new AudioSwitcher('../assets/audio/sfx/explosion2.ogg', 10)
-};
 
 
 class Actor {
@@ -257,6 +260,7 @@ class Pickup extends Actor {
 
     handleCollision(collider) {
         if (collider.actor.type !== 'bullet') {
+            game.sfx.pickup.play();
             switch(this.pickupType.type) {
                 case 'health':
                     collider.actor.health += 3;
@@ -329,6 +333,7 @@ class Bullet extends Actor {
         this.startY = y;
         this.$element.css('--imgUrl', this.weaponType.asset);
         this.target = target;
+        game.sfx.pew.play();
     }
 
     update() {
@@ -932,6 +937,7 @@ game.init = function() {
     game.player = new Ship (game.playerStats.start.x, game.playerStats.start.y, 'player', true, 3, game.playerStats.ship, 0, 0);
     game.addEventListeners();
     game.playerStats.time.interval = setInterval(() => game.playerStats.time.secondsElapsed++, 1000);
+    game.music.track01.play();
     window.requestAnimationFrame(game.update);
 };
 
