@@ -504,42 +504,19 @@ main .wrapper {
   -webkit-box-pack: space-evenly;
       -ms-flex-pack: space-evenly;
           justify-content: space-evenly;
-}
-
-@media (min-width: 1600px) {
-  .howToPlay {
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-        -ms-flex-direction: column;
-            flex-direction: column;
-  }
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
 }
 
 @media (max-width: 800px) {
   .howToPlay {
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-        -ms-flex-direction: column;
-            flex-direction: column;
     width: 90%;
   }
 }
 
-.howToPlay .mission,
 .howToPlay .controls {
-  border: 4px solid #c11e01;
-  border-radius: 12px;
-  padding: 1vmin 1.5vmin;
-}
-
-.howToPlay .mission {
-  -ms-flex-preferred-size: 55%;
-      flex-basis: 55%;
-}
-
-.howToPlay .controls {
-  -ms-flex-preferred-size: 40%;
-      flex-basis: 40%;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -552,16 +529,38 @@ main .wrapper {
           justify-content: space-between;
 }
 
-.howToPlay .controls img {
-  width: 4vmax;
-  max-width: 128px;
-  height: auto;
+.howToPlay .controlOptions {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
 
-.howToPlay .mouse img,
-.howToPlay .touch img {
-  width: 5vmax;
-  max-width: 132px;
+.howToPlay .controlImages {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  width: 25%;
+  height: 100%;
 }
 
 .howToPlay .movement,
@@ -578,56 +577,10 @@ main .wrapper {
           flex-direction: column;
 }
 
-.howToPlay .movement .controlOptions,
-.howToPlay .firing .controlOptions {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: horizontal;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: row;
-          flex-direction: row;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-}
-
-.howToPlay .movement .controlOptions > *,
-.howToPlay .firing .controlOptions > * {
-  height: 100%;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-}
-
-.howToPlay .firing .keyboard img {
-  width: 7vmax;
-  max-width: 196px;
-  height: auto;
-  margin-bottom: 1.5vmax;
-}
-
-.howToPlay h3,
-.howToPlay h4 {
+.howToPlay h3 {
   font-family: "Bangers", cursive;
   text-align: center;
-}
-
-.howToPlay h3 {
-  font-size: 3.5vmax;
+  font-size: 3vmax;
 }
 
 @media (min-width: 1600px) {
@@ -637,28 +590,19 @@ main .wrapper {
 }
 
 .howToPlay h4 {
-  font-size: 2.5vmax;
+  font-size: 1.5vmax;
+  text-transform: uppercase;
   color: black;
 }
 
 @media (min-width: 1600px) {
   .howToPlay h4 {
-    font-size: 4rem;
-  }
-}
-
-.howToPlay h5 {
-  font-size: 1.25vmax;
-}
-
-@media (min-width: 1600px) {
-  .howToPlay h5 {
     font-size: 3rem;
   }
 }
 
 .howToPlay p {
-  font-size: 1.25vmax;
+  font-size: 1vmax;
   line-height: 1.6;
 }
 
@@ -666,6 +610,17 @@ main .wrapper {
   .howToPlay p {
     font-size: 2rem;
   }
+}
+
+@media (max-width: 800px) {
+  .howToPlay p {
+    font-size: 1.5vmax;
+  }
+}
+
+.howToPlay img {
+  width: 4vmax;
+  max-width: 128px;
 }
 
 .selectionForm {

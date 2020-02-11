@@ -28,47 +28,26 @@ main {
     color: black;
     display: flex;
     justify-content: space-evenly;
-
-    @include mq-desktop-large() {
-        flex-direction: column;
-    }
+    flex-direction: column;
 
     @include mq-tablet() {
-        flex-direction: column;
         width: 90%;
     }
 
-    .mission,
     .controls {
-        border: 4px solid $colAccent;
-        border-radius: 12px;
-        padding: 1vmin 1.5vmin;
-    }
-
-    .mission {
-        flex-basis: 55%;
-    }
-
-    .controls {
-        flex-basis: 40%;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
-
-        img {
-            width: 4vmax;
-            max-width: 128px;
-            height: auto;
-        }
-
     }
 
-    .mouse,
-    .touch {
-        img {
-            width: 5vmax;
-            max-width: 132px;
-        }
+    .controlOptions {
+        @include flexBetween();
+    }
+
+    .controlImages {
+        @include flexFullCentre();
+        width: 25%;
+        height: 100%;
     }
 
     .movement,
@@ -76,62 +55,40 @@ main {
         display: flex;
         justify-content: space-between;
         flex-direction: column;
-
-        .controlOptions {
-            @include flexBetween();
-
-            > * {
-                height: 100%;
-                @include flexBetween(column);
-            }
-        }
     }
-
-    .firing {
-        .keyboard {
-            img {
-                width: 7vmax;
-                max-width: 196px;
-                height: auto;
-                margin-bottom: 1.5vmax;
-            }
-        }
-    }
-
-    h3,
-    h4 {
+    
+    h3 {
         font-family: $fontTitles;
         text-align: center;
-    }
-
-    h3 {
-        font-size: 3.5vmax;
+        font-size: 3vmax;
         @include mq-desktop-large() {
             font-size: 5rem;
         }
     }
 
     h4 {
-        font-size: 2.5vmax;
+        font-size: 1.5vmax;
+        text-transform: uppercase;
         color: black;
-        @include mq-desktop-large() {
-            font-size: 4rem;
-        }
-    }
-
-    h5 {
-        font-size: 1.25vmax;
         @include mq-desktop-large() {
             font-size: 3rem;
         }
     }
 
     p {
-        font-size: 1.25vmax;
+        font-size: 1vmax;
         line-height: 1.6;
         @include mq-desktop-large() {
             font-size: 2rem;
         }
+        @include mq-tablet() {
+            font-size: 1.5vmax;
+        }
+    }
+
+    img {
+        width: 4vmax;
+        max-width: 128px;
     }
 }
 
