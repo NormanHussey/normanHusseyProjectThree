@@ -27,43 +27,13 @@ game.setupNewGame = function() {
     game.keys = {};
 
  
-    const explosionAudio = `
-        <audio id="explosionAudio">
-            <source src="./assets/audio/sfx/explosion2.ogg" type="audio/ogg">
-        </audio>
-        `;
+    // const explosionAudio = `
+    //     <audio id="explosionAudio">
+    //         <source src="./assets/audio/sfx/explosion2.ogg" type="audio/ogg">
+    //     </audio>
+    //     `;
 
-    game.board.$element.append(explosionAudio);
-
-    // game.sfx = {
-    //     explosion: document.querySelector('#explosionAudio')
-    // };
-
-    // game.loadAudio = function () {
-    //     function Channel(audio_url) {
-    //         this.audio_url = audio_url;
-    //         this.resource = new Audio(audio_uri);
-    //     }
-        
-    //     Channel.prototype.play = function() {
-    //         this.resource.play();
-    //     }
-    // }
-
-    // function Switcher(audio_uri, num) {
-    //     this.channels = [];
-    //     this.num = num;
-    //     this.index = 0;
-    
-    //     for (var i = 0; i < num; i++) {
-    //         this.channels.push(new Channel(audio_uri));
-    //     }
-    // }
-    
-    // Switcher.prototype.play = function() {
-    //     this.channels[this.index++].play();
-    //     this.index = this.index < this.num ? this.index : 0;
-    // }
+    // game.board.$element.append(explosionAudio);
     
     game.playerStats.start = {
         x: game.board.width / 2,
@@ -176,13 +146,15 @@ class AudioSwitcher {
 
     play() {
         this.channels[this.index++].play();
-        this.index = this.index < this.num ? this.index : 0;
+        if (this.index >= this.channels.length) {
+            this.index = 0;
+        }
     }
 }
 
-// game.sfx = {
-//     explosion: new AudioSwitcher('../assets/audio/sfx/explosion2.ogg', 10)
-// };
+game.sfx = {
+    explosion: new AudioSwitcher('../assets/audio/sfx/explosion2.ogg', 10)
+};
 
 
 class Actor {
