@@ -38,6 +38,10 @@ main {
         display: flex;
         flex-direction: column;
         justify-content: space-between;
+
+        h3 {
+            margin-bottom: 2vh;
+        }
     }
 
     .controlOptions {
@@ -60,19 +64,13 @@ main {
     h3 {
         font-family: $fontTitles;
         text-align: center;
-        font-size: 3vmax;
-        @include mq-desktop-large() {
-            font-size: 5rem;
-        }
+        font-size: 4vmax;
     }
 
     h4 {
-        font-size: 1.5vmax;
+        font-size: 2vmax;
         text-transform: uppercase;
         color: black;
-        @include mq-desktop-large() {
-            font-size: 3rem;
-        }
     }
 
     p {
@@ -86,9 +84,24 @@ main {
         }
     }
 
+    .movement {
+        .keyboard {
+            img {
+                width: 5vmax;
+            }
+        }
+    }
+
     img {
-        width: 4vmax;
-        max-width: 128px;
+        width: 7vmax;
+    }
+
+    .firing {
+        .keyboard {
+            img {
+                width: 9vmax;
+            }
+        }
     }
 }
 

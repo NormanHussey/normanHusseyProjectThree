@@ -85,6 +85,9 @@ footer {
 
     button {
         font-size: 1.25vmax;
+        @include mq-tablet() {
+            font-size: 2vmax;
+        }
         &:hover,
         &:focus {
             transform: none;

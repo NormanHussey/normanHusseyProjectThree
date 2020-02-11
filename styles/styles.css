@@ -380,6 +380,12 @@ footer button {
   font-size: 1.25vmax;
 }
 
+@media (max-width: 800px) {
+  footer button {
+    font-size: 2vmax;
+  }
+}
+
 footer button:hover, footer button:focus {
   -webkit-transform: none;
           transform: none;
@@ -529,6 +535,10 @@ main .wrapper {
           justify-content: space-between;
 }
 
+.howToPlay .controls h3 {
+  margin-bottom: 2vh;
+}
+
 .howToPlay .controlOptions {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -580,25 +590,13 @@ main .wrapper {
 .howToPlay h3 {
   font-family: "Bangers", cursive;
   text-align: center;
-  font-size: 3vmax;
-}
-
-@media (min-width: 1600px) {
-  .howToPlay h3 {
-    font-size: 5rem;
-  }
+  font-size: 4vmax;
 }
 
 .howToPlay h4 {
-  font-size: 1.5vmax;
+  font-size: 2vmax;
   text-transform: uppercase;
   color: black;
-}
-
-@media (min-width: 1600px) {
-  .howToPlay h4 {
-    font-size: 3rem;
-  }
 }
 
 .howToPlay p {
@@ -618,9 +616,16 @@ main .wrapper {
   }
 }
 
+.howToPlay .movement .keyboard img {
+  width: 5vmax;
+}
+
 .howToPlay img {
-  width: 4vmax;
-  max-width: 128px;
+  width: 7vmax;
+}
+
+.howToPlay .firing .keyboard img {
+  width: 9vmax;
 }
 
 .selectionForm {
