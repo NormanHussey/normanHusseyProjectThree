@@ -50,16 +50,15 @@
     left: 0;
     right: 0;
     padding: 0 5%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
+    @include flexBetween();
 
-.gameDisplayArea p {
-    text-align: center;
-    font-size: 1.6vmin;
-    @include mq-tablet() {
-        font-size: 1.6vmax;
+    p {
+        text-align: center;
+        font-size: 2vmin;
+        
+        @include mq-tablet() {
+            font-size: 2vmax;
+        }
     }
 }
 

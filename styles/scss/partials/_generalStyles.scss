@@ -3,7 +3,6 @@ html {
 }
 
 body {
-    // background-color: black;
     background-color: black;
     color: white;
     font-family: $fontPixel;
@@ -53,18 +52,15 @@ header {
     padding: 1% 0;
     .wrapper {
         height: 100%;
-        @include flexFullCentre();
-        flex-direction: column;
+        @include flexFullCentre(column);
     }
 }
 
 footer {
     height: 10vh;
-    text-transform: uppercase;
     .wrapper {
         height: 100%;
-        @include flexFullCentre();
-        flex-direction: column;
+        @include flexFullCentre(column);
     }
 
     ul {
@@ -113,6 +109,10 @@ h2 {
     color: $colPrimary;
     line-height: 1.6;
     text-align: center;
+
+    @include mq-desktop-large() {
+        font-size: 4rem;
+    }
 }
 
 h4 {

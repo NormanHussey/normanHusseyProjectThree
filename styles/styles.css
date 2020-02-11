@@ -243,7 +243,7 @@ html {
   --bgY: 0;
   --angle: 0;
   --colour: rgba(255, 255, 255, 0);
-  --imgUrl: url('../assets/playerShip.gif');
+  --imgUrl: url('');
 }
 
 html {
@@ -314,16 +314,14 @@ header .wrapper {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  -webkit-box-orient: horizontal;
+  -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
-      -ms-flex-direction: row;
-          flex-direction: row;
-  flex-direction: column;
+      -ms-flex-direction: column;
+          flex-direction: column;
 }
 
 footer {
   height: 10vh;
-  text-transform: uppercase;
 }
 
 footer .wrapper {
@@ -337,11 +335,10 @@ footer .wrapper {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  -webkit-box-orient: horizontal;
+  -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
-      -ms-flex-direction: row;
-          flex-direction: row;
-  flex-direction: column;
+      -ms-flex-direction: column;
+          flex-direction: column;
 }
 
 footer ul {
@@ -411,6 +408,12 @@ h2 {
   color: #ffd470;
   line-height: 1.6;
   text-align: center;
+}
+
+@media (min-width: 1600px) {
+  h2 {
+    font-size: 4rem;
+  }
 }
 
 h4 {
@@ -533,6 +536,9 @@ main .wrapper {
   -webkit-box-pack: justify;
       -ms-flex-pack: justify;
           justify-content: space-between;
+  -webkit-box-align: stretch;
+      -ms-flex-align: stretch;
+          align-items: stretch;
 }
 
 .howToPlay .controls h3 {
@@ -578,13 +584,16 @@ main .wrapper {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: stretch;
+      -ms-flex-align: stretch;
+          align-items: stretch;
 }
 
 .howToPlay h3 {
@@ -616,12 +625,12 @@ main .wrapper {
   }
 }
 
-.howToPlay .movement .keyboard img {
-  width: 5vmax;
-}
-
 .howToPlay img {
   width: 7vmax;
+}
+
+.howToPlay .movement .keyboard img {
+  width: 5vmax;
 }
 
 .howToPlay .firing .keyboard img {
@@ -638,11 +647,10 @@ main .wrapper {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  -webkit-box-orient: horizontal;
+  -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
-      -ms-flex-direction: row;
-          flex-direction: row;
-  flex-direction: column;
+      -ms-flex-direction: column;
+          flex-direction: column;
   color: black;
 }
 
@@ -660,7 +668,6 @@ main .wrapper {
 .selectionForm label img {
   padding: 5px;
   width: 10vmin;
-  height: auto;
   -webkit-transition: all 0.3s;
   transition: all 0.3s;
 }
@@ -676,19 +683,19 @@ main .wrapper {
   border: none;
   padding: 1.5rem;
   margin-bottom: 2%;
-  font-size: 2vmax;
   font-family: "Press Start 2P", cursive;
-}
-
-@media (max-width: 800px) {
-  .selectionForm input[type="text"] {
-    width: 90%;
-  }
+  font-size: 2vmax;
 }
 
 @media (min-width: 1600px) {
   .selectionForm input[type="text"] {
     font-size: 3rem;
+  }
+}
+
+@media (max-width: 800px) {
+  .selectionForm input[type="text"] {
+    width: 90%;
   }
 }
 
@@ -752,9 +759,6 @@ main .wrapper {
 }
 
 .gameOverScreen {
-  height: 100%;
-  padding: 2.5% 0;
-  background-color: #13293d;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -768,6 +772,9 @@ main .wrapper {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+  height: 100%;
+  padding: 2.5% 0;
+  background-color: #13293d;
 }
 
 .gameOverScreen h3 {
@@ -902,7 +909,6 @@ main .wrapper {
 }
 
 .yourScore div {
-  width: 100%;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -916,6 +922,7 @@ main .wrapper {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+  width: 100%;
 }
 
 .scoreHighlight {
@@ -1016,6 +1023,10 @@ main .wrapper {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
   -webkit-box-pack: justify;
       -ms-flex-pack: justify;
           justify-content: space-between;
@@ -1026,12 +1037,12 @@ main .wrapper {
 
 .gameDisplayArea p {
   text-align: center;
-  font-size: 1.6vmin;
+  font-size: 2vmin;
 }
 
 @media (max-width: 800px) {
   .gameDisplayArea p {
-    font-size: 1.6vmax;
+    font-size: 2vmax;
   }
 }
 

@@ -653,10 +653,10 @@ game.mouseMoveHandler = function (e) {
 };
 
 game.touchMoveHandler = function (e) {
-    const touch = e.originalEvent.touches[0] || e.originalEvent.changedTouches[0];
+    const touch = e.originalEvent.touches[0];
+    // || e.originalEvent.changedTouches[0]
     x = touch.pageX;
     game.player.inputMove((x - this.offsetLeft) - game.player.position.x);
-    // return false;
 };
 
 game.keyDownHandler = function (e) {

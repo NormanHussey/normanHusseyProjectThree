@@ -1,3 +1,5 @@
+// Flex Mixins
+
 @mixin flexFullCentre($direction: row) {
     display: flex;
     justify-content: center;
@@ -12,11 +14,15 @@
     align-items: $align;
 }
 
+// Image Rendering Mixin
+
 @mixin pixelArt() {
     image-rendering: pixelated;
     image-rendering: -moz-crisp-edges;
     image-rendering: crisp-edges;
 }
+
+// Media Query Mixins
 
 @mixin mq-desktop-large() {
     @media (min-width: 1600px) {
