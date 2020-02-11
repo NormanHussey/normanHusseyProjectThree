@@ -312,7 +312,9 @@ class Pickup extends Actor {
                     const currentGameSpeed = game.speed;
                     game.speed = 0.25;
                     game.slowMotion = true;
+                    game.playList[game.currentTrack].playbackRate = 0.25;
                     setTimeout(function () {
+                        game.playList[game.currentTrack].playbackRate = 1.0;
                         game.speed = currentGameSpeed;
                         game.slowMotion = false;
                     }, 3000)
@@ -951,7 +953,7 @@ game.checkPlayList = function () {
         }
         game.playList[game.currentTrack].play();
     }
-}
+};
 
 game.update = function () {
     if (!game.over) {
