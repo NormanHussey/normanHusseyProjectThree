@@ -1,4 +1,12 @@
+  /////////////////////////////////
+ // Setup Namespace Declaration //
+/////////////////////////////////
+
 setup = {};
+
+  //////////////////////////////////
+ // Cache Setup Screen Selectors //
+//////////////////////////////////
 
 setup.cacheSelectors = function () {
     setup.$header = $('header');
@@ -22,37 +30,15 @@ setup.cacheSelectors = function () {
     setup.$changePilotBtn = $('#changePilot');
 };
 
-setup.toggleHotToPlay = function () {
+  ////////////////////
+ // Event Handlers //
+////////////////////
+
+setup.toggleHowToPlay = function () {
     setup.$startScreen.toggleClass('hidden');
     setup.$footerLinks.toggleClass('hidden');
     setup.$howToPlayScreen.toggleClass('hidden');
     setup.$backToMenuBtn.toggleClass('hidden');
-};
-
-setup.eventListeners = function () {
-
-    setup.$newGameBtn.on('click', function () {
-        setup.$startScreen.addClass('hidden');
-        setup.$selectionScreen.removeClass('hidden');
-    });
-
-    setup.$howToPlayBtn.on('click', setup.toggleHotToPlay);
-
-    setup.$backToMenuBtn.on('click', setup.toggleHotToPlay);
-
-    setup.$selectionForm.on('submit', function(e) {
-        e.preventDefault();
-        game.playerStats.name = $('#name').val();
-        if (!game.playerStats.name) {
-            game.playerStats.name = 'Unknown';
-        }
-        game.playerStats.ship = parseInt($('input[name="shipChoice"]:checked').val());
-        setup.startNewGame();
-    });
-
-    setup.$playAgainBtn.on('click', setup.startNewGame);
-
-    setup.$changePilotBtn.on('click', setup.changePilot);
 };
 
 setup.startNewGame = function () {
@@ -75,16 +61,52 @@ setup.changePilot = function () {
     setup.$mainWrapper.removeClass('gameWrapper');
     setup.$selectionScreen.removeClass('hidden');
     setup.$setupGameSection.removeClass('hidden');
-
 };
+
+  /////////////////////
+ // Event Listeners //
+/////////////////////
+
+setup.eventListeners = function () {
+
+    setup.$newGameBtn.on('click', function () {
+        setup.$startScreen.addClass('hidden');
+        setup.$selectionScreen.removeClass('hidden');
+    });
+
+    setup.$howToPlayBtn.on('click', setup.toggleHowToPlay);
+
+    setup.$backToMenuBtn.on('click', setup.toggleHowToPlay);
+
+    setup.$selectionForm.on('submit', function(e) {
+        e.preventDefault();
+        game.playerStats.name = $('#name').val();
+        if (!game.playerStats.name) {
+            game.playerStats.name = 'Unknown';
+        }
+        game.playerStats.ship = parseInt($('input[name="shipChoice"]:checked').val());
+        setup.startNewGame();
+    });
+
+    setup.$playAgainBtn.on('click', setup.startNewGame);
+
+    setup.$changePilotBtn.on('click', setup.changePilot);
+};
+
+  ////////////////////////////////
+ // Game Over Screen Functions //
+////////////////////////////////
 
 setup.displayLeaderboard = function () {
     setup.$leaderboard.html('');
     for (let player of game.leaderboard) {
+
         let highlight = '';
+        
         if (player.rank === game.playerStats.rank) {
             highlight = 'scoreHighlight';
         }
+
         const scoreToAppend = `
             <li class="${highlight}">
                 <p>${player.rank}.</p>
@@ -113,10 +135,18 @@ setup.endGameScreen = function () {
     setup.displayLeaderboard();
 };
 
+  //////////////////////////
+ // Setup Initialization //
+//////////////////////////
+
 setup.init = function () {
     setup.cacheSelectors();
     setup.eventListeners();
 };
+
+  ////////////////////
+ // Document Ready //
+////////////////////
 
 $(function () {
     setup.init();

@@ -1,4 +1,13 @@
+  ////////////////////////////////
+ // Game Namespace Declaration //
+////////////////////////////////
+
 const game = {};
+
+  ////////////////////////////////////////////////////
+ // Initialize Starting Variables on the Namespace //
+////////////////////////////////////////////////////
+
 game.playerStats = {};
 
 game.setupNewGame = function() {
@@ -142,6 +151,12 @@ game.setupNewGame = function() {
 
 };
 
+  ////////////////////////
+ // Class Declarations //
+////////////////////////
+
+// Audio Classes Begin
+
 class AudioChannel {
     constructor(source) {
         this.source = source;
@@ -184,6 +199,9 @@ class AudioSwitcher {
     }
 }
 
+// Audio Classes End
+
+// Actor Classes Begin
 
 class Actor {
     constructor(x, y, element, type, deploy = true) {
@@ -342,7 +360,6 @@ class Pickup extends Actor {
     }
 
 }
-
 
 class Bullet extends Actor {
     constructor(x, y, yDirection, xDirection, speed, damage = 1, firedBy, weaponType, target = undefined) {
@@ -646,7 +663,11 @@ class Enemy extends Ship {
 
 };
 
-// Event Handler Functions
+// Actor Classes End
+
+  ///////////////////////
+ /// Event Handlers ////
+///////////////////////
 
 game.mouseMoveHandler = function (e) {
     game.player.inputMove((e.pageX - this.offsetLeft) - game.player.position.x);
@@ -681,11 +702,11 @@ game.clickHandler = function (e) {
     }
 };
 
+  /////////////////////
+ // Event Listeners //
+/////////////////////
+
 game.addEventListeners = function () {
-    
-    // game.board.$element.on('tap', function (e) {
-        //     console.log('tap');
-        // });
 
     game.board.$element.on('mousemove', game.mouseMoveHandler);
         
@@ -714,6 +735,10 @@ game.removeEventListeners = function () {
     game.$window.off('click', game.clickHandler);
 }
 
+  ////////////////////
+ // Keyboard Input //
+////////////////////
+
 game.checkInput = function () {
     if (game.keys[37]) { // left
         if (game.player.left > 0) {
@@ -738,21 +763,9 @@ game.checkInput = function () {
     }
 };
 
-game.randomIntInRange = function (min, max) {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-};
-
-game.findSpriteSizes = function() {
-    const bullet = new Bullet(0, 0, 1, 0, 0, 0, 'none', 0, false);
-    game.bulletHeight = bullet.height;
-    game.bulletWidth = bullet.width;
-    game.deleteActor(bullet);
-
-    const ship = new Ship(0, 0, 'none', true, 1, 0, 1, 0);
-    game.shipHeight = ship.height;
-    game.shipWidth = ship.width;
-    game.deleteActor(ship);
-};
+  /////////////////////////
+ // Enemy/Wave Spawning //
+/////////////////////////
 
 game.spawnEnemy = function (minHealth, maxHealth, maxSpeed, fastestReloadSpeed, slowestReloadSpeed, minIntelligence, maxIntelligence) {
     const x = game.randomIntInRange(0, game.board.width - game.shipWidth);
@@ -810,7 +823,7 @@ game.deployEnemy = function () {
     if (game.currentWaveEnemy >= game.waveEnemies.length) {
         game.currentWaveEnemy = 0;
     }
-}
+};
 
 game.checkWave = function () {
     if (game.waveEnemies.length === 0) {
@@ -819,17 +832,25 @@ game.checkWave = function () {
     }
 };
 
-game.createExplosion= function (x, y) {
-    game.sfx.explosion.play();
-    const $explosion = $('<div class="ship">');
-    $explosion.css('--x', x + 'px');
-    $explosion.css('--y', y + 'px');
-    $explosion.css('--imgUrl', 'url("../assets/explosion.gif")');
-    game.board.$element.append($explosion);
-    setTimeout(function() {
-        $explosion.remove();
-    }, 1100);
-}
+  ////////////////////////////
+ // General Tool Functions //
+////////////////////////////
+
+game.randomIntInRange = function (min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+};
+
+game.findSpriteSizes = function() {
+    const bullet = new Bullet(0, 0, 1, 0, 0, 0, 'none', 0, false);
+    game.bulletHeight = bullet.height;
+    game.bulletWidth = bullet.width;
+    game.deleteActor(bullet);
+
+    const ship = new Ship(0, 0, 'none', true, 1, 0, 1, 0);
+    game.shipHeight = ship.height;
+    game.shipWidth = ship.width;
+    game.deleteActor(ship);
+};
 
 game.removeFromArray = function (item, array) {
     for (var i = 0; i < array.length; i++) {
@@ -858,26 +879,31 @@ game.deleteActor = function (actor) {
     delete actor;
 };
 
-game.updateActors = function () {
-    for (let i = 0; i < game.updatingActors.length; i++) {
-        game.updatingActors[i].update();
+game.checkPlayList = function () {
+    if (game.playList[game.currentTrack].ended) {
+        game.currentTrack++;
+        if (game.currentTrack >= game.playList.length) {
+            game.currentTrack = 0;
+        }
+        game.playList[game.currentTrack].play();
     }
 };
 
-game.updateDisplay = function () {
-    game.board.move(0, game.speed);
-    game.display.$health.text(game.player.health);
-    game.display.$score.text(game.playerStats.score);
-    game.display.$wave.text(game.wave);
+game.createExplosion= function (x, y) {
+    game.sfx.explosion.play();
+    const $explosion = $('<div class="ship">');
+    $explosion.css('--x', x + 'px');
+    $explosion.css('--y', y + 'px');
+    $explosion.css('--imgUrl', 'url("../assets/explosion.gif")');
+    game.board.$element.append($explosion);
+    setTimeout(function() {
+        $explosion.remove();
+    }, 1100);
 };
 
-game.clearBoard = function () {
-    clearInterval(game.deploymentInterval);
-    for (let actor of game.updatingActors) {
-        game.deleteActor(actor);
-    }
-    game.board.$element.children().not('.gameDisplayArea').remove();
-}
+  ///////////////////////////
+ // Leaderboard Functions //
+///////////////////////////
 
 game.loadLeaderboard = function () {
 
@@ -931,10 +957,22 @@ game.updateLeaderboard = function () {
 
 };
 
+  ///////////////////////////
+ // End of Game Functions //
+///////////////////////////
+
 game.calculateTimePlayed = function () {
     clearInterval(game.playerStats.time.interval);
     game.playerStats.time.mins = (game.playerStats.time.secondsElapsed - (game.playerStats.time.secondsElapsed % 60)) / 60;
     game.playerStats.time.secs = game.playerStats.time.secondsElapsed % 60;
+};
+
+game.clearBoard = function () {
+    clearInterval(game.deploymentInterval);
+    for (let actor of game.updatingActors) {
+        game.deleteActor(actor);
+    }
+    game.board.$element.children().not('.gameDisplayArea').remove();
 };
 
 game.endGame = function () {
@@ -950,14 +988,21 @@ game.endGame = function () {
     }, 2000);
 };
 
-game.checkPlayList = function () {
-    if (game.playList[game.currentTrack].ended) {
-        game.currentTrack++;
-        if (game.currentTrack >= game.playList.length) {
-            game.currentTrack = 0;
-        }
-        game.playList[game.currentTrack].play();
+  //////////////////////
+ // Update Functions //
+//////////////////////
+
+game.updateActors = function () {
+    for (let i = 0; i < game.updatingActors.length; i++) {
+        game.updatingActors[i].update();
     }
+};
+
+game.updateDisplay = function () {
+    game.board.move(0, game.speed);
+    game.display.$health.text(game.player.health);
+    game.display.$score.text(game.playerStats.score);
+    game.display.$wave.text(game.wave);
 };
 
 game.update = function () {
@@ -970,6 +1015,10 @@ game.update = function () {
         requestAnimationFrame(game.update);
     }
 };
+
+  /////////////////////////
+ // Game Initialization //
+/////////////////////////
 
 game.init = function() {
     game.setupNewGame();
