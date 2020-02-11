@@ -506,15 +506,6 @@ main .wrapper {
           justify-content: space-evenly;
 }
 
-@media (min-width: 1600px) {
-  .howToPlay {
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-        -ms-flex-direction: column;
-            flex-direction: column;
-  }
-}
-
 @media (max-width: 800px) {
   .howToPlay {
     -webkit-box-orient: vertical;

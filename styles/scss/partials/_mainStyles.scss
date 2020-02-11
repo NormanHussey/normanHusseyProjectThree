@@ -28,9 +28,6 @@ main {
     color: black;
     display: flex;
     justify-content: space-evenly;
-    @include mq-desktop-large() {
-        flex-direction: column;
-    }
 
     @include mq-tablet() {
         flex-direction: column;

@@ -55,6 +55,10 @@ game.setupNewGame = function() {
         'url("../assets/ships/sleekBlueShip.gif")',
         'url("../assets/ships/greenShip.gif")',
     ];
+
+    game.enemyShips = game.ships.filter(function (ship, index) {
+        return index !== game.playerStats.ship;
+    });
     
     game.weaponTypes = [
         {
@@ -554,6 +558,7 @@ class Ship extends Actor {
 class Enemy extends Ship {
     constructor(x, y, type, health, shipNumber = 0, speed = 1, reloadSpeed = 150, intelligence = 1, weaponType = 0) {
         super(x, y, type, false, health, shipNumber, reloadSpeed, weaponType);
+        this.$element.css('--imgUrl', game.enemyShips[shipNumber]);
         this.$element.css('--scaleY', '-1');
         this.direction = 1;
         this.speed = speed;
@@ -755,7 +760,7 @@ game.spawnEnemy = function (minHealth, maxHealth, maxSpeed, fastestReloadSpeed, 
     const speed = game.randomIntInRange(2, maxSpeed);
     const reloadSpeed = game.randomIntInRange(fastestReloadSpeed, slowestReloadSpeed);
     const intelligence = game.randomIntInRange(minIntelligence, maxIntelligence);
-    const shipNumber = game.randomIntInRange(0, game.ships.length - 1);
+    const shipNumber = game.randomIntInRange(0, game.enemyShips.length - 1);
     let weaponType;
     if (game.probability((game.wave / 100) + (intelligence / 100))) {
         weaponType = 2;
@@ -971,9 +976,9 @@ game.init = function() {
     game.loadLeaderboard();
     game.findSpriteSizes();
     game.player = new Ship (game.playerStats.start.x, game.playerStats.start.y, 'player', true, 3, game.playerStats.ship, 0, 0);
-    game.addEventListeners();
     game.playerStats.time.interval = setInterval(() => game.playerStats.time.secondsElapsed++, 1000);
     game.playList[game.currentTrack].play();
+    game.addEventListeners();
     window.requestAnimationFrame(game.update);
 };
 
