@@ -151,6 +151,14 @@ game.setupNewGame = function() {
 
 };
 
+// game.createAudio = function (url){
+//     const audio = document.createElement('audio');
+//     audio.src = url;
+//     audio.style.display = "none"; //added to fix ios issue
+//     audio.autoplay = false; //avoid the user has not interacted with your page issue
+//     document.body.appendChild(audio);
+//   }
+
   ////////////////////////
  // Class Declarations //
 ////////////////////////
