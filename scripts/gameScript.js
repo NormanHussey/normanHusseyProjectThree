@@ -126,14 +126,6 @@ game.setupNewGame = function() {
 
 };
 
-// game.createAudio = function (url){
-//     const audio = document.createElement('audio');
-//     audio.src = url;
-//     audio.style.display = "none"; //added to fix ios issue
-//     audio.autoplay = false; //avoid the user has not interacted with your page issue
-//     document.body.appendChild(audio);
-//   }
-
   ////////////////////////
  // Class Declarations //
 ////////////////////////
@@ -685,8 +677,8 @@ game.mouseMoveHandler = function (e) {
 };
 
 game.touchMoveHandler = function (e) {
+    e.preventDefault();
     const touch = e.originalEvent.touches[0];
-    // || e.originalEvent.changedTouches[0]
     x = touch.pageX;
     game.player.inputMove((x - this.offsetLeft) - game.player.position.x);
 };

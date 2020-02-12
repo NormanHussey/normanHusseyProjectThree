@@ -1046,6 +1046,12 @@ main .wrapper {
   }
 }
 
+@media (max-width: 460px) {
+  .gameDisplayArea p {
+    width: 30%;
+  }
+}
+
 .noSelect {
   -webkit-touch-callout: none;
   /* iOS Safari */

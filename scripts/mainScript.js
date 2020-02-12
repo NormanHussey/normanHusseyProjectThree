@@ -28,6 +28,7 @@ setup.cacheSelectors = function () {
     setup.$yourScore = $('.yourScore div');
     setup.$playAgainBtn = $('#playAgain');
     setup.$changePilotBtn = $('#changePilot');
+    setup.mobile = window.matchMedia("(max-width: 460px)");
 };
 
   ////////////////////
@@ -72,6 +73,10 @@ setup.eventListeners = function () {
     setup.$newGameBtn.on('click', function () {
         setup.$startScreen.addClass('hidden');
         setup.$selectionScreen.removeClass('hidden');
+        // if (setup.mobile.matches) {
+        //     const mainElement = document.querySelector('main');
+        //     mainElement.requestFullscreen();
+        // }
     });
 
     setup.$howToPlayBtn.on('click', setup.toggleHowToPlay);
