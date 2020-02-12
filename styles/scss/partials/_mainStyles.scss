@@ -109,7 +109,7 @@ main {
     
     label {
         font-family: $fontTitles;
-        font-size: 4vmax;
+        font-size: 3vmax;
         @include mq-desktop-large() {
             font-size: 6rem;
         }
@@ -150,7 +150,7 @@ main {
         width: 100%;
         text-align: center;
         font-family: $fontTitles;
-        font-size: 4vmax;
+        font-size: 3vmax;
 
         @include mq-desktop-large() {
             font-size: 6rem;
@@ -180,6 +180,21 @@ main {
     button {
         font-size: 1.5vmax;
     }
+
+    .gameOptions {
+        @include flexBetween();
+
+        label {
+            font-size: 2vmax;
+            padding: 15px 30px;
+        }
+
+    }
+
+    input[type="checkbox"]:checked + label span {
+        color: $colAccent;
+    }
+
 
 }
 
@@ -285,6 +300,10 @@ main {
 
 .hidden {
     display: none;
+}
+
+.selectionMain {
+    height: 75vh;
 }
 
 .gameMain {

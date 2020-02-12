@@ -166,10 +166,12 @@ class AudioSwitcher {
     }
 
     play() {
-        this.channels[this.index].play();
-        this.index++;
-        if (this.index >= this.channels.length) {
-            this.index = 0;
+        if (game.sfxEnabled) {
+            this.channels[this.index].play();
+            this.index++;
+            if (this.index >= this.channels.length) {
+                this.index = 0;
+            }
         }
     }
 }
@@ -883,7 +885,7 @@ game.deleteActor = function (actor) {
 };
 
 game.checkPlayList = function () {
-    if (game.playList[game.currentTrack].ended) {
+    if (game.playList[game.currentTrack].ended && game.musicEnabled) {
         game.currentTrack++;
         if (game.currentTrack >= game.playList.length) {
             game.currentTrack = 0;
@@ -1029,7 +1031,9 @@ game.init = function() {
     game.findSpriteSizes();
     game.player = new Ship (game.playerStats.start.x, game.playerStats.start.y, 'player', true, 3, game.playerStats.ship, 0, 0);
     game.playerStats.time.interval = setInterval(() => game.playerStats.time.secondsElapsed++, 1000);
-    game.playList[game.currentTrack].play();
+    if (game.musicEnabled) {
+        game.playList[game.currentTrack].play();
+    }
     game.addEventListeners();
     window.requestAnimationFrame(game.update);
 };

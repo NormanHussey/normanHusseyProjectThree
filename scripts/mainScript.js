@@ -21,6 +21,12 @@ setup.cacheSelectors = function () {
     setup.$setupGameSection = $('.setupGame');
     setup.$startScreen = $('.startScreen');
     setup.$selectionScreen = $('.selectionScreen');
+    setup.$musicBtn = $('.musicBtn');
+    setup.$musicCheckbox = $('.musicBtn span');
+    setup.$sfxBtn = $('.sfxBtn');
+    setup.$sfxCheckbox = $('.sfxBtn span');
+    setup.$fullscreenBtn = $('.fullscreenBtn');
+    setup.$fullscreenCheckbox = $('.fullscreenBtn span');
     setup.$selectionForm = $('.selectionForm');
     setup.$playAreaSection = $('.playArea');
     setup.$gameOverScreen = $('.gameOverScreen');
@@ -28,7 +34,7 @@ setup.cacheSelectors = function () {
     setup.$yourScore = $('.yourScore div');
     setup.$playAgainBtn = $('#playAgain');
     setup.$changePilotBtn = $('#changePilot');
-    setup.mobile = window.matchMedia("(max-width: 460px)");
+    // setup.mobile = window.matchMedia("(max-width: 460px)");
 };
 
   ////////////////////
@@ -62,6 +68,43 @@ setup.changePilot = function () {
     setup.$mainWrapper.removeClass('gameWrapper');
     setup.$selectionScreen.removeClass('hidden');
     setup.$setupGameSection.removeClass('hidden');
+    setup.$footer.addClass('hidden');
+};
+
+setup.checkMusicSelection= function (checked = true) {
+    if (setup.$musicBtn['0'].previousElementSibling.checked === checked) {
+        setup.$musicCheckbox.html('<i class="far fa-check-square"></i>');
+        game.musicEnabled = true;
+    } else {
+        setup.$musicCheckbox.html('<i class="far fa-square"></i>');
+        game.musicEnabled = false;
+    }
+};
+
+setup.checkSfxSelection = function (checked = true) {
+    if (setup.$sfxBtn['0'].previousElementSibling.checked === checked) {
+        setup.$sfxCheckbox.html('<i class="far fa-check-square"></i>');
+        game.sfxEnabled = true;
+    } else {
+        setup.$sfxCheckbox.html('<i class="far fa-square"></i>');
+        game.sfxEnabled = false;
+    }
+};
+
+setup.checkFullscreenSelection = function (checked = true) {
+    if (setup.$fullscreenBtn['0'].previousElementSibling.checked === checked) {
+        setup.$fullscreenCheckbox.html('<i class="far fa-check-square"></i>');
+        setup.$main['0'].requestFullscreen();
+    } else {
+        setup.$fullscreenCheckbox.html('<i class="far fa-square"></i>');
+        document.exitFullscreen();
+    }
+};
+
+setup.checkOptionSelections = function () {
+    setup.checkMusicSelection();
+    setup.checkSfxSelection();
+    setup.checkFullscreenSelection();
 };
 
   /////////////////////
@@ -73,15 +116,26 @@ setup.eventListeners = function () {
     setup.$newGameBtn.on('click', function () {
         setup.$startScreen.addClass('hidden');
         setup.$selectionScreen.removeClass('hidden');
-        // if (setup.mobile.matches) {
-        //     const mainElement = document.querySelector('main');
-        //     mainElement.requestFullscreen();
-        // }
+        setup.$footer.addClass('hidden');
+        setup.$main.addClass('selectionMain');
+        setup.checkOptionSelections();
     });
 
     setup.$howToPlayBtn.on('click', setup.toggleHowToPlay);
 
     setup.$backToMenuBtn.on('click', setup.toggleHowToPlay);
+
+    setup.$musicBtn.on('click', function () {
+        setup.checkMusicSelection(false);
+    });
+
+    setup.$sfxBtn.on('click', function () {
+        setup.checkSfxSelection(false);
+    });
+
+    setup.$fullscreenBtn.on('click', function () {
+        setup.checkFullscreenSelection(false);
+    });
 
     setup.$selectionForm.on('submit', function(e) {
         e.preventDefault();

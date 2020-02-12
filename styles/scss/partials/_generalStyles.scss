@@ -143,6 +143,9 @@ button {
     &:hover,
     &:focus {
         background-color: $colSecondaryLight;
-        transform: scale(1.1);
+    }
+    &:active {
+        background-color: $colSecondaryLight;
+        box-shadow: none;
     }
 }
