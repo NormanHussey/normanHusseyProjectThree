@@ -375,6 +375,7 @@ footer ul i {
 
 footer button {
   font-size: 1.25vmax;
+  padding: 15px 40px;
 }
 
 @media (max-width: 800px) {

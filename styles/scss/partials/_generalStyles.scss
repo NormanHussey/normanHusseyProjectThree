@@ -81,6 +81,7 @@ footer {
 
     button {
         font-size: 1.25vmax;
+        padding: 15px 40px;
         @include mq-tablet() {
             font-size: 2vmax;
         }

@@ -756,16 +756,6 @@ game.checkInput = function () {
             game.player.inputMove(4);
         }
     }
-
-    if (game.keys[38]) { // up
-        game.speed += 0.1;
-    }
-
-    if (game.keys[40]) { // down
-        if (game.speed > 1.1) {
-            game.speed -= 0.1;
-        }
-    }
 };
 
   /////////////////////////
