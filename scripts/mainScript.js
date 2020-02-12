@@ -34,7 +34,6 @@ setup.cacheSelectors = function () {
     setup.$yourScore = $('.yourScore div');
     setup.$playAgainBtn = $('#playAgain');
     setup.$changePilotBtn = $('#changePilot');
-    // setup.mobile = window.matchMedia("(max-width: 460px)");
 };
 
   ////////////////////
