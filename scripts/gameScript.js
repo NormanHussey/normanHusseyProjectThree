@@ -10,6 +10,7 @@ const game = {};
 
 game.playerStats = {};
 
+
 game.setupNewGame = function() {
     game.board = {
         $element: setup.$playAreaSection,
@@ -123,32 +124,6 @@ game.setupNewGame = function() {
         }
     ];
 
-    game.sfx = {
-        explosion: new AudioSwitcher('../assets/audio/sfx/explosion.ogg', 10),
-        pew: new AudioSwitcher('../assets/audio/sfx/pew.wav', 10),
-        pickup: new AudioSwitcher('../assets/audio/sfx/pickup.wav', 4)
-    };
-
-    game.music = {
-        track01: new Audio('../assets/audio/music/track01-DontBeA.mp3'),
-        track02: new Audio('../assets/audio/music/track02-LavaFlow.mp3'),
-        track03: new Audio('../assets/audio/music/track03-GameAtHeart.mp3'),
-        track04: new Audio('../assets/audio/music/track04-FerrousRage.mp3'),
-        track05: new Audio('../assets/audio/music/track05-FrigidTriumph.mp3'),
-        track06: new Audio('../assets/audio/music/track06-ReallyDangerous.mp3')
-    };
-
-    game.playList = [
-        game.music.track01,
-        game.music.track02,
-        game.music.track03,
-        game.music.track04,
-        game.music.track05,
-        game.music.track06
-    ];
-
-    game.currentTrack = 0;
-
 };
 
 // game.createAudio = function (url){
@@ -173,7 +148,7 @@ class AudioChannel {
 
     play() {
         if (game.slowMotion) {
-            this.resource.playbackRate = 0.25;
+            this.resource.playbackRate = 0.5;
         } else {
             this.resource.playbackRate = 1.0;
         }
@@ -206,6 +181,34 @@ class AudioSwitcher {
         }
     }
 }
+
+game.sfx = {
+    explosion: new AudioSwitcher('./assets/audio/sfx/explosion.ogg', 10),
+    pew: new AudioSwitcher('./assets/audio/sfx/pew.wav', 10),
+    pickup: new AudioSwitcher('./assets/audio/sfx/pickup.wav', 4)
+};
+
+game.music = {
+    track01: new Audio('./assets/audio/music/track01-DontBeA.mp3'),
+    track02: new Audio('./assets/audio/music/track02-LavaFlow.mp3'),
+    track03: new Audio('./assets/audio/music/track03-GameAtHeart.mp3'),
+    track04: new Audio('./assets/audio/music/track04-FerrousRage.mp3'),
+    track05: new Audio('./assets/audio/music/track05-FrigidTriumph.mp3'),
+    track06: new Audio('./assets/audio/music/track06-ReallyDangerous.mp3')
+};
+
+game.playList = [
+    game.music.track01,
+    game.music.track02,
+    game.music.track03,
+    game.music.track04,
+    game.music.track05,
+    game.music.track06
+];
+
+game.currentTrack = 0;
+
+
 
 // Audio Classes End
 
@@ -342,7 +345,7 @@ class Pickup extends Actor {
                     const currentGameSpeed = game.speed;
                     game.speed = 0.25;
                     game.slowMotion = true;
-                    game.playList[game.currentTrack].playbackRate = 0.25;
+                    game.playList[game.currentTrack].playbackRate = 0.5;
                     setTimeout(function () {
                         game.playList[game.currentTrack].playbackRate = 1.0;
                         game.speed = currentGameSpeed;
