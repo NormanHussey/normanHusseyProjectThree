@@ -57,13 +57,13 @@ game.setupNewGame = function() {
     };
     
     game.ships = [
+        'url("../assets/ships/greenShip.gif")',
         'url("../assets/ships/redSilverShip.gif")',
         'url("../assets/ships/bigBlueShip.gif")',
         'url("../assets/ships/bigRedShip.gif")',
         'url("../assets/ships/biggerRedShip.gif")',
         'url("../assets/ships/bigGreenShip.gif")',
         'url("../assets/ships/sleekBlueShip.gif")',
-        'url("../assets/ships/greenShip.gif")',
     ];
 
     game.enemyShips = game.ships.filter(function (ship, index) {
