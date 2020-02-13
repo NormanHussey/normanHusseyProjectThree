@@ -973,27 +973,43 @@ game.checkInput = function () {
  // Enemy/Wave Spawning //
 /////////////////////////
 
+// Spawn a single enemy
 game.spawnEnemy = function (minHealth, maxHealth, maxSpeed, fastestReloadSpeed, slowestReloadSpeed, minIntelligence, maxIntelligence) {
+    // Choose a random x value within the confines of the gameboard
     const x = game.randomIntInRange(0, game.board.width - game.shipWidth);
+    // Choose a random health value within the given min and max values
     const health = game.randomIntInRange(minHealth, maxHealth);
+    // Choose a random speed value within 2 and the given max value
     const speed = game.randomIntInRange(2, maxSpeed);
+    // Choose a random reload speed within the given min and max values
     const reloadSpeed = game.randomIntInRange(fastestReloadSpeed, slowestReloadSpeed);
+    // Choose a random intelligence within the given min and max values
     const intelligence = game.randomIntInRange(minIntelligence, maxIntelligence);
+    // Choose a random ship within the enemy ships array
     const shipNumber = game.randomIntInRange(0, game.enemyShips.length - 1);
+    // Choose a weapon type based on wave, intelligence, and probability
     let weaponType;
+    // Choose the homing missile based on a low probability relative to the wave number and intelligence level
     if (game.probability((game.wave / 100) + (intelligence / 100))) {
         weaponType = 2;
+    // Choose the spread shot based on a higher probability relative to the wave number and intelligence level
     } else if (game.probability((game.wave / 25) + (intelligence / 25))) {
         weaponType = 1;
     } else {
+        // Otherwise choose the single shot
         weaponType = 0;
     }
+    // Create a new enemy with the given characteristics
     return new Enemy (x, -game.shipHeight, 'enemy', health, shipNumber, speed, reloadSpeed, intelligence, weaponType);
 };
 
+// Start a new enemy wave
 game.newWave = function () {
+    // Increment the wave number
     game.wave++;
+    // Choose the number of enemies for the new wave based on the wave number
     const numberOfEnemies = Math.round(5 * (1 + game.wave / 2));
+    // Choose the min and max characteristic values based on the wave number
     const maxHealth = Math.ceil(1 + (game.wave / 4));
     const minHealth = Math.floor(1 + (game.wave / 8));
     const maxSpeed = 2 + (game.wave / 10);
@@ -1005,35 +1021,54 @@ game.newWave = function () {
         minIntelligence = 1;
     }
 
+    // Create all the enemies for this wave
     for (let i = 0; i < numberOfEnemies; i++) {
+        // Create the enemy based on given min and max characteristics
         const newEnemy = game.spawnEnemy(minHealth, maxHealth, maxSpeed, fastestReloadSpeed, slowestReloadSpeed, minIntelligence, maxIntelligence);
+        // Set the new enemy to not deploy immediately
         newEnemy.deployed = false;
+        // Push this enemy into an array containing all the enemies for this wave
         game.waveEnemies.push(newEnemy);
     }
+    // Reset the index variable for the enemy wave array
     game.currentWaveEnemy = 0;
+    // Set the spawn interval based on the wave number (enemies will spawn more frequently on later waves)
     let spawnInterval = 2500 - (game.wave * 100);
     if (spawnInterval < 100) {
+        // Set the minimum spawn interval to 100ms
         spawnInterval = 100;
     }
+    // Create a deployment interval to deploy each of the wave enemies every interval length
     game.deploymentInterval = setInterval(game.deployEnemy, spawnInterval);
+    // Increase the overall game speed relative to the wave number
     game.speed += game.wave / 10;
 };
 
+// When an enemy's position in the wave queue comes up, determine whether to deploy them
 game.deployEnemy = function () {
+    // Store this enemy in a temporary variable
     const currentEnemy = game.waveEnemies[game.currentWaveEnemy];
+    // If this enemy exists and has not been deployed then
     if (currentEnemy && !currentEnemy.deployed) {
+        // Deploy the enemy (add it to the gameboard)
         currentEnemy.deploy();
         currentEnemy.deployed = true;
     }
+    // Increment the wave enemy index variable
     game.currentWaveEnemy++;
+    // If the wave enemy index is higher than the number of enemies in the array then reset it to the beginning
     if (game.currentWaveEnemy >= game.waveEnemies.length) {
         game.currentWaveEnemy = 0;
     }
 };
 
+// Check if the current wave has been completed
 game.checkWave = function () {
+    // If all the enemies in the current wave have been destroyed then
     if (game.waveEnemies.length === 0) {
+        // Clear the deployment interval
         clearInterval(game.deploymentInterval);
+        // Start a new wave
         game.newWave();
     }
 };
