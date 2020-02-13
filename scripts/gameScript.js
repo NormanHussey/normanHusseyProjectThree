@@ -865,34 +865,45 @@ class Enemy extends Ship {
 ///////////////////////
 
 game.mouseMoveHandler = function (e) {
+    // Send the player ship a movement command based on the mouse x position relative to the gameboard and the player's current position
     game.player.inputMove((e.pageX - this.offsetLeft) - game.player.position.x);
 };
 
 game.touchMoveHandler = function (e) {
+    // Prevent accidentally pinch zooming when swiping the player left or right
     e.preventDefault();
-    const touch = e.originalEvent.touches[0];
-    x = touch.pageX;
-    game.player.inputMove((x - this.offsetLeft) - game.player.position.x);
+    // Store the value of the touch position
+    const touchPoint = e.originalEvent.touches[0];
+    // Send the player ship a movement command based on the touch x position relative to the gameboard and the player's current position
+    game.player.inputMove((touchPoint.pageX - this.offsetLeft) - game.player.position.x);
 };
 
 game.keyDownHandler = function (e) {
+    // Set the key object with a property matching this keycode to be true
     game.keys[e.keyCode] = true;
 };
 
 game.keyUpHandler = function (e) {
+    // Set the key object with a property matching this keycode to be false
     game.keys[e.keyCode] = false;
 };
 
 game.keyPressHandler = function (e) {
-    if (e.which === 32) { // space bar
+    // If the player presses the space bar then
+    if (e.which === 32) {
+        // Check if the player is able to fire based on the reload counter
         if (game.player.reloadCounter >= game.player.reloadSpeed) {
+            // If the player can fire then fire
             game.player.fire();
         }
     }
 };
 
 game.clickHandler = function (e) {
+    // The player has clicked (or touched/tapped) anywhere on the gameboard
+    // Check if the player is able to fire based on the reload counter
     if (game.player.reloadCounter >= game.player.reloadSpeed) {
+        // If the player can fire then fire
         game.player.fire();
     }
 };
