@@ -516,16 +516,23 @@ class Bullet extends Actor {
     }
 
     handleCollision(collider) {
+        // If the colliding actor has a health property
         if (collider.actor.health) {
+            // Reduce the collider's health by the damage amount
             collider.actor.health -= this.damage;
+            // Set the actor's hitBy property to be the Actor type that fired this bullet
             collider.actor.hitBy = this.firedBy;
+            // Call showHit() on the collider
             collider.actor.showHit();
         }
+        // Destroy this bullet
         game.deleteActor(this);
     }
 
     drawSelf() {
+        // Call drawSelf() from the Actor class
         super.drawSelf();
+        // Change the angle of the bullet to match the angle that it was fired at (if it was a spread shot bullet)
         if (this.yDirection === 1) {
             if (this.xDirection < 0) {
                 this.$element.css('--angle', '225deg');
@@ -546,11 +553,14 @@ class Bullet extends Actor {
     }
 }
 
+// Create a Ship subclass of Actor to handle all ship objects (player and enemy)
 class Ship extends Actor {
     constructor(x, y, type, deploy = true, health = 5, shipNumber = 0, minReloadSpeed, weaponType = 0) {
         const element = '<div class="ship">';
+        // Call the super constructor with the given properties
         super(x, y, element, type, deploy);
         this.health = health;
+        // Assign this ship's element the background image of the player selected ship
         this.$element.css('--imgUrl', game.ships[shipNumber]);
         this.movement = 0;
         this.direction = -1;
@@ -558,86 +568,123 @@ class Ship extends Actor {
         this.reloadCounter = 0;
         this.minReloadSpeed = minReloadSpeed;
         this.reloadSpeed = this.minReloadSpeed;
+        // Set the weapon type for this ship
         this.weaponType = game.weaponTypes[weaponType];
     }
 
+    // Display feedback when this ship has been hit by a bullet
     showHit() {
+        // Set the ship's element to have a translucent red circle around it
         this.$element.css('--colour', 'rgba(255, 0, 0, 0.4)');
         this.$element.css('border-radius', '50%');
         const thisActor = this;
+        // After 200ms, remove the red circle from the element
         setTimeout(function () {
             thisActor.$element.css('--colour', 'rgba(0, 0, 0, 0)');
             thisActor.$element.css('border-radius', '0');
         }, 200);
     }
 
+    // Take in a moment value from the player and set the movement property to it
     inputMove(movement) {
         this.movement = movement;
     }
 
     move(movementLimitation) {
+        // If there is a movement limitation by collision then do the following
         if (movementLimitation) {
-            if (movementLimitation === 'left' && this.direction < 0) {
+            if (movementLimitation === 'left' && this.movement < 0) {
+                // If there is collision coming from the left and this ship is trying to move left then don't allow the movement by returning false
                 return false;
-            } else if (movementLimitation === 'right' && this.direction > 0) {
+            } else if (movementLimitation === 'right' && this.movement > 0) {
+                // If there is collision coming from the right and this ship is trying to move right then don't allow the movement by returning false
                 return false;
             }
         } else {
+            // If there is no movement limitation by collision then check if the ship is trying to move outside of the bounds of the gameboard
             const proposedMovement = this.position.x + this.movement;
             if (proposedMovement >= game.board.left && proposedMovement <= (game.board.width - this.width)) {
+                // If the ship is trying to move within the bounds of the gameboard then set the position to the proposed movement
                 this.position.x = proposedMovement;
             }
+            // Reset the movement property to prepare for the next movement input from the player
             this.movement = 0;
         }
     }
 
     handleCollision(collider) {
         if (collider.actor.type !== 'bullet' && collider.actor.type !== 'pickup') {
+            // If the colliding actor is not a bullet or a pick up then do the following
+            // Set the hitBy to the collider's type
             this.hitBy = collider.actor.type;
-            this.health -= (collider.actor.health * collider.actor.speed);
+            // Lower both ships' health by the amount of the other ship's speed
+            this.health -= (collider.actor.speed);
+            collider.actor.health -= this.speed;
             collider.actor.showHit();
+            // Return the direction that the collision came from
             return collider.collideFrom;
         }
     }
 
+    // Check this ship's health
     checkHealth() {
+        // If the health is less than or equal to zero (the ship is dead)
         if (this.health <= 0) {
+            // If this is the player then
             if (this.type === 'player') {
+                // Set the health to zero so that the display doesn't show a negative number
                 this.health = 0;
+                // End the game
                 game.endGame();
             } else {
+                // If this is an enemy
                 if (this.hitBy === 'player') {
+                    // If this enemy was hit by the player then increase the player's score by the enemy's score value
                     game.playerStats.score += this.scoreValue;
                 }
+                // Drop a pickup
                 this.dropPickUp();
             }
+            // Kill this ship
             this.die();
         }
     }
     
     die() {
-        game.createExplosion(this.position.x, this.position.y);        
+        // Create an explosion at this ship's position
+        game.createExplosion(this.position.x, this.position.y);     
+        // Delete this actor   
         game.deleteActor(this);
     }
 
     update() {
+        // Increment the reload counter
         this.reloadCounter++;
+        // Call the Actor's update() function
         super.update();
+        // Check this ship's health to see if it's dead
         this.checkHealth();
     }
 
+    // If this ship is using homing missiles then we need to find a target
     findHomingTarget() {
         let nearestEnemy;
+        // Declare a variable that will be used to compare the distance of the nearest enemy and initialize it to the full width of the gameboard which is the maximum distance that any enemy could be along the x axis
         let nearestEnemyPos = game.board.width;
+        // Iterate through all enemies in the current wave
         for (let enemy of game.waveEnemies) {
+            // If this enemy is currently on the gameboard
             if (enemy.deployed) {
+                // Compare the absolute distance from the player ship to the enemy ship along the x axis
                 const positionDifference = Math.abs(this.position.x - enemy.position.x);
                 if (positionDifference < nearestEnemyPos) {
+                    // If this is the nearest ship we've found so far then set the nearest enemy to this one before continuing through the rest of the enemies in the wave
                     nearestEnemyPos = positionDifference;
                     nearestEnemy = enemy;
                 }
             }
         }
+        // The nearest enemy has been found so return it
         return nearestEnemy;
     }
 
@@ -1113,7 +1160,7 @@ game.init = function() {
     game.setupNewGame();
     game.loadLeaderboard();
     game.findSpriteSizes();
-    game.player = new Ship (game.playerStats.start.x, game.playerStats.start.y, 'player', true, 3, game.playerStats.ship, 0, 0);
+    game.player = new Ship (game.playerStats.start.x, game.playerStats.start.y, 'player', true, 100, game.playerStats.ship, 0, 0);
     game.playerStats.time.interval = setInterval(() => game.playerStats.time.secondsElapsed++, 1000);
     if (game.musicEnabled) {
         game.playList[game.currentTrack].play();
