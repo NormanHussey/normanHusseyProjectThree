@@ -176,10 +176,14 @@ class AudioSwitcher {
     }
 }
 
+// Audio Classes End
+
+// Load audio files into namespace
+
 game.sfx = {
-    explosion: new AudioSwitcher('./assets/audio/sfx/explosion.ogg', 10),
-    pew: new AudioSwitcher('./assets/audio/sfx/pew.wav', 10),
-    pickup: new AudioSwitcher('./assets/audio/sfx/pickup.wav', 4)
+    explosion: new AudioSwitcher('./assets/audio/sfx/explosion.ogg', 1),
+    pew: new AudioSwitcher('./assets/audio/sfx/pew.wav', 1),
+    pickup: new AudioSwitcher('./assets/audio/sfx/pickup.wav', 1)
 };
 
 game.music = {
@@ -203,8 +207,6 @@ game.playList = [
 game.currentTrack = 0;
 
 
-
-// Audio Classes End
 
 // Actor Classes Begin
 
@@ -633,7 +635,7 @@ class Enemy extends Ship {
 
     avoidCollision() {
         const incomingCollision = this.checkCollision(game.board.hPercent * this.intelligence);
-        if (incomingCollision && incomingCollision.actor.type !== 'bullet') {
+        if (incomingCollision && incomingCollision.actor.type === 'enemy') {
             switch (incomingCollision.collideFrom) {
                 case 'left':
                     this.position.x += game.speed * this.speed;
