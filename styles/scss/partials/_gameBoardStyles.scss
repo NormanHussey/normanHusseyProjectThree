@@ -55,14 +55,15 @@
     p {
         text-align: center;
         font-size: 2vmin;
+        width: 25%;
         
         @include mq-tablet() {
             font-size: 2vmax;
         }
 
-        @include mq-mobile() {
-            width: 30%;
-        }
+        // @include mq-mobile() {
+        //     width: 30%;
+        // }
     }
 }
 
