@@ -181,9 +181,9 @@ class AudioSwitcher {
 // Load audio files into namespace
 
 game.sfx = {
-    explosion: new AudioSwitcher('./assets/audio/sfx/explosion.ogg', 1),
-    pew: new AudioSwitcher('./assets/audio/sfx/pew.wav', 1),
-    pickup: new AudioSwitcher('./assets/audio/sfx/pickup.wav', 1)
+    explosion: new AudioSwitcher('./assets/audio/sfx/explosion.ogg', 3),
+    pew: new AudioSwitcher('./assets/audio/sfx/pew.wav', 3),
+    pickup: new AudioSwitcher('./assets/audio/sfx/pickup.wav', 2)
 };
 
 game.music = {
@@ -384,7 +384,6 @@ class Bullet extends Actor {
         this.startY = y;
         this.$element.css('--imgUrl', this.weaponType.asset);
         this.target = target;
-        game.sfx.pew.play();
     }
 
     update() {
@@ -575,7 +574,8 @@ class Ship extends Actor {
                 const target = this.findHomingTarget();
                 const newBulletHoming = new Bullet(this.position.x + this.width / 2, bulletY, this.direction, 0, this.speed, 1, this.type, this.weaponType, target);
                 break;
-        }
+        };
+        game.sfx.pew.play();
     }
 
 };
