@@ -12,6 +12,8 @@ game.playerStats = {};
 
 
 game.setupNewGame = function() {
+
+    // Initialize a gameboard object to store important data like the element, size, and position and also a move function to create the scrolling background effect
     game.board = {
         $element: setup.$playAreaSection,
         top: 0,
@@ -27,7 +29,11 @@ game.setupNewGame = function() {
             this.$element.css('--bgY', newY + 'px');
         }
     };
+
+    // Cache the window
     game.$window = $(window);
+
+    // Initialize important game variables, arrays, and objects
     game.over = false;
     game.speed = 1;
     game.slowMotion = false;
@@ -36,13 +42,16 @@ game.setupNewGame = function() {
     game.updatingActors = [];
     game.keys = {};
     
+    // Store the player's start position on the Stats object
     game.playerStats.start = {
         x: game.board.width / 2,
         y: game.board.height - (game.board.hPercent * 15)
     };
     
+    // Store the score on the Stats object
     game.playerStats.score = 0;
 
+    // Store the time played into an object on Stats
     game.playerStats.time = {
         secondsElapsed: 0,
         mins: 0,
@@ -50,12 +59,14 @@ game.setupNewGame = function() {
         timePlayed: '0:00'
     };
     
+    // Cache the selectors for displaying useful information to the player
     game.display ={
         $health: $('#health'),
         $score: $('#score'),
         $wave: $('#wave')
     };
     
+    // Store an array of available ship types
     game.ships = [
         'url("../assets/ships/greenShip.gif")',
         'url("../assets/ships/redSilverShip.gif")',
@@ -66,10 +77,12 @@ game.setupNewGame = function() {
         'url("../assets/ships/sleekBlueShip.gif")',
     ];
 
+    // Filter the ships array to remove the ship that the player chose so that enemies will never have the same ship as the player
     game.enemyShips = game.ships.filter(function (ship, index) {
         return index !== game.playerStats.ship;
     });
     
+    // Create different weapon types with assets and attributes
     game.weaponTypes = [
         {
             type: 'singleShot',
@@ -97,6 +110,7 @@ game.setupNewGame = function() {
         },
     ];
     
+    // Create different pickup types with assets
     game.pickupTypes = [
         {
             type: 'health',
@@ -130,14 +144,16 @@ game.setupNewGame = function() {
  // Class Declarations //
 ////////////////////////
 
-// Audio Classes Begin
+// The following audio classes are created as a solution to the limitation of javascript only being able to play an audio once through to the end before beginning another one. By creating separate audio channels and an audio switcher, the game can play the same file in another channel even while it is already currently playing. In other words, this will allow overlapping audio.
 
 class AudioChannel {
+    // Take the supplied url and create an audio object with that source
     constructor(source) {
         this.source = source;
         this.resource = new Audio(source);
     }
 
+    // When play() is called, first check if the game is currently in slow motion and if so, slow down the playback rate, otherwise keep it normal. Then play the audio object.
     play() {
         if (game.slowMotion) {
             this.resource.playbackRate = 0.5;
@@ -147,28 +163,34 @@ class AudioChannel {
         this.resource.play();
     }
 
+    // When stop() is called, pause the audio object and reset it to the beginning.
     stop() {
         this.resource.pause();
         this.resource.currentTime = 0;
     }
 }
 
+
 class AudioSwitcher {
+    // Create a switcher with a source url and a set number of channels. 
     constructor(source, numberOfChannels) {
         this.channels = [];
         this.source = source;
         this.numberOfChannels = numberOfChannels;
         this.index = 0;
 
+        // Create as many new audio channel objects as the numberOfChannels and place each of them into the channels array
         for (var i = 0; i < this.numberOfChannels; i++) {
             this.channels.push(new AudioChannel(this.source));
         }
     }
 
+    // When play() is called, first check if Sound FX is enabled and if so, play the current channel. Then increment the index property so that the next channel will play when this is called next.
     play() {
         if (game.sfxEnabled) {
             this.channels[this.index].play();
             this.index++;
+            // Check that index is not longer than the length of the channels array and if it is, set it back to the beginning.
             if (this.index >= this.channels.length) {
                 this.index = 0;
             }
@@ -176,9 +198,8 @@ class AudioSwitcher {
     }
 }
 
-// Audio Classes End
 
-// Load audio files into namespace
+// Create all the sound fx objects using the AudioSwitcher class and store them in an object on the namespace.
 
 game.sfx = {
     explosion: new AudioSwitcher('./assets/audio/sfx/explosion.ogg', 3),
@@ -186,6 +207,7 @@ game.sfx = {
     pickup: new AudioSwitcher('./assets/audio/sfx/pickup.wav', 2)
 };
 
+// Create an object of music containing audio objects for each music track. The AudioSwitcher and AudioChannel classes are not necessary for the music because there is only ever one song being played at a time and it always plays to the end (unless the game ends first)
 game.music = {
     track01: new Audio('./assets/audio/music/track01-DontBeA.mp3'),
     track02: new Audio('./assets/audio/music/track02-LavaFlow.mp3'),
@@ -195,6 +217,7 @@ game.music = {
     track06: new Audio('./assets/audio/music/track06-ReallyDangerous.mp3')
 };
 
+// Create a playlist array so that we play our tracks in a specific order.
 game.playList = [
     game.music.track01,
     game.music.track02,
@@ -204,24 +227,29 @@ game.playList = [
     game.music.track06
 ];
 
+// Create a variable to keep track of the current song being played
 game.currentTrack = 0;
 
 
 
-// Actor Classes Begin
+// Create a base "Actor" class that will manage all the dynamic game objects (anything that changes through the course of the game and must react to external stimuli)
 
 class Actor {
+    // Store the given x and y position, the HTML element, and check if this should be deployed to the DOM immediately or not
     constructor(x, y, element, type, deploy = true) {
         this.position = {
             x: x,
             y: y,
         };
+        // Store a jQuery object of the HTML element for this Actor
         this.$element = $(element);
         this.type = type;
         if (deploy) {
             this.deploy();
         }
     }
+
+    // Getters for positioning
 
     get top() {
         return this.position.y;
@@ -247,26 +275,36 @@ class Actor {
         this.position.x + this.height / 2;
     }
 
+    // The deploy() function adds this object to the gameboard (the DOM)
     deploy() {
         game.board.$element.append(this.$element);
         this.$element.css('--x', this.position.x + 'px');
         this.$element.css('--y', this.position.y + 'px');
         this.width = this.$element.width();
         this.height = this.$element.height();
+        // Add this Actor to an array that will iterate over all currently active Actors
         game.updatingActors.push(this);
     }
 
+    // Collision Detection
     checkCollision(avoidance = 0) {
+        // Iterate over all active Actors on the gameboard
         for (let i = 0; i < game.updatingActors.length; i++) {
             const actor = game.updatingActors[i];
+            // If the current Actor is not me then do the following
             if (actor !== this) {
+                // Avoidance is a buffer that will allow smarter enemies to avoid colliding with each other
                 const actorLeft = actor.left - avoidance;
                 const actorRight = actor.right + avoidance;
                 const actorTop = actor.top - avoidance;
                 const actorBottom = actor.bottom + avoidance;
+                // Check if I am colliding with the current Actor
                 if (actorLeft < this.right && actorRight > this.left && actorTop < this.bottom && actorBottom > this.top ) {
+                    // If so then create a collider object with important information about the Actor that I am colliding with
                     const collider = {};
+                    // Store the actor itself into this collider object
                     collider.actor = actor;
+                    // Store the direction that the collision is coming from
                     if (actor.bottom >= (this.top - 1) && actor.bottom <= (this.top + 1)) {
                         collider.collideFrom = 'top';
                     } else if (actor.top <= (this.bottom + 1) && actor.top >= (this.bottom - 1)) {
@@ -276,72 +314,102 @@ class Actor {
                     } else {
                         collider.collideFrom = 'left';
                     }
+                    // Return the collider object
                     return collider;
                 };
             };
         };
+        // I have checked every active actor on the gameboard and I am not colliding with any of them so return false
         return false;
     }
 
+    // An update function that will be called on every active Actor once per animation frame
     update() {
         let movementLimitation = false;
+        // Check collision with all active actors
         const collidingObject = this.checkCollision();
+        // If there is a collision, then call the handleCollision() function to deal with it by passing the collision information to it
         if (collidingObject) {
             movementLimitation = this.handleCollision(collidingObject);
         }
+        // Call the move() function to move this Actor and pass it any movement limitation information if there is any
         this.move(movementLimitation);
+        // Call the drawSelf() function to update the Actor's position on the gameboard
         this.drawSelf();
     }
 
+    // The drawSelf() function updates the Actor's position on the gameboard
     drawSelf() {
         this.$element.css('--x', this.position.x + 'px');
         this.$element.css('--y', this.position.y + 'px');
     }
 }
 
+// Create a pickup subclass of Actor to handle the pick up objects
 class Pickup extends Actor {
+    // Create the pickup object with x and y positions, the pickup type, and the speed that it is travelling
     constructor(x, y, pickupType, speed) {
         const element = `<div class="pickup">`;
+        // Pass the necessary information into the Actor super constructor
         super(x, y, element, 'pickup', true);
         this.pickupType = pickupType;
         this.speed = speed;
+        // Set the element to have the correct background image based on the pickupTypes object
         this.$element.css('--imgUrl', this.pickupType.asset);
     }
 
+    // Handle collisions with other Actors
     handleCollision(collider) {
+        // If the collider is not a bullet then do the following
         if (collider.actor.type !== 'bullet') {
+            // Play the pickup sound effect
             game.sfx.pickup.play();
+            // Perform different actions based on the pickup type
             switch(this.pickupType.type) {
+                // If it is a health pickup then give the colliding Actor 3 health
                 case 'health':
                     collider.actor.health += 3;
                     break;
 
+                // If it is a singleShot pickup then set the colliding Actor's weapon to be the singleShot
                 case 'singleShot':
                     collider.actor.weaponType = game.weaponTypes[0];
                     break;
 
+                // If it is a spread shot pickup then set the colliding Actor's weapon to be the spread shot
                 case 'spread':
                     collider.actor.weaponType = game.weaponTypes[1];
                     break;
 
+                // If it is a homing missile pickup then set the colliding Actor's weapon to be the homing missile
                 case 'homingMissile':
                     collider.actor.weaponType = game.weaponTypes[2];
                     break;
 
+                // If it is the nuke pickup type then do the following
                 case 'nuke':
+                    // Iterate over all enemies in the current wave
                     for (let enemy of game.waveEnemies) {
+                        // If this enemy is currently on the gameboard then
                         if (enemy.deployed) {
+                            // Set the enemy's health to 0 and set the hitBy property to "player" in order to give the player score credit
                             enemy.hitBy = 'player';
                             enemy.health = 0;
                         }
                     }
                     break;
 
+                // If it is the slow motion pickup type then do the following
                 case 'slowMotion':
+                    // Store the current game speed in a temporary variable
                     const currentGameSpeed = game.speed;
+                    // Set the game speed to be very slow
                     game.speed = 0.25;
+                    // Set slow motion to true
                     game.slowMotion = true;
+                    // Set the playback rate of the music to be very slow as well
                     game.playList[game.currentTrack].playbackRate = 0.5;
+                    // After 3 seconds, switch the game speed and music playback speed back to normal
                     setTimeout(function () {
                         game.playList[game.currentTrack].playbackRate = 1.0;
                         game.speed = currentGameSpeed;
@@ -350,14 +418,17 @@ class Pickup extends Actor {
                     break;
 
             }
+            // Destroy this pickup because it has been "picked up"
             game.deleteActor(this);
         }
     }
 
+    // Move the pickup down the gameboard by the speed that it was given at creation (the same speed as the enemy who dropped it)
     move() {
         this.position.y += this.speed * game.speed;
     }
 
+    // On every update check to see if this pickup has reached the bottom of the gameboard. If it has then delete it, if it hasn't then run the Actor class's update() function
     update() {
         if (this.top >= game.board.height) {
             game.deleteActor(this);
@@ -368,6 +439,7 @@ class Pickup extends Actor {
 
 }
 
+// Create a bullet subclass of the Actor class to handle all projectiles (bullets)
 class Bullet extends Actor {
     constructor(x, y, yDirection, xDirection, speed, damage = 1, firedBy, weaponType, target = undefined) {
         const element = '<div class="bullet">';
