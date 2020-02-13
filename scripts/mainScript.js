@@ -87,9 +87,11 @@ setup.changePilot = function () {
 setup.checkMusicSelection= function (checked = true) {
     if (setup.$musicBtn['0'].previousElementSibling.checked === checked) {
         setup.$musicCheckbox.html('<i class="far fa-check-square"></i>');
+        // Enable in-game music
         game.musicEnabled = true;
     } else {
         setup.$musicCheckbox.html('<i class="far fa-square"></i>');
+        // Disable in-game music
         game.musicEnabled = false;
     }
 };
@@ -98,9 +100,11 @@ setup.checkMusicSelection= function (checked = true) {
 setup.checkSfxSelection = function (checked = true) {
     if (setup.$sfxBtn['0'].previousElementSibling.checked === checked) {
         setup.$sfxCheckbox.html('<i class="far fa-check-square"></i>');
+        // Enable in-game sound fx
         game.sfxEnabled = true;
     } else {
         setup.$sfxCheckbox.html('<i class="far fa-square"></i>');
+        // Disable in-game sound fx
         game.sfxEnabled = false;
     }
 };
@@ -132,41 +136,59 @@ setup.checkOptionSelections = function () {
 setup.eventListeners = function () {
 
     setup.$newGameBtn.on('click', function () {
+        // Hide the start screen
         setup.$startScreen.addClass('hidden');
+        // Unhide the selection screen
         setup.$selectionScreen.removeClass('hidden');
+        // Hide the footer section
         setup.$footer.addClass('hidden');
+        // Adjust the main section height to account for the removed footer
         setup.$main.addClass('selectionMain');
+        // Check each of the selection options
         setup.checkOptionSelections();
     });
 
+    // Open the How to Play section
     setup.$howToPlayBtn.on('click', setup.toggleHowToPlay);
 
+    // Return to the main menu
     setup.$backToMenuBtn.on('click', setup.toggleHowToPlay);
 
+    // Check/uncheck the music selection
     setup.$musicBtn.on('click', function () {
         setup.checkMusicSelection(false);
     });
 
+    // Check/uncheck the sound fx selection
     setup.$sfxBtn.on('click', function () {
         setup.checkSfxSelection(false);
     });
 
+    // Check/uncheck the fullscreen selection
     setup.$fullscreenBtn.on('click', function () {
         setup.checkFullscreenSelection(false);
     });
 
+    // Submitting the game selection form
     setup.$selectionForm.on('submit', function(e) {
+        // Prevent the form from refreshing the page
         e.preventDefault();
+        // Set the player's name with the name entered into the name input
         game.playerStats.name = $('#name').val();
         if (!game.playerStats.name) {
+            // If the player did not enter their name then set the player name to "Unknown"
             game.playerStats.name = 'Unknown';
         }
+        // Store the value of the ship that the player chose
         game.playerStats.ship = parseInt($('input[name="shipChoice"]:checked').val());
+        // Start a new game
         setup.startNewGame();
     });
 
+    // Start another game
     setup.$playAgainBtn.on('click', setup.startNewGame);
 
+    // Open the change pilot screen
     setup.$changePilotBtn.on('click', setup.changePilot);
 };
 
@@ -175,15 +197,19 @@ setup.eventListeners = function () {
 ////////////////////////////////
 
 setup.displayLeaderboard = function () {
+    // Clear the leaderboard
     setup.$leaderboard.html('');
-    for (let player of game.leaderboard) {
 
+    for (let player of game.leaderboard) {
+        // Iterate through all the entries in the leaderboard
         let highlight = '';
         
         if (player.rank === game.playerStats.rank) {
+            // If the current entry has the same rank as the player stats object then this is the most recent game so we will highlight that entry so that the player can easily find themselves in the leaderboard
             highlight = 'scoreHighlight';
         }
 
+        // Create HTML with the current entry information and if it is the most recent game then it will have the scoreHighlight class added
         const scoreToAppend = `
             <li class="${highlight}">
                 <p>${player.rank}.</p>
@@ -192,9 +218,11 @@ setup.displayLeaderboard = function () {
                 <p>Score: ${player.score}</p>
             </li>
         `;
+        // Append the HTML entry to the on-screen leaderboard UL
         setup.$leaderboard.append(scoreToAppend);
     }
 
+    // Create HTML with the most recent game information
     const yourScore = `
         <p>${game.playerStats.rank}.</p>
         <p>${game.playerStats.name}</p>
@@ -202,13 +230,17 @@ setup.displayLeaderboard = function () {
         <p>Score: ${game.playerStats.score}</p>
     `;
 
+    // Display the most recent game information at the bottom of the screen. This is so that even if the player doesn't place on the leaderboard, they can still see their score and time
     setup.$yourScore.html(yourScore);
 
 };
 
 setup.endGameScreen = function () {
+    // Hide the play area
     setup.$playAreaSection.addClass('hidden');
+    // Unhide the game over (leaderboard) screen
     setup.$gameOverScreen.removeClass('hidden');
+    // Update the leaderboard with the correct information
     setup.displayLeaderboard();
 };
 
