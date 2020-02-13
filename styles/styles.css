@@ -661,7 +661,7 @@ main .wrapper {
 
 .selectionForm label {
   font-family: "Bangers", cursive;
-  font-size: 4vmax;
+  font-size: 3.75vmax;
 }
 
 @media (min-width: 1600px) {
@@ -713,7 +713,7 @@ main .wrapper {
   width: 100%;
   text-align: center;
   font-family: "Bangers", cursive;
-  font-size: 4vmax;
+  font-size: 3.75vmax;
 }
 
 @media (min-width: 1600px) {
@@ -782,7 +782,7 @@ main .wrapper {
 .selectionForm .gameOptions label {
   text-align: center;
   font-size: 2.5vmax;
-  margin: 2vmax;
+  margin: 0.75vmax;
 }
 
 @media (max-width: 800px) {

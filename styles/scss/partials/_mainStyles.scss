@@ -109,7 +109,7 @@ main {
     
     label {
         font-family: $fontTitles;
-        font-size: 4vmax;
+        font-size: 3.75vmax;
         @include mq-desktop-large() {
             font-size: 6rem;
         }
@@ -150,7 +150,7 @@ main {
         width: 100%;
         text-align: center;
         font-family: $fontTitles;
-        font-size: 4vmax;
+        font-size: 3.75vmax;
 
         @include mq-desktop-large() {
             font-size: 6rem;
@@ -187,7 +187,7 @@ main {
         label {
             text-align: center;
             font-size: 2.5vmax;
-            margin: 2vmax;
+            margin: 0.75vmax;
 
             @include mq-tablet() {
                 font-size: 4vmax;
