@@ -734,90 +734,124 @@ class Ship extends Actor {
 
 };
 
+// Create an Enemy subclass of the Ship class (which is a subclass of Actor)
 class Enemy extends Ship {
     constructor(x, y, type, health, shipNumber = 0, speed = 1, reloadSpeed = 150, intelligence = 1, weaponType = 0) {
+        // Call the super constructor with the given properties
         super(x, y, type, false, health, shipNumber, reloadSpeed, weaponType);
+        // Set the element's background image to be the given ship number from the enemy ships array
         this.$element.css('--imgUrl', game.enemyShips[shipNumber]);
+        // Flip the element so that it is facing downwards
         this.$element.css('--scaleY', '-1');
         this.direction = 1;
         this.speed = speed;
         this.intelligence = intelligence;
+        // Set a score value to give to the player based on the health and intelligence
         this.scoreValue = this.health * this.intelligence * 10;
     }
 
+    // Find the player
     findTarget(movementLimitation) {
+        // The distance that this enemy can see the player from is based on its intelligence (higher intelligence can see from a greater distance)
         const distance = this.intelligence * (game.board.hPercent * 4);
+        // Check if the player is within the distance range of this enemy
         if (game.player.position.y >= this.position.y - distance && game.player.position.y <= this.position.y + distance) {
+            // If the player is within the distance range then do the following
             if (game.player.position.x < this.position.x && movementLimitation !== 'left') {
+                // If the player is to the left and there are no movement limitations to the left then move to the left towards the player
                 this.position.x -= game.speed * this.speed;
             } else if (game.player.position.x > this.position.x && movementLimitation !== 'right') {
+                // If the player is to the right and there are no movement limitations to the right then move to the right towards the player
                 this.position.x += game.speed * this.speed;
             }
         }
     }
 
+    // The homing target for enemies will always be the player
     findHomingTarget() {
         return game.player;
     }
 
+    // Decide whether to fire
     chooseToFire() {
         if (this.intelligence <= 1) {
+            // If this enemy is low intelligence then it will just fire whenever it can
             this.fire();
         } else {
+            // If it is more intelligent than that then do the following
             const playerX = game.player.position.x;
             const playerHalfWidth = game.player.width / 2;
+            // Check if the player is within range along the x axis in order to potentially hit it with a shot
             if (this.position.x >= playerX - playerHalfWidth && this.position.x <= playerX + playerHalfWidth) {
+                // If it is then fire
                 this.fire();
             }
         }
     }
 
+    // Drop a pickup
     dropPickUp() {
+        // The drop chance of any enemy is 25% plus one percent of it's score value
         const chance = 0.25 + (this.scoreValue / 100);
+        // Run the drop chance through a probability function
         if (game.probability(chance)) {
+            // If the probability function returns true then create a random pickup type at the enemy's position and travelling at the enemy's speed
             const pickupType = game.randomIntInRange(0, game.pickupTypes.length - 1);
             const newPickup = new Pickup(this.position.x, this.position.y, game.pickupTypes[pickupType], this.speed);
         }
     }
 
     move(movementLimitation) {
+        // If there is no movement limitation below then always travel downward at this enemy's speed
         if (movementLimitation !== 'bottom') {
             this.position.y += game.speed * this.speed;
         }
+        // Check if this enemy can and should be avoiding a collision with another enemy
         this.avoidCollision();
+        // Look for the player in order to move towards it if within range
         this.findTarget(movementLimitation);
     }
 
+    // Avoiding collision with other enemies
     avoidCollision() {
+        // Check for a collision that is about to happen within a range governed by this enemy's intelligence
         const incomingCollision = this.checkCollision(game.board.hPercent * this.intelligence);
         if (incomingCollision && incomingCollision.actor.type === 'enemy') {
+            // If this enemy is about to collide with another enemy then do the following
             switch (incomingCollision.collideFrom) {
                 case 'left':
+                    // If the other enemy is to the left then move to the right
                     this.position.x += game.speed * this.speed;
                     break;
     
                 case 'right':
+                    // If the other enemy is to the right then move to the left
                     this.position.x -= game.speed * this.speed;
                     break;
     
                 case 'top':
+                    // If the other enemy is above then move downwards
                     this.position.y += game.speed * this.speed;
                     break;
     
                 case 'bottom':
+                    // If the other enemy is below then move upwards
                     this.position.y -= game.speed * this.speed;
                     break;
             }
+            // Make this movement visible on the gameboard
             this.drawSelf();
         }
     }
 
     update() {
+        // If the enemy has made it past the bottom of the gameboard then delete it
         if (this.position.y > game.board.height) {
             game.deleteActor(this);
         };
-
+        // Call the Ship's update() function
         super.update();
+        // If the enemy is able to fire then choose whether it should
         if (this.reloadCounter >= this.reloadSpeed) {
             this.chooseToFire();
         }
@@ -825,7 +859,6 @@ class Enemy extends Ship {
 
 };
 
-// Actor Classes End
 
   ///////////////////////
  /// Event Handlers ////
