@@ -1295,6 +1295,7 @@ game.endGame = function () {
  // Update Functions //
 //////////////////////
 
+// Iterate through all the active actors in the game and call their update() function
 game.updateActors = function () {
     for (let i = 0; i < game.updatingActors.length; i++) {
         game.updatingActors[i].update();
@@ -1302,19 +1303,24 @@ game.updateActors = function () {
 };
 
 game.updateDisplay = function () {
+    // Move the background image of the gameboard down to make it look like the player is flying upwards
     game.board.move(0, game.speed);
+    // Update the health, wave, and score displays with their current values
     game.display.$health.text(game.player.health);
-    game.display.$score.text(game.playerStats.score);
     game.display.$wave.text(game.wave);
+    game.display.$score.text(game.playerStats.score);
 };
 
+// Update the game every animation frame (60 times per second)
 game.update = function () {
     if (!game.over) {
+        // If the game is not over then perform the following tasks
         game.checkWave();
         game.checkInput();
         game.updateActors();
         game.updateDisplay();
         game.checkPlayList();
+        // Run the update again on the next animation frame
         requestAnimationFrame(game.update);
     }
 };
@@ -1327,12 +1333,16 @@ game.init = function() {
     game.setupNewGame();
     game.loadLeaderboard();
     game.findSpriteSizes();
+    // Create the player ship at the bottom centre of the gameboard, with 3 health, the single shot weapon type, and the ship that the player chose from the selection screen
     game.player = new Ship (game.playerStats.start.x, game.playerStats.start.y, 'player', true, 3, game.playerStats.ship, 0, 0);
+    // Start timing the game
     game.playerStats.time.interval = setInterval(() => game.playerStats.time.secondsElapsed++, 1000);
+    // If music is enabled then play the first song on the playlist
     if (game.musicEnabled) {
         game.playList[game.currentTrack].play();
     }
     game.addEventListeners();
+    // Start updating the game on each animation frame (60 times per second)
     window.requestAnimationFrame(game.update);
 };
 
