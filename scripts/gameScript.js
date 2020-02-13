@@ -1182,56 +1182,61 @@ game.createExplosion= function (x, y) {
  // Leaderboard Functions //
 ///////////////////////////
 
+// Load in the leaderboard from the cache
 game.loadLeaderboard = function () {
 
     if (!localStorage.leaderboard) {
+        // If the leaderboard does not exist in the cache (this is the first time playing the game in this browser) then set the leaderboard variable to an empty array and create a leaderboard item in the cache and set it to an empty JSON object
         game.leaderboard = [];
         localStorage.setItem('leaderboard', '{}');
     } else {
+        // If the leaderboard does exist in the cache then set the leaderboard variable to it's value
         game.leaderboard = JSON.parse(localStorage.leaderboard);
     }
 
 };
 
-game.saveLeaderboard = function() {
-
-    game.updateLeaderboard();
-    const leaderboardString = JSON.stringify(game.leaderboard);
-    localStorage.setItem('leaderboard', leaderboardString);
- 
-};
-
 game.updateLeaderboard = function () {
 
-    let secondsPlayed = game.playerStats.time.secs;
-    if (secondsPlayed < 10) {
-        secondsPlayed = '0' + secondsPlayed;
-    }
-
-    game.playerStats.time.timePlayed = `${game.playerStats.time.mins}:${secondsPlayed}`;
-
+    // Create an object of the player's stats to enter into the leaderboard
     const newScoreEntry = {
         name: game.playerStats.name,
         time: game.playerStats.time.timePlayed,
         score: game.playerStats.score
     };
 
+    // Add this object into the leaderboard array
     game.leaderboard.push(newScoreEntry);
 
+    // Sort the leaderboard in descending order based on the score value of each object
     game.leaderboard.sort((a, b) => b.score - a.score);
 
+    // Iterate through each entry on the leaderboard
     for (let i = 0; i < game.leaderboard.length; i++) {
         const item = game.leaderboard[i];
+        // Give the current item a rank based on it's position in the array (ex. the first item gets a rank of 1)
         item.rank = i + 1;
         if (item.name === newScoreEntry.name && item.time === newScoreEntry.time && item.score === newScoreEntry.score) {
+            // If this entry is the new entry that was just entered then add it's rank to the player stats object on the namespace
             game.playerStats.rank = i + 1;
         }
     }
 
+    // If there are more than 10 items on the leaderboard then bump the last item off (this leaderboard only shows the top 10)
     if (game.leaderboard.length > 10) {
         game.leaderboard.pop();
     }
 
+};
+
+game.saveLeaderboard = function() {
+    // Update the leaderboard variable on the namespace with the newest entry
+    game.updateLeaderboard();
+    // Turn the leaderboard array into a JSON string
+    const leaderboardString = JSON.stringify(game.leaderboard);
+    // Store the leaderboard JSON string into the leaderboard property in the cache
+    localStorage.setItem('leaderboard', leaderboardString);
+ 
 };
 
   ///////////////////////////
@@ -1242,6 +1247,13 @@ game.calculateTimePlayed = function () {
     clearInterval(game.playerStats.time.interval);
     game.playerStats.time.mins = (game.playerStats.time.secondsElapsed - (game.playerStats.time.secondsElapsed % 60)) / 60;
     game.playerStats.time.secs = game.playerStats.time.secondsElapsed % 60;
+
+    let secondsPlayed = game.playerStats.time.secs;
+    if (secondsPlayed < 10) {
+        secondsPlayed = '0' + secondsPlayed;
+    }
+
+    game.playerStats.time.timePlayed = `${game.playerStats.time.mins}:${secondsPlayed}`;
 };
 
 game.clearBoard = function () {
@@ -1301,7 +1313,7 @@ game.init = function() {
     game.setupNewGame();
     game.loadLeaderboard();
     game.findSpriteSizes();
-    game.player = new Ship (game.playerStats.start.x, game.playerStats.start.y, 'player', true, 100, game.playerStats.ship, 0, 0);
+    game.player = new Ship (game.playerStats.start.x, game.playerStats.start.y, 'player', true, 3, game.playerStats.ship, 0, 0);
     game.playerStats.time.interval = setInterval(() => game.playerStats.time.secondsElapsed++, 1000);
     if (game.musicEnabled) {
         game.playList[game.currentTrack].play();
