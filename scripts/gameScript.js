@@ -914,6 +914,8 @@ game.clickHandler = function (e) {
 
 game.addEventListeners = function () {
 
+    // Add all the necessary event listeners using the corresponding handler functions
+
     game.board.$element.on('mousemove', game.mouseMoveHandler);
         
     game.board.$element.on('touchmove', game.touchMoveHandler);
@@ -928,6 +930,9 @@ game.addEventListeners = function () {
 };
 
 game.removeEventListeners = function () {
+
+    // Remove all the event listeners
+
     game.board.$element.off('mousemove', game.mouseMoveHandler);
         
     game.board.$element.off('touchmove', game.touchMoveHandler);
@@ -946,14 +951,19 @@ game.removeEventListeners = function () {
 ////////////////////
 
 game.checkInput = function () {
-    if (game.keys[37]) { // left
+
+    if (game.keys[37]) {
+        // If the player presses the left cursor key then check if they are trying to move beyond the leftmost bounds of the gamebosard
         if (game.player.left > 0) {
+            // If they are trying to move within the gameboard then send a movement command to move to the left by 4px
             game.player.inputMove(-4);
         }
     }
 
-    if (game.keys[39]) { // right
+    // If the player presses the right cursor key then check if they are trying to move beyond the rightmost bounds of the gamebosard
+    if (game.keys[39]) {
         if (game.player.right < game.board.width) {
+            // If they are trying to move within the gameboard then send a movement command to move to the right by 4px
             game.player.inputMove(4);
         }
     }
