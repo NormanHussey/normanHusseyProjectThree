@@ -538,11 +538,12 @@ class Ship extends Actor {
 
     findHomingTarget() {
         let nearestEnemy;
-        let nearestEnemyYPos = 0;
+        let nearestEnemyPos = game.board.width;
         for (let enemy of game.waveEnemies) {
             if (enemy.deployed) {
-                if (enemy.position.y > nearestEnemyYPos) {
-                    nearestEnemyYPos = enemy.position.y;
+                const positionDifference = Math.abs(this.position.x - enemy.position.x);
+                if (positionDifference < nearestEnemyPos) {
+                    nearestEnemyPos = positionDifference;
                     nearestEnemy = enemy;
                 }
             }
