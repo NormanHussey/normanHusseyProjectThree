@@ -1243,36 +1243,50 @@ game.saveLeaderboard = function() {
  // End of Game Functions //
 ///////////////////////////
 
+// Calculate the length of this game
 game.calculateTimePlayed = function () {
+    // Clear the timer interval so that we are no longer counting the time
     clearInterval(game.playerStats.time.interval);
+    // Store the number of full minutes played
     game.playerStats.time.mins = (game.playerStats.time.secondsElapsed - (game.playerStats.time.secondsElapsed % 60)) / 60;
+    // Store the number of seconds played (not including the full minutes)
     game.playerStats.time.secs = game.playerStats.time.secondsElapsed % 60;
 
     let secondsPlayed = game.playerStats.time.secs;
     if (secondsPlayed < 10) {
+        // If the number of seconds played (not include full minutes) is less than 10 then add a zero in front of the number
         secondsPlayed = '0' + secondsPlayed;
     }
 
+    // Store the length of the game on the player stats object as a string in the format of 00:00 (minutes:seconds)
     game.playerStats.time.timePlayed = `${game.playerStats.time.mins}:${secondsPlayed}`;
 };
 
+// Clear all actors from the gameboard
 game.clearBoard = function () {
+    // Clear the wave deployment interval
     clearInterval(game.deploymentInterval);
+    // Iterate through all of the active actors and delete each of them
     for (let actor of game.updatingActors) {
         game.deleteActor(actor);
     }
+    // Empty the gameboard of all child elements except for the display area
     game.board.$element.children().not('.gameDisplayArea').remove();
 };
 
+// End the game
 game.endGame = function () {
     game.calculateTimePlayed();
     game.saveLeaderboard();
     game.removeEventListeners();
+    // Let the game continue to run for 2 seconds after the player dies so that the ending is not abrupt and so that the player can take one last look at the display information at the top of the screen. This delay also shows the player that enemies continue to invade even after they're gone
     setTimeout(function() {
+        // Stop the music from playing
         game.playList[game.currentTrack].pause();
         game.playList[game.currentTrack].currentTime = 0;
         game.over = true;
         game.clearBoard();
+        // Send the player to the end of game screen (the leaderboard)
         setup.endGameScreen();
     }, 2000);
 };
