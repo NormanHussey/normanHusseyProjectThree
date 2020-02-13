@@ -688,31 +688,47 @@ class Ship extends Actor {
         return nearestEnemy;
     }
 
+    // Fire the ship's weapon
     fire() {
+        // Set the reload speed to this weapon's reload delay plus the minimum reload speed (if this is an enemy ship)
         this.reloadSpeed = this.minReloadSpeed + this.weaponType.reloadDelay;
+        // Reset the reload counter
         this.reloadCounter = 0;
         let bulletY;
         if (this.direction === 1) {
+            // If the bullet is travelling downwards then set it's initial y value to be the bottom of this ship plus the bullet's height
             bulletY = this.bottom + game.bulletHeight;
         } else {
+            // If the bullet is travelling upwards then set it's initial y value to be the top of this ship minus the bullet's height
             bulletY = this.position.y - game.bulletHeight;
         };
+        // Check the current weapon type and fire the bullet(s) accordingly
         switch (this.weaponType.type) {
+            // If it is a single shot
             case 'singleShot':
+                // Create a single bullet at this position, headed in the same direction
                 const newBullet = new Bullet(this.position.x + this.width / 2, bulletY, this.direction, 0, this.speed, this.weaponType.damage, this.type, this.weaponType);
                 break;
                 
+            // If it is a spread shot
             case 'spread':
+                // Create one bullet to the left
                 const newBullet1 = new Bullet(this.position.x + this.width / 2 - game.bulletWidth, bulletY, this.direction, -1, this.speed, this.weaponType.damage, this.type, this.weaponType);
+                // Create one bullet in the middle
                 const newBullet2 = new Bullet(this.position.x + this.width / 2, bulletY, this.direction, 0, this.speed, this.weaponType.damage, this.type, this.weaponType);
+                // Create one bullet to the right
                 const newBullet3 = new Bullet(this.position.x + this.width / 2 + game.bulletWidth, bulletY, this.direction, 1, this.speed, this.weaponType.damage, this.type, this.weaponType);
                 break;
 
+            // If it is a homing missile
             case "homingMissile":
+                // Find the homing target for this bullet
                 const target = this.findHomingTarget();
+                // Create the bullet
                 const newBulletHoming = new Bullet(this.position.x + this.width / 2, bulletY, this.direction, 0, this.speed, 1, this.type, this.weaponType, target);
                 break;
         };
+        // Play the bullet "pew" sound effect
         game.sfx.pew.play();
     }
 
