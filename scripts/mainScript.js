@@ -40,6 +40,7 @@ setup.cacheSelectors = function () {
  // Event Handlers //
 ////////////////////
 
+// Add or Remove the How To Play screen
 setup.toggleHowToPlay = function () {
     setup.$startScreen.toggleClass('hidden');
     setup.$footerLinks.toggleClass('hidden');
@@ -47,29 +48,42 @@ setup.toggleHowToPlay = function () {
     setup.$backToMenuBtn.toggleClass('hidden');
 };
 
+// Start a new game
 setup.startNewGame = function () {
+    // Hide the selection screen
     setup.$selectionScreen.addClass('hidden');
     setup.$setupGameSection.addClass('hidden');
+    // Unhide the playArea section
     setup.$playAreaSection.removeClass('hidden');
+    // Hide the header and footer
     setup.$header.addClass('hidden');
     setup.$footer.addClass('hidden');
+    // Make the main section the full viewport height
     setup.$main.addClass('gameMain');
+    // Give the main section a narrower wrapper to fit the arcade style aesthetic
     setup.$mainWrapper.addClass('gameWrapper');
+    // Make sure the game over (leaderboard) screen is hidden (in case this is not the first time playing)
     setup.$gameOverScreen.addClass('hidden');
+    // Start the game
     game.init();
 };
 
+// Show the selection screen so that the player can change their name, ship, and gameplay options
 setup.changePilot = function () {
+    // Hide the game over (leaderboard) screen
     setup.$gameOverScreen.addClass('hidden');
+    // Unhide the header
     setup.$header.removeClass('hidden');
-    setup.$footer.removeClass('hidden');
+    // Set the main section back to its original height
     setup.$main.removeClass('gameMain');
+    // Set the main section back to its original wrapper
     setup.$mainWrapper.removeClass('gameWrapper');
+    // Unhide the selection screen
     setup.$selectionScreen.removeClass('hidden');
     setup.$setupGameSection.removeClass('hidden');
-    setup.$footer.addClass('hidden');
 };
 
+// Check the current music selection and update the checkbox icon accordingly (if checked then it should have a checked icon, if unchecked then it should have an empty square icon)
 setup.checkMusicSelection= function (checked = true) {
     if (setup.$musicBtn['0'].previousElementSibling.checked === checked) {
         setup.$musicCheckbox.html('<i class="far fa-check-square"></i>');
@@ -80,6 +94,7 @@ setup.checkMusicSelection= function (checked = true) {
     }
 };
 
+// Check the current sound fx selection and update the checkbox icon accordingly (if checked then it should have a checked icon, if unchecked then it should have an empty square icon)
 setup.checkSfxSelection = function (checked = true) {
     if (setup.$sfxBtn['0'].previousElementSibling.checked === checked) {
         setup.$sfxCheckbox.html('<i class="far fa-check-square"></i>');
@@ -90,16 +105,20 @@ setup.checkSfxSelection = function (checked = true) {
     }
 };
 
+// Check the current fullscreen selection and update the checkbox icon accordingly (if checked then it should have a checked icon, if unchecked then it should have an empty square icon)
 setup.checkFullscreenSelection = function (checked = true) {
     if (setup.$fullscreenBtn['0'].previousElementSibling.checked === checked) {
         setup.$fullscreenCheckbox.html('<i class="far fa-check-square"></i>');
+        // Fullscreen is checked so go into fullscreen mode
         setup.$main['0'].requestFullscreen();
     } else {
         setup.$fullscreenCheckbox.html('<i class="far fa-square"></i>');
+        // Fullscreen is unchecked so exit fullscreen mode
         document.exitFullscreen();
     }
 };
 
+// Check each of the selection options
 setup.checkOptionSelections = function () {
     setup.checkMusicSelection();
     setup.checkSfxSelection();
