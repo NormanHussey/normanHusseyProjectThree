@@ -1077,67 +1077,103 @@ game.checkWave = function () {
  // General Tool Functions //
 ////////////////////////////
 
+// Return a random integer within a given range
 game.randomIntInRange = function (min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
+// Calculate the pixel sizes of the bullet and ship elements (based on the current screen size)
 game.findSpriteSizes = function() {
+    // Create a dummy bullet on the gameboard
     const bullet = new Bullet(0, 0, 1, 0, 0, 0, 'none', 0, false);
+    // Store it's height and width to variables on the namespace
     game.bulletHeight = bullet.height;
     game.bulletWidth = bullet.width;
+    // Delete the dummy bullet
     game.deleteActor(bullet);
 
+    // Create a dummy ship on the gameboard
     const ship = new Ship(0, 0, 'none', true, 1, 0, 1, 0);
+    // Store it's height and width to variables on the namespace
     game.shipHeight = ship.height;
     game.shipWidth = ship.width;
+    // Delete the dummy ship
     game.deleteActor(ship);
 };
 
+// Remove a given item from a given array regardless of it's position in the array
 game.removeFromArray = function (item, array) {
     for (var i = 0; i < array.length; i++) {
+        // Iterate through all elements in the given array
         if (array[i] === item) {
+            // If the given item has been found then splice it out of the array
             array.splice(i, 1);
         }
     }
 };
 
+// Return true or false based on the probability of the given chance factor
 game.probability = function (n) {
+    // Choose a random float between 0 and 1 exclusive
     const randomChance = Math.random();
+    // If the given chance is above zero and the random float is less than or equal to the chance factor then return true, otherwise return false
     return n > 0 && randomChance <= n;
 }
 
+// Delete a given actor from the game
 game.deleteActor = function (actor) {
+    // Remove the given actor from the updating actors array
     game.removeFromArray(actor, game.updatingActors);
     if (actor.type === 'enemy') {
+        // If the actor is an enemy then remove it from the current enemy wave array
         game.removeFromArray(actor, game.waveEnemies);
+        // If the enemy is still alive (health is greater than zero) then
         if (actor.health > 0) {
-            actor.position.y = 10;
+            // Set it's y position back to the top of the gameboard
+            actor.position.y = -game.shipHeight;
+            // Set it's deployed value to false so it won't be rendered on the gameboard
             actor.deployed = false;
-            game.waveEnemies.push(actor);
+            // Put it back into the enemy wave array so that it can be deployed again
+            game.waveEnemies.push(actor);1
+            // This makes it so that if the enemy reaches the bottom of the gameboard without being destroyed then it essentially comes back again and will continue to do so until it is destroyed by the player
         }
     }
+    // Remove this actor's element from the gameboard
     actor.$element.remove();
+    // Delete this actor object from memory
     delete actor;
 };
 
+// Check the current song playing
 game.checkPlayList = function () {
+    // If the current song has stopped and music is enabled then
     if (game.playList[game.currentTrack].ended && game.musicEnabled) {
+        // Increment the playlist index
         game.currentTrack++;
+        // If the index has reached the end of the playlist then reset it to the beginning
         if (game.currentTrack >= game.playList.length) {
             game.currentTrack = 0;
         }
+        // Play the next song on the playlist based on the index position
         game.playList[game.currentTrack].play();
     }
 };
 
+// Create an explosion effect when a ship is destroyed
 game.createExplosion= function (x, y) {
+    // Play the explosion sound effect
     game.sfx.explosion.play();
+    // Create a new element for the explosion and give the ship class
     const $explosion = $('<div class="ship">');
+    // Position the explosion at the exact position where the ship was destroyed
     $explosion.css('--x', x + 'px');
     $explosion.css('--y', y + 'px');
+    // Set the background image to be the explosion gif
     $explosion.css('--imgUrl', 'url("../assets/explosion.gif")');
+    // Add the explosion to the gameboard
     game.board.$element.append($explosion);
     setTimeout(function() {
+        // After slightly more than one second (the length of the explosion gif), remove the explosion from the gameboard
         $explosion.remove();
     }, 1100);
 };
