@@ -443,7 +443,9 @@ class Pickup extends Actor {
 class Bullet extends Actor {
     constructor(x, y, yDirection, xDirection, speed, damage = 1, firedBy, weaponType, target = undefined) {
         const element = '<div class="bullet">';
+        // Call the super constructor to create the Actor
         super(x, y, element, 'bullet');
+        // Store all the given variables to properties on the bullet
         this.yDirection = yDirection;
         this.xDirection = xDirection;
         this.speed = speed;
@@ -453,43 +455,60 @@ class Bullet extends Actor {
         this.decayDistance = this.weaponType.decayDistance;
         this.decayRate = this.weaponType.decayRate;
         this.decay = 0;
+        // Store the starting y position of the bullet
         this.startY = y;
+        // Set the background image of the element to the correct weapon asset
         this.$element.css('--imgUrl', this.weaponType.asset);
         this.target = target;
     }
 
     update() {
+        // If the game is not in slow motion then increment the decay factor (which is based on time)
         if (!game.slowMotion) {
             this.decay++;
         }
+        // If the decay factor has met or exceeded the decay rate limit (it has reached the end of its lifetime) then destroy this bullet
         if (this.decay >= this.decayRate) {
             game.deleteActor(this);
         }
+        // Check if the bullet has reached it's decay distance (some bullet types will destroy themselves over a specified period of time whereas others will destroy themselves based on the distance they've travelled in their lifetime)
         if ((this.yDirection === 1 && this.position.y >= this.startY + this.decayDistance) || (this.yDirection === -1 && this.position.y <= this.startY - this.decayDistance)) {
+            // If it has reached it's maximum distance then destroy this bullet
             game.deleteActor(this);
         } else {
+            // If it has not, then check if it has reached the bottom of the gameboard
             if (this.position.y < this.height || this.bottom > game.board.height - this.height) {
+                // If it has reached the bottom of the gameboard without colliding with anything then destroy it
                 game.deleteActor(this);
             } else {
+                // If it hasn't then call the Actor's update() function
                 super.update();
             }
         }
     }
 
     move() {
+        // If this bullet does not have a target (it is not a homing missile) or it has only been alive for a short time (10th of a second)
         if (!this.target || this.decay < 10) {
+            // Change the position of the bullet based on its speed and direction (speed is multiplied by 2 so that it is always faster than the scrolling background and therefore is actually moving)
             this.position.y += (game.speed * (this.speed * 2) * this.yDirection);
             this.position.x += (game.speed * (this.speed * 2) * this.xDirection);
         } else {
+            // If this bullet has a target and therefore is a homing missile then check the bullet's position against the target position
+
             if (this.target.position.y < this.position.y) {
+                // If the target is above the bullet then move up
                 this.position.y -= (game.speed * (this.speed * 2));
             } else if (this.target.position.y > this.position.y) {
+                // If the target is below the bullet then move down
                 this.position.y += (game.speed * (this.speed * 2));
             }
 
             if (this.target.position.x < this.position.x) {
+                // If the target is to the left of the bullet then move to the left
                 this.position.x -= (game.speed * (this.speed * 2));
             } else if (this.target.position.x > this.position.x) {
+                // If the target is to the right of the bullet then move to the right
                 this.position.x += (game.speed * (this.speed * 2));
             }
             
