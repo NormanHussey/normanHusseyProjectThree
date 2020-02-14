@@ -22,10 +22,13 @@ setup.cacheSelectors = function () {
     setup.$startScreen = $('.startScreen');
     setup.$selectionScreen = $('.selectionScreen');
     setup.$musicBtn = $('.musicBtn');
+    setup.$musicInput = $('#music');
     setup.$musicCheckbox = $('.musicBtn span');
     setup.$sfxBtn = $('.sfxBtn');
+    setup.$sfxInput = $('#sfx');
     setup.$sfxCheckbox = $('.sfxBtn span');
     setup.$fullscreenBtn = $('.fullscreenBtn');
+    setup.$fullscreenInput = $('#fullscreen');
     setup.$fullscreenCheckbox = $('.fullscreenBtn span');
     setup.$selectionForm = $('.selectionForm');
     setup.$playAreaSection = $('.playArea');
@@ -167,6 +170,22 @@ setup.eventListeners = function () {
     // Check/uncheck the fullscreen selection
     setup.$fullscreenBtn.on('click', function () {
         setup.checkFullscreenSelection(false);
+    });
+
+    setup.$selectionScreen.on('keypress', function (e) {
+        // If the spacebar is pressed while in the selection screen
+        if (e.which === 32) {
+            if (setup.$musicInput.is(':focus')) {
+                // If the music selection is in focus then check the music selection
+                setup.checkMusicSelection(false);
+            } else if (setup.$sfxInput.is(':focus')) {
+                // If the sound fx selection is in focus then check the sound fx selection
+                setup.checkSfxSelection(false);
+            } else if (setup.$fullscreenInput.is(':focus')) {
+                // If the fullscreen selection is in focus then check the fullscreen selection
+                setup.checkFullscreenSelection(false);
+            }
+        }
     });
 
     // Submitting the game selection form
